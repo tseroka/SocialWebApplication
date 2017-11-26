@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-configuration>
+<session-factory>
+<!--  Put other elements here -->
+<property name="hibernate.current_session_context_class">
+          thread
+</property>
+</session-factory>
+</hibernate-configuration>
