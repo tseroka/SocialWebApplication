@@ -72,8 +72,7 @@ public class MessagesController {
 	    @RequestMapping(value="inbox")
 	    public ModelAndView getInbox()
 	    {
-	        List<PrivateMessage> inboxMessages = profileService.getInbox( profileService.getAuthenticatedUserNickname() );
-	    	return new ModelAndView("inbox","inboxMessages",inboxMessages);
+	    	return new ModelAndView("inbox","inboxMessages",profileService.getInbox( profileService.getAuthenticatedUserNickname()) );
 	    }
 	   
 	  

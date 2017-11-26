@@ -21,6 +21,38 @@ public class FriendsController
 	@Autowired 
 	private ProfileService profileService;
 	
+	@RequestMapping(value="viewFriends", method=RequestMethod.GET)
+	public ModelAndView viewFriends()
+	{
+		return new ModelAndView("view-friends","friendsList",friendsService.getFriends());
+	}
+	
+	@RequestMapping(value="remove={removed}", method=RequestMethod.POST)
+	public ModelAndView removeFromFriendsList(@PathVariable String removed)
+	{
+		friendsService.removeFromFriendsList(removed);
+			
+		return new ModelAndView("redirect:viewFriends");
+	}
+	
+	@RequestMapping(value="viewSentInvitations", method=RequestMethod.GET)
+	public ModelAndView viewSentInvitations()
+	{
+		ModelAndView model = new ModelAndView("view-invitations","sentInvitationsList",friendsService.getSentInvitations());
+		model.addObject("sent/received","Sent invitations");
+		model.addObject("from/to","Sent to");
+		return model;
+	}
+	
+	@RequestMapping(value="viewReceivedInvitations", method=RequestMethod.GET)
+	public ModelAndView viewReceivedInvitations()
+	{
+		ModelAndView model = new ModelAndView("view-invitations","receivedInvitationsList",friendsService.getReceivedInvitations());
+		model.addObject("sent/received","Received invitations");
+		model.addObject("from/to","Received from");
+		return model;
+	}
+	
 	@RequestMapping(value="invite/{invited}", method=RequestMethod.POST)
 	public ModelAndView inviteToFriends(@PathVariable String invited)
 	{
@@ -28,4 +60,6 @@ public class FriendsController
 			
 		return new ModelAndView("redirect:invitationsSentList");
 	}
+	
+	
 }
