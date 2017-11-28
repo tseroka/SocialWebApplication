@@ -12,7 +12,7 @@ import javax.persistence.UniqueConstraint;
 import com.app.web.social.model.converter.StringListConverter;
 
 @Entity
-@Table(name="profiles",  uniqueConstraints={ @UniqueConstraint( columnNames={"nickname"} ) }     )
+@Table(name="friends",  uniqueConstraints={ @UniqueConstraint( columnNames={"nickname"} ) }     )
 public class Friends 
 {
 
@@ -36,7 +36,7 @@ public class Friends
 	{
 	
 	}
-    
+     
 	public Friends(String nickname, List<String> friends, List<String> invitationsSent, List<String> invitationsReceived)
 	{
 		this.nickname=nickname;

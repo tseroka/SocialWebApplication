@@ -40,10 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 	  http.authorizeRequests()
-		.antMatchers("/admin/**").access("hasAuthority('ROLE ADMIN')")
-		.antMatchers("/profile/**","/search/**","/user/**").access("hasAuthority('ROLE_USER')")
-		.antMatchers("/profile/**","/search/**","/user/**").access("hasAuthority('ROLE ADMIN')")
-		.and()
+	  .antMatchers("/").permitAll()
+      .antMatchers("/login").permitAll()
+      .antMatchers("/registration").permitAll()
+      .antMatchers("/profile/**","/search/**","/user/**").hasAnyAuthority("ROLE ADMIN", "ROLE USER")
+	 .antMatchers("/admin/**").hasAuthority("ROLE ADMIN")
+	 .and()
 		  .formLogin().loginPage("/login").loginProcessingUrl("/loginProcess").failureUrl("/login")
 		  .usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/home")
 		.and()
@@ -52,6 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		  .exceptionHandling().accessDeniedPage("/403")
 		.and()
 		  .csrf();
+	  
+		
 	}
 	
  

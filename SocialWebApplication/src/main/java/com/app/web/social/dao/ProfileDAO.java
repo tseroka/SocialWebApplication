@@ -31,5 +31,6 @@ public interface ProfileDAO {
 	
 	public void sendMessage(PrivateMessage message);
 
+	public boolean isMessageSendingAllowed(List<String> recipients);
 	
 }

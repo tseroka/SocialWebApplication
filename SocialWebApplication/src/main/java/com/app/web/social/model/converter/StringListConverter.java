@@ -20,7 +20,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
 
   public List<String> convertToEntityAttribute(String joined) {
 	  List<String> list = new ArrayList<String>();
-	  if(joined==null)  list.add("");
+	  if(joined==null);
 	  else  list = new ArrayList<String>( Arrays.asList(joined.split(",") ) ) ; 
 	  
 	  return list;

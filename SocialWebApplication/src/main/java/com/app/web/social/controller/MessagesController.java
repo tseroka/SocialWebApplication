@@ -25,6 +25,7 @@ public class MessagesController {
 	  @Autowired
 	  private ProfileService profileService;
 	  
+	  
 	  /**
 	  @RequestMapping(value="send")
 	   public ModelAndView sendMessage()
@@ -52,19 +53,22 @@ public class MessagesController {
 	   public ModelAndView sendingMessageProcessing(@ModelAttribute("newMessage") PrivateMessage newMessage)
 	   {   
 		 newMessage.setMessageSender( profileService.getAuthenticatedUserNickname() );
-		 
+		   List<String> recipients = newMessage.getMessageRecipients();
 		   if
 		   (   
-			   !newMessage.getMessageRecipients().isEmpty()
+			   !recipients.isEmpty()
 				        && 
 			   !newMessage.getMessageSubject().equals("")
+			            &&
+			   profileService.isMessageSendingAllowed(recipients)
+		  
 		   ) 
 		     {  
 		        profileService.sendMessage(newMessage); 
 		        return new ModelAndView("outbox","outboxMessages",profileService.getInbox( profileService.getAuthenticatedUserNickname()) );
 		     }
 		   
-		   return new ModelAndView("sendMessage","emptyRecipientsOrSubject", "Neither subject or recipients can be empty ");
+		   return new ModelAndView("sendMessage","emptyRecipientsOrSubject", "Neither subject or recipients can be empty or sending recipient(s) not allowed.");
 		 
 	   }
 	    

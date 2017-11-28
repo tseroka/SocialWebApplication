@@ -43,13 +43,18 @@ public class FriendsService
 		return this.friendsDAO.getSentInvitations();
 	}
 	
-	public List<String> getFriends()
+	public List<String> getFriendsList()
 	{
-		return this.friendsDAO.getFriends();
+		return this.friendsDAO.getFriendsList();
 	}
 	
 	public boolean isFriend(String nickname)
 	{
 		return this.friendsDAO.isFriend(nickname);
+	}
+	
+	public boolean isInvited(String nickname)
+	{
+		return this.friendsDAO.isInvited(nickname);
 	}
 }

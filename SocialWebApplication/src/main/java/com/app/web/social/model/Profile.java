@@ -33,19 +33,22 @@ public class Profile {
 	@Column(name="allowSearching", nullable=false, unique=false, length=1)
 	private boolean allowSearching=false;
 	
+	@Column(name="allowEveryoneMessage", nullable=false, unique=false, length=1)
+	private boolean allowEveryoneToSendMessage=false;
 	
 	public Profile()
 	{
 		
 	}
 	
-	public Profile(String nickname, String sex, List<String> interests, String city, boolean allowSearching)
+	public Profile(String nickname, String sex, List<String> interests, String city, boolean allowSearching, boolean allowEveryoneToSendMessage)
 	{
 		this.nickname=nickname;
 		this.sex=sex;
 		this.interests=interests;
 		this.city=city;
 		this.allowSearching=allowSearching; 
+		this.allowEveryoneToSendMessage=allowEveryoneToSendMessage;
 	}
 	
 	
@@ -78,6 +81,14 @@ public class Profile {
 	}
 	public void setAllowSearching(boolean allowSearching) {
 		this.allowSearching = allowSearching;
+	}
+
+	public boolean getAllowEveryoneToSendMessage() {
+		return allowEveryoneToSendMessage;
+	}
+
+	public void setAllowEveryoneToSendMessage(boolean allowEveryoneToSendMessage) {
+		this.allowEveryoneToSendMessage = allowEveryoneToSendMessage;
 	}
 	
 	

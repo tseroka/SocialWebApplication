@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.app.web.social.model.Profile;
 import com.app.web.social.service.ProfileService;
-
+import com.app.web.social.service.FriendsService;
 
 @Controller
 @RequestMapping(value="/profile/")
@@ -27,13 +27,19 @@ public class ProfileController {
 	@Autowired 
 	private ProfileService profileService;
 	
+	@Autowired 
+	private FriendsService friendsService;
+	
 	/**  --------------------------------VIEW------------------------------------------------------ */
 	 
 	     @RequestMapping(value="view/{nickname}", method=RequestMethod.GET )  
          public ModelAndView viewProfile(@PathVariable String nickname)
 	     {   
 		   Profile profile = profileService.getProfileByNickname(nickname);
-		   return new ModelAndView("view-profile","profile",profile);
+		   ModelAndView model = new ModelAndView("view-profile","profile",profile);
+		   model.addObject("isFriend",friendsService.isFriend(nickname));
+		   model.addObject("isInvited",friendsService.isInvited(nickname));
+		   return model;
          }  
  
 	

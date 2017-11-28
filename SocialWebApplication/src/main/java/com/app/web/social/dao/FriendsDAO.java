@@ -17,8 +17,9 @@ public interface FriendsDAO
 	
 	public List<String> getSentInvitations();
 	
-	public List<String> getFriends();
+	public List<String> getFriendsList();
 
 	public boolean isFriend(String nickname);
 	
+	public boolean isInvited(String nickname);
 }

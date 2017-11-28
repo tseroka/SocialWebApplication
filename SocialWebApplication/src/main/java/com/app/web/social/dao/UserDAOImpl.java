@@ -30,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
 	{
 		Session session = this.sessionFactory.getCurrentSession();
 	
-		session.persist( new Profile(userAccount.getNickname(), "", null, "",false) );
+		session.persist( new Profile(userAccount.getNickname(), "", null, "", false, false) );
 		session.persist( new Friends(userAccount.getNickname(), null, null, null));
 		session.persist(userAccount);		
 	}

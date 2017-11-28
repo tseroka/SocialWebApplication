@@ -30,15 +30,20 @@
 				
 				
 				<c:if test="${pageContext.request.userPrincipal.name != null}">
-				 
-                <div class="link"><a href="user/view">Your account</a></div>
-                <div class="link"><a href="profile/edit">Edit profile</a></div>
-                <div class="link"><a href="profile/messages/inbox">Inbox</a></div>
-                <div class="link"><a href="profile/messages/outbox">Outbox</a></div>
-                <div class="link"><a href="profile/messages/send/recipient=">Send</a></div>
-                <div class="link"><a href="search">Search profiles</a></div>
-		        <div class="link"> <a href="<c:url value="/logout" />">Logout</a> </div>
-                
+				<div id="mySidenav">
+				
+                  <div class="link"><a href="user/view">Your account</a></div>
+                  <div class="link"><a href="profile/edit">Edit profile</a></div>
+                  <div class="link"><a href="profile/messages/inbox">Inbox</a></div>
+                  <div class="link"><a href="profile/messages/outbox">Outbox</a></div>
+                  <div class="link"><a href="profile/messages/send/recipient=">Send</a></div>
+                  <div class="link"><a href="search">Search profiles</a></div>
+                  <div class="link"><a href="profile/friends/viewFriends">View friends</a></div>
+                  <div class="link"><a href="profile/friends/viewSentInvitations">Sent invitations</a></div>
+                  <div class="link"><a href="profile/friends/viewReceivedInvitations">Received invitations</a></div>
+		          <div class="link"> <a href="<c:url value="/logout" />">Logout</a> </div>
+		          
+                </div>
                 </c:if>
 				
 				

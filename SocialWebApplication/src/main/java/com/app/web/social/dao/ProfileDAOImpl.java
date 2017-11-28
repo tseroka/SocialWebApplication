@@ -19,7 +19,10 @@ import com.app.web.social.model.Profile;
 public class ProfileDAOImpl implements ProfileDAO {
 
 	@Autowired
-	UserDAO userDAO;
+	private UserDAO userDAO;
+	
+	@Autowired
+	private FriendsDAO friendsDAO;
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -51,18 +54,8 @@ public class ProfileDAOImpl implements ProfileDAO {
 	public List<Profile> getProfilesList()
     {
     	Session session = this.sessionFactory.getCurrentSession();
-		Query<Profile> query=session.createQuery("from Profile p where p.allowSearching=true");
-		List<Profile> profiles = (List<Profile>)query.list(); 
- 	   
-		/** TO REMOVE  */
-	     for(int i=0; i<profiles.size();i++)
-	     {
-	    	 Profile currentProfile = profiles.get(i);
-	    	 if(currentProfile.getCity()==null) currentProfile.setCity("");
-	    	 if(currentProfile.getSex()==null) currentProfile.setSex("");	
-	     }
-	     
-	     return profiles;
+		Query<Profile> query=session.createQuery("from Profile p where p.allowSearching=true");     
+	    return (List<Profile>)query.list(); 
     }
     
 	
@@ -149,5 +142,16 @@ public class ProfileDAOImpl implements ProfileDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.persist(message);	
 	}	
+	
+	public boolean isMessageSendingAllowed(List<String> recipients)
+	{
+		for(String recipient : recipients)
+		{
+		  if(!(friendsDAO.isFriend(recipient)|| getProfileByNickname(recipient).getAllowEveryoneToSendMessage()))
+			return false;
+		}
+		
+		return true;
+	}
 
 }

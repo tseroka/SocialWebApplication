@@ -16,10 +16,10 @@ public class ProfileService {
 	@Autowired
 	private ProfileDAO profileDAO;
 	
-	 public List<Profile> getProfilesList()
-	 {
-		 return this.profileDAO.getProfilesList();
-     }
+	    public List<Profile> getProfilesList()
+	    {
+		    return this.profileDAO.getProfilesList();
+        }
 		
 		public Profile getProfileByNickname(String nickname)
 		{
@@ -40,7 +40,6 @@ public class ProfileService {
 		{
 			return this.profileDAO.searchProfiles(sex, city, intersests);
 		}
-	
 		
 		public List<PrivateMessage> getInbox(String nickname)
 		{
@@ -60,6 +59,11 @@ public class ProfileService {
 		public void sendMessage(PrivateMessage message)
 		{
 			this.profileDAO.sendMessage(message);
+		}
+		
+		public boolean isMessageSendingAllowed(List<String> recipients) 
+		{
+		    return this.profileDAO.isMessageSendingAllowed(recipients);
 		}
 		
 }

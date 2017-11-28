@@ -24,6 +24,8 @@
         
         Allow others to search : <form:checkbox path="allowSearching"/> </br>
         
+        Allow messages from strangers : <form:checkbox path="allowEveryoneToSendMessage"/> </br>
+        
    <form:button name="save">Save</form:button>   
            
        </form:form>    

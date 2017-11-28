@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
@@ -54,8 +56,12 @@ public class UserAccount implements Serializable {
 	@Column(name="enabled", nullable=false, unique=false, length=1)
 	private boolean enabled=true;
     
+	@OneToOne
+	@JoinColumn(name="nickname")
+	private Profile profile;
     
-    public UserAccount()
+
+	public UserAccount()
     {
     	
     }
@@ -136,5 +142,13 @@ public class UserAccount implements Serializable {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+	
+	public Profile getProfile() {
+			return profile;
+		}
+
+    public void setProfile(Profile profile) {
+			this.profile = profile;
+		}
 }
 

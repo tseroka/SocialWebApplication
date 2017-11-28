@@ -15,7 +15,7 @@ import com.app.web.social.model.Friends;
 public class FriendsDAOImpl implements FriendsDAO
 {
 	@Autowired 
-	ProfileDAO profileDAO;
+	private ProfileDAO profileDAO;
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -69,7 +69,7 @@ public class FriendsDAOImpl implements FriendsDAO
 		decliner.getInvitationsReceived().remove(nickname);
 		
 		Friends rejected = (Friends) session.load(Friends.class,nickname);
-		rejected.getInvitationsSent().add(rejected.getInvitationsSent().indexOf(declinerName),declinerName+"(declined)");
+		rejected.getInvitationsSent().remove(declinerName);
 		
 		session.update(decliner);
 		session.update(rejected);
@@ -111,18 +111,24 @@ public class FriendsDAOImpl implements FriendsDAO
 	
 	
 	
-	public List<String> getFriends()
+	public List<String> getFriendsList()
 	{
 		Session session = this.sessionFactory.getCurrentSession();
 		return ((Friends) session.load(Friends.class,profileDAO.getAuthenticatedUserNickname())).getFriends();
 	}
 	
 	
-	
 	public boolean isFriend(String nickname)
 	{
 		Session session = this.sessionFactory.getCurrentSession();
-		return ((Friends)session.load(Friends.class,nickname)).getFriends().contains(profileDAO.getAuthenticatedUserNickname());
+		return ((Friends)session.load(Friends.class,profileDAO.getAuthenticatedUserNickname())).getFriends().contains(nickname);
+	}
+	
+	
+	public boolean isInvited(String nickname)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		return ((Friends)session.load(Friends.class,profileDAO.getAuthenticatedUserNickname())).getInvitationsSent().contains(nickname);
 	}
 	
 }
