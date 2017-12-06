@@ -22,15 +22,4 @@ public interface ProfileDAO {
 	public List<Profile> searchProfiles(String sex, String city, List<String> intersests);
 	
 	
-	
-	public List<PrivateMessage> getInbox(String nickname);
-	
-	public List<PrivateMessage> getOutbox(String nickname);
-
-	public PrivateMessage getMessage(Long messageId);
-	
-	public void sendMessage(PrivateMessage message);
-
-	public boolean isMessageSendingAllowed(List<String> recipients);
-	
 }

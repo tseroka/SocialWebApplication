@@ -1,5 +1,7 @@
 package com.app.web.social.model;
 
+import java.io.Serializable;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,9 +15,11 @@ import com.app.web.social.model.converter.StringListConverter;
 
 @Entity
 @Table(name="profiles",  uniqueConstraints={ @UniqueConstraint( columnNames={"nickname"} ) }     )
-public class Profile {
+public class Profile implements Serializable {
 
 	
+	private static final long serialVersionUID = -6888548766932228312L;
+
 	@Id
 	@Column(name="nickname", nullable=false, unique=true, length=25)
 	private String nickname;
@@ -35,6 +39,8 @@ public class Profile {
 	
 	@Column(name="allowEveryoneMessage", nullable=false, unique=false, length=1)
 	private boolean allowEveryoneToSendMessage=false;
+   
+	
 	
 	public Profile()
 	{
@@ -49,6 +55,7 @@ public class Profile {
 		this.city=city;
 		this.allowSearching=allowSearching; 
 		this.allowEveryoneToSendMessage=allowEveryoneToSendMessage;
+
 	}
 	
 	
@@ -90,6 +97,9 @@ public class Profile {
 	public void setAllowEveryoneToSendMessage(boolean allowEveryoneToSendMessage) {
 		this.allowEveryoneToSendMessage = allowEveryoneToSendMessage;
 	}
+
+	
+	
 	
 	
 }

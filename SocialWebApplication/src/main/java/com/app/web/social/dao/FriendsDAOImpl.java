@@ -21,20 +21,19 @@ public class FriendsDAOImpl implements FriendsDAO
 	private SessionFactory sessionFactory;
 	
 	
-	public void addToFriendsList(String nickname)
+	public void addToFriendsList(String getterNickname)
 	{
 		Session session = this.sessionFactory.getCurrentSession();
 		
-		String sender = profileDAO.getAuthenticatedUserNickname();
+		String senderName = profileDAO.getAuthenticatedUserNickname();
 		
-		Friends friends = (Friends) session.load(Friends.class,nickname);
-		friends.getInvitationsReceived().add(sender);
+		Friends getter = (Friends) session.load(Friends.class,getterNickname);
+		getter.getInvitationsReceived().add(senderName);
+		session.update(getter);
 		
-		Friends adding= (Friends) session.load(Friends.class,sender);
-		adding.getInvitationsSent().add(nickname);
-		
-		session.update(friends);
-		session.update(adding);
+		Friends sender = (Friends) session.load(Friends.class,senderName);
+		sender.getInvitationsSent().add(getterNickname);
+		session.update(sender);
 	}
 	
 	
@@ -47,12 +46,11 @@ public class FriendsDAOImpl implements FriendsDAO
 		Friends acceptor = (Friends) session.load(Friends.class,acceptorName);
 		acceptor.getFriends().add(nickname);
 		acceptor.getInvitationsReceived().remove(nickname);
+		session.update(acceptor);
 		
 		Friends sender = (Friends) session.load(Friends.class,nickname);
 		sender.getInvitationsSent().remove(acceptorName);
 		sender.getFriends().add(acceptorName);
-		
-		session.update(acceptor);
 		session.update(sender);
 		
 	}
@@ -67,11 +65,10 @@ public class FriendsDAOImpl implements FriendsDAO
 		
 		Friends decliner = (Friends) session.load(Friends.class,declinerName);
 		decliner.getInvitationsReceived().remove(nickname);
+		session.update(decliner);
 		
 		Friends rejected = (Friends) session.load(Friends.class,nickname);
 		rejected.getInvitationsSent().remove(declinerName);
-		
-		session.update(decliner);
 		session.update(rejected);
 	}
 	
@@ -85,11 +82,10 @@ public class FriendsDAOImpl implements FriendsDAO
 		
 		Friends remover = (Friends) session.load(Friends.class,removerName);
 		remover.getFriends().remove(nickname);
+		session.update(remover);
 		
 		Friends removed = (Friends) session.load(Friends.class,nickname);
 		removed.getFriends().remove(removerName);
-		
-		session.update(remover);
 	    session.update(removed);
 	}
 	

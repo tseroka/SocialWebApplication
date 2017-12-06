@@ -22,7 +22,7 @@ private UserService userService;
     public ModelAndView viewAccount()
 	{   
 		UserAccount userAccount = userService.getUserAccount( userService.getAuthenticatedUserUsername() );
-		return new ModelAndView("view-account","user", userAccount);
+		return new ModelAndView("account/view-account","user", userAccount);
     }  
 	
 }

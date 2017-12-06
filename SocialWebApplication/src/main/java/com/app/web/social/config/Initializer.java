@@ -18,6 +18,7 @@ public class Initializer implements WebApplicationInitializer {
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         ctx.register(MvcConfig.class);
         ctx.register(SecurityConfig.class);
+      //  ctx.register(DatabaseConfig.class);
         ctx.setServletContext(container);
         
         container.addListener(new ContextLoaderListener(ctx));

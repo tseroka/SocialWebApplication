@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="2" failures="1" name="controller.MainControllerTest" time="1.786" errors="0" skipped="0">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="java.vm.version" value="9.0.1+11"/>
+    <property name="sun.boot.library.path" value="D:\Java9JDK\bin"/>
+    <property name="maven.multiModuleProjectDirectory" value="D:\Repositories\SocialWebApplicationRepository\SocialWebApplication"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="path.separator" value=";"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="GB"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="D:\Repositories\SocialWebApplicationRepository\SocialWebApplication"/>
+    <property name="java.vm.compressedOopsMode" value="32-bit"/>
+    <property name="java.runtime.version" value="9.0.1+11"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\DARTHN~1\AppData\Local\Temp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 8.1"/>
+    <property name="classworlds.conf" value="D:\Eclipse Java EE\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf3780499477785739644.tmp"/>
+    <property name="sun.jnu.encoding" value="Cp1250"/>
+    <property name="java.library.path" value="D:\Java9JDK\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_151/bin/server;C:/Program Files/Java/jre1.8.0_151/bin;C:/Program Files/Java/jre1.8.0_151/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files\MiKTeX 2.9\miktex\bin\x64\;C:\Users\DarthNihilus\AppData\Roaming\MiKTeX\2.9\miktex\bin\x64\;C:\Users\DarthNihilus\Desktop;;."/>
+    <property name="jdk.debug" value="release"/>
+    <property name="java.class.version" value="53.0"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="6.3"/>
+    <property name="user.home" value="C:\Users\DarthNihilus"/>
+    <property name="user.timezone" value="Europe/Belgrade"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="file.encoding" value="Cp1250"/>
+    <property name="java.specification.version" value="9"/>
+    <property name="user.name" value="DarthNihilus"/>
+    <property name="java.class.path" value="C:\Users\DarthNihilus\.p2\pool\plugins\org.eclipse.m2e.maven.runtime_1.8.2.20171007-0216\jars\plexus-classworlds-2.5.2.jar"/>
+    <property name="java.vm.specification.version" value="9"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B test"/>
+    <property name="java.home" value="D:\Java9JDK"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="9.0.1"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\EMBEDDED"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.java.com/bugreport/"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase classname="controller.MainControllerTest" name="testAccessDeniedRedirect" time="1.596">
+    <failure message="View name expected:&lt;login&gt; but was:&lt;admin&gt;" type="java.lang.AssertionError">java.lang.AssertionError: View name expected:&lt;login&gt; but was:&lt;admin&gt;
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:55)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:82)
+	at org.springframework.test.web.servlet.result.ViewResultMatchers.lambda$name$1(ViewResultMatchers.java:68)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:179)
+	at controller.MainControllerTest.testAccessDeniedRedirect(MainControllerTest.java:53)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestExecutionCallbacks.evaluate(RunBeforeTestExecutionCallbacks.java:73)
+	at org.springframework.test.context.junit4.statements.RunAfterTestExecutionCallbacks.evaluate(RunAfterTestExecutionCallbacks.java:83)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:75)
+	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:86)
+	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:84)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:251)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+</failure>
+    <system-err>Dec 06, 2017 5:25:12 PM org.springframework.test.context.support.AbstractTestContextBootstrapper getDefaultTestExecutionListenerClassNames
+INFO: Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+Dec 06, 2017 5:25:13 PM org.springframework.test.context.support.AbstractTestContextBootstrapper getTestExecutionListeners
+INFO: Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@185a6e9, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@6f03482, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@9d5509a, org.springframework.test.context.support.DirtiesContextTestExecutionListener@179ece50, org.springframework.test.context.transaction.TransactionalTestExecutionListener@3b0090a4, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3cd3e762]
+Dec 06, 2017 5:25:15 PM org.springframework.context.support.AbstractApplicationContext prepareRefresh
+INFO: Refreshing org.springframework.web.context.support.GenericWebApplicationContext@49e5f737: startup date [Wed Dec 06 17:25:15 CET 2017]; root of context hierarchy
+Dec 06, 2017 5:25:25 PM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {5.2.12.Final}
+Dec 06, 2017 5:25:25 PM org.hibernate.cfg.Environment &lt;clinit&gt;
+INFO: HHH000206: hibernate.properties not found
+Dec 06, 2017 5:25:26 PM org.hibernate.annotations.common.reflection.java.JavaReflectionManager &lt;clinit&gt;
+INFO: HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+Wed Dec 06 17:25:29 CET 2017 WARN: Establishing SSL connection without server&apos;s identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn&apos;t set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to &apos;false&apos;. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+Wed Dec 06 17:25:30 CET 2017 WARN: Establishing SSL connection without server&apos;s identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn&apos;t set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to &apos;false&apos;. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+Dec 06, 2017 5:25:30 PM org.hibernate.dialect.Dialect &lt;init&gt;
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/admin/enableUser/{id}]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.AdminController.enableUser(java.lang.Integer)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/admin/disableUser/{id}]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.AdminController.disableUser(java.lang.Integer)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/admin/view-users],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.AdminController.viewUsers()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/admin],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.AdminController.adminPage()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/friends/viewSentInvitations],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.FriendsController.viewSentInvitations()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/friends/remove={removed}],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.FriendsController.removeFromFriendsList(java.lang.String)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/friends/viewReceivedInvitations],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.FriendsController.viewReceivedInvitations()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/friends/viewFriends],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.FriendsController.viewFriends()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/friends/invitation/decline={declined}],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.FriendsController.declineInvitation(java.lang.String)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/friends/invite={invited}],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.FriendsController.inviteToFriends(java.lang.String)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/friends/invitation/accept={accepted}],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.FriendsController.acceptInvitation(java.lang.String)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/login],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.LoginController.login()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/home || /],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.MainController.defaultPage()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/about],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.MainController.aboutPage()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/403],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.MainController.accesssDenied()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/logout],methods=[GET]}&quot; onto public java.lang.String com.app.web.social.controller.MainController.logoutPage(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/messages/sendProcessing],methods=[POST]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.MessagesController.sendingMessageProcessing(com.app.web.social.model.PrivateMessage)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/messages/send/recipient={recipient}]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.MessagesController.sendMessageFromProfileViewButton(java.lang.String)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/messages/outbox/{id}]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.MessagesController.getOutMessage(java.lang.Long)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/messages/inbox/{id}]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.MessagesController.getInMessage(java.lang.Long)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/messages/inbox]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.MessagesController.getInbox()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/messages/outbox]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.MessagesController.getOutbox()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/view/all/],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.ProfileController.viewProfiles()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/edit],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.ProfileController.edit()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/edit/save],methods=[POST]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.ProfileController.editsave(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,com.app.web.social.model.Profile)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/profile/view/{nickname}],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.ProfileController.viewProfile(java.lang.String)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/search/sex={sex}/city={city}/interests={interestsInput}]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.ProfileSearchController.searchProfiles(java.lang.String,java.lang.String,java.lang.String)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/search/goSearch],methods=[POST]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.ProfileSearchController.goSearch(com.app.web.social.model.SearchProfile)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/search]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.ProfileSearchController.search()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/register],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.RegistrationController.showRegister()
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/registerProcess],methods=[POST]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.RegistrationController.registerUser(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,com.app.web.social.model.UserAccount)
+Dec 06, 2017 5:25:38 PM org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry register
+INFO: Mapped &quot;{[/user/view],methods=[GET]}&quot; onto public org.springframework.web.servlet.ModelAndView com.app.web.social.controller.UserController.viewAccount()
+Dec 06, 2017 5:25:39 PM org.springframework.web.servlet.handler.AbstractUrlHandlerMapping registerHandler
+INFO: Mapped URL path [/resources/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+Dec 06, 2017 5:25:40 PM org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter initControllerAdviceCache
+INFO: Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@49e5f737: startup date [Wed Dec 06 17:25:15 CET 2017]; root of context hierarchy
+Dec 06, 2017 5:25:44 PM org.springframework.security.web.DefaultSecurityFilterChain &lt;init&gt;
+INFO: Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@15d236fd, org.springframework.security.web.context.SecurityContextPersistenceFilter@5bfc79cb, org.springframework.security.web.header.HeaderWriterFilter@72c9ebfa, org.springframework.security.web.csrf.CsrfFilter@5a7b309b, org.springframework.security.web.authentication.logout.LogoutFilter@52ecc989, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@79252c83, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@19662208, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5939e24, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6b9c42bd, org.springframework.security.web.session.SessionManagementFilter@747f6c5a, org.springframework.security.web.access.ExceptionTranslationFilter@4137aab0, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6650a6c]
+Dec 06, 2017 5:25:45 PM org.springframework.orm.hibernate5.HibernateTransactionManager afterPropertiesSet
+INFO: Using DataSource [org.apache.commons.dbcp2.BasicDataSource@71e9a896] of Hibernate SessionFactory for HibernateTransactionManager
+Dec 06, 2017 5:25:47 PM org.springframework.mock.web.MockServletContext log
+INFO: Initializing Spring FrameworkServlet &apos;&apos;
+Dec 06, 2017 5:25:47 PM org.springframework.web.servlet.FrameworkServlet initServletBean
+INFO: FrameworkServlet &apos;&apos;: initialization started
+Dec 06, 2017 5:25:47 PM org.springframework.web.servlet.FrameworkServlet initServletBean
+INFO: FrameworkServlet &apos;&apos;: initialization completed in 228 ms
+</system-err>
+  </testcase>
+  <testcase classname="controller.MainControllerTest" name="testMyMvcController" time="0.19"/>
+</testsuite>

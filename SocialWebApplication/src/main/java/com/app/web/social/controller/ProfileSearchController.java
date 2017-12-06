@@ -28,7 +28,7 @@ public class ProfileSearchController {
 	    @RequestMapping
 	    public ModelAndView search()
 	    {
-	    	 return new ModelAndView("search-profiles","command", new SearchProfile() );    	
+	    	 return new ModelAndView("profileSearching/search-profiles","command", new SearchProfile() );    	
 	    }
 	    
 	    
@@ -52,10 +52,10 @@ return new ModelAndView("redirect:/search/sex="+searchProfile.getSearchSex()+"/c
 	    	
 	    	if(findedProfiles.isEmpty()) 
 	    	{
-	    	  return new ModelAndView("no-results");
+	    	  return new ModelAndView("profileSearching/no-results");
 	    	}
 	    	
-	    	return new ModelAndView("search-results","findedProfiles",findedProfiles);
+	    	return new ModelAndView("profileSearching/search-results","findedProfiles",findedProfiles);
 	    }
 
 }

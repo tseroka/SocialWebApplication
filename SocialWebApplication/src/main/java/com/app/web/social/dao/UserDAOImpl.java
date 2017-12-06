@@ -1,6 +1,7 @@
 package com.app.web.social.dao;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,9 +30,9 @@ public class UserDAOImpl implements UserDAO {
 	public void registerUser(UserAccount userAccount) 
 	{
 		Session session = this.sessionFactory.getCurrentSession();
-	
-		session.persist( new Profile(userAccount.getNickname(), "", null, "", false, false) );
-		session.persist( new Friends(userAccount.getNickname(), null, null, null));
+		List<String> empty = new ArrayList<String>();
+		session.persist( new Profile(userAccount.getNickname(), "", empty, "", false, false));
+		session.persist( new Friends(userAccount.getNickname(), empty, empty , empty));
 		session.persist(userAccount);		
 	}
    
@@ -66,8 +67,8 @@ public class UserDAOImpl implements UserDAO {
 		String hql = "from UserAccount U where U.username =:user_username";
 		@SuppressWarnings("unchecked")
 		Query<UserAccount> query = session.createQuery(hql).setParameter("user_username",username);
-		List<UserAccount> result = (List<UserAccount>)query.list(); 
-		return result.get(0);
+	//	List<UserAccount> result = (List<UserAccount>)query.list(); 
+		return (UserAccount) query.list().get(0);
 	}
 	
 	

@@ -41,29 +41,5 @@ public class ProfileService {
 			return this.profileDAO.searchProfiles(sex, city, intersests);
 		}
 		
-		public List<PrivateMessage> getInbox(String nickname)
-		{
-			return this.profileDAO.getInbox(nickname);
-		}
-		
-		public List<PrivateMessage> getOutbox(String nickname)
-		{
-			return this.profileDAO.getOutbox(nickname);
-		}
-		
-		public PrivateMessage getMessage(Long messageId)
-		{
-			return this.profileDAO.getMessage(messageId);
-		}
-		
-		public void sendMessage(PrivateMessage message)
-		{
-			this.profileDAO.sendMessage(message);
-		}
-		
-		public boolean isMessageSendingAllowed(List<String> recipients) 
-		{
-		    return this.profileDAO.isMessageSendingAllowed(recipients);
-		}
-		
+
 }

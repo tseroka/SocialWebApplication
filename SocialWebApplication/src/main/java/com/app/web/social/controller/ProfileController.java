@@ -36,7 +36,7 @@ public class ProfileController {
          public ModelAndView viewProfile(@PathVariable String nickname)
 	     {   
 		   Profile profile = profileService.getProfileByNickname(nickname);
-		   ModelAndView model = new ModelAndView("view-profile","profile",profile);
+		   ModelAndView model = new ModelAndView("profile/view-profile","profile",profile);
 		   model.addObject("isFriend",friendsService.isFriend(nickname));
 		   model.addObject("isInvited",friendsService.isInvited(nickname));
 		   return model;
@@ -48,7 +48,7 @@ public class ProfileController {
 	    public ModelAndView viewProfiles()
 	    {
 	    	List<Profile> profiles = profileService.getProfilesList();
-			return new ModelAndView("view-profiles","profiles",profiles);	
+			return new ModelAndView("profile/view-profiles","profiles",profiles);	
 	    }
 
 	  
@@ -58,7 +58,7 @@ public class ProfileController {
 	    public ModelAndView edit()
 	    {  
 		  Profile profile = profileService.getProfileByNickname( profileService.getAuthenticatedUserNickname() );
-          return new ModelAndView("edit-profile","profile", profile);
+          return new ModelAndView("profile/edit-profile","profile", profile);
 	    }  
 	  
 	    

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.app.web.social.model.PrivateMessage;
 import com.app.web.social.service.ProfileService;
+import com.app.web.social.service.MessagesService;
 
 
 @RequestMapping(value="/profile/messages/")
@@ -23,8 +24,10 @@ public class MessagesController {
 
 	
 	  @Autowired
-	  private ProfileService profileService;
+	  private MessagesService messagesService;
 	  
+	  @Autowired
+	  private ProfileService profileService;
 	  
 	  /**
 	  @RequestMapping(value="send")
@@ -45,7 +48,7 @@ public class MessagesController {
 		   recipients.add(recipient);		   
 		   newMessage.setMessageRecipients(recipients);
 		   }	   
-		   return new ModelAndView("sendMessage", "newMessage", newMessage );
+		   return new ModelAndView("messages/sendMessage", "newMessage", newMessage );
 	   }
 	   
 	   
@@ -60,15 +63,15 @@ public class MessagesController {
 				        && 
 			   !newMessage.getMessageSubject().equals("")
 			            &&
-			   profileService.isMessageSendingAllowed(recipients)
+			            messagesService.isMessageSendingAllowed(recipients)
 		  
 		   ) 
 		     {  
-		        profileService.sendMessage(newMessage); 
-		        return new ModelAndView("outbox","outboxMessages",profileService.getInbox( profileService.getAuthenticatedUserNickname()) );
+			   messagesService.sendMessage(newMessage); 
+		        return new ModelAndView("outbox","outboxMessages",messagesService.getInbox( profileService.getAuthenticatedUserNickname()) );
 		     }
 		   
-		   return new ModelAndView("sendMessage","emptyRecipientsOrSubject", "Neither subject or recipients can be empty or sending recipient(s) not allowed.");
+		   return new ModelAndView("messages/sendMessage","emptyRecipientsOrSubject", "Neither subject or recipients can be empty or sending recipient(s) not allowed.");
 		 
 	   }
 	    
@@ -76,7 +79,7 @@ public class MessagesController {
 	    @RequestMapping(value="inbox")
 	    public ModelAndView getInbox()
 	    {
-	    	return new ModelAndView("inbox","inboxMessages",profileService.getInbox( profileService.getAuthenticatedUserNickname()) );
+	    	return new ModelAndView("messages/inbox","inboxMessages",messagesService.getInbox( profileService.getAuthenticatedUserNickname()) );
 	    }
 	   
 	  
@@ -84,8 +87,8 @@ public class MessagesController {
 	    @RequestMapping(value="outbox")
 	    public ModelAndView getOutbox()
 	    {
-	    	List<PrivateMessage> outboxMessages = profileService.getOutbox( profileService.getAuthenticatedUserNickname() );
-	    	return new ModelAndView("outbox","outboxMessages",outboxMessages);
+	    	List<PrivateMessage> outboxMessages = messagesService.getOutbox( profileService.getAuthenticatedUserNickname() );
+	    	return new ModelAndView("messages/outbox","outboxMessages",outboxMessages);
 	    }
 	   
 	    
@@ -95,10 +98,10 @@ public class MessagesController {
 	    {
 	    	
 	    	String nickname = profileService.getAuthenticatedUserNickname();
-	    	PrivateMessage message = profileService.getMessage(id);
+	    	PrivateMessage message = messagesService.getMessage(id);
 	    	if(  message.getMessageRecipients().contains(nickname) ) 
 	    	{
-	    		return new ModelAndView("inMessage","message",message);
+	    		return new ModelAndView("messages/inMessage","message",message);
 	    	}
 	    	
 	    	else { message=null; }
@@ -112,10 +115,10 @@ public class MessagesController {
 	    public ModelAndView getOutMessage(@PathVariable Long id )
 	    {
 	    	String nickname = profileService.getAuthenticatedUserNickname();
-	    	PrivateMessage message = profileService.getMessage(id);
+	    	PrivateMessage message = messagesService.getMessage(id);
 	    	if(  nickname.equals(message.getMessageSender()) ) 
 	    	{ 
-	    		return new ModelAndView("outMessage","message",message);
+	    		return new ModelAndView("messages/outMessage","message",message);
 	    	}
 	    	
 	    	else { message=null; }

@@ -20,21 +20,21 @@ public class FriendsController
 	@RequestMapping(value="viewFriends", method=RequestMethod.GET)
 	public ModelAndView viewFriends()
 	{
-		return new ModelAndView("view-friends","friendsList",friendsService.getFriendsList().remove(0));
+		return new ModelAndView("friends/view-friends","friendsList",friendsService.getFriendsList());
 	}
 	
 	
 	@RequestMapping(value="viewSentInvitations", method=RequestMethod.GET)
 	public ModelAndView viewSentInvitations()
 	{
-		return new ModelAndView("view-sentInvitations","sentInvitationsList",friendsService.getSentInvitations());
+		return new ModelAndView("friends/view-sentInvitations","sentInvitationsList",friendsService.getSentInvitations());
 	}
 	
 	
 	@RequestMapping(value="viewReceivedInvitations", method=RequestMethod.GET)
 	public ModelAndView viewReceivedInvitations()
 	{
-		return new ModelAndView("view-receivedInvitations","receivedInvitationsList",friendsService.getReceivedInvitations().remove(0));
+		return new ModelAndView("friends/view-receivedInvitations","receivedInvitationsList",friendsService.getReceivedInvitations());
 	}
 	
 	

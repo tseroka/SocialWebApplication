@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+
 import com.app.web.social.model.converter.StringListConverter;
 
 @Entity
@@ -31,6 +32,7 @@ public class Friends
 	@Column(name="invitationsReceived", nullable=true, unique=false, length=4000)
 	@Convert(converter = StringListConverter.class)
 	private List<String> invitationsReceived;
+
 	
 	public Friends()
 	{

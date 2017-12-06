@@ -23,14 +23,14 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView adminPage() 
 	{
-       return new ModelAndView("admin");
+       return new ModelAndView("admin/admin");
 	}
 	 
 	@RequestMapping(value="view-users", method = RequestMethod.GET)
 	public ModelAndView viewUsers()
 	{
 		    List<UserAccount> listUser =userService.getUsersList();  
-	        return new ModelAndView("view-users","listUser",listUser);  
+	        return new ModelAndView("admin/view-users","listUser",listUser);  
 	}
 	
 	@RequestMapping(value="disableUser/{id}")  

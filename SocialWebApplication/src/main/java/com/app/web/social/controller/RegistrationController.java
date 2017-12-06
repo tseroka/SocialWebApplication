@@ -46,13 +46,13 @@ public class RegistrationController {
        return new ModelAndView("redirect:/login");  
        }
 	} */
-	if( validationsService.validateRegistration(userAccount) )
-    {
+	//if( validationsService.validateRegistration(userAccount) )
+    //{
       userService.registerUser(userAccount);
       return new ModelAndView("redirect:/login");  
-    }
-    else userAccount=null;
-    return new ModelAndView("register","message","Invalid inputs in form fields");
+    //}
+    //else userAccount=null;
+    //return new ModelAndView("register","message","Invalid inputs in form fields");
   }
   
 }
