@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@page session="true"%>
+<%@page session="false"%>
 <html>
 <head>
 <title>Login</title>
@@ -9,7 +9,11 @@
 
 	<div id="login-box">
 
-		
+	  <table align="center">
+		<tr>
+			<td style="font-style: italic; color: green;">${message}</td>
+		</tr>
+	</table>	
 	
 <form name='loginForm' action="<c:url value='/loginProcess' />" method='POST'>
 

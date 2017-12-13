@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import com.app.web.social.dao.ProfileDAO;
-import com.app.web.social.model.PrivateMessage;
 import com.app.web.social.model.Profile;
 
 @Service

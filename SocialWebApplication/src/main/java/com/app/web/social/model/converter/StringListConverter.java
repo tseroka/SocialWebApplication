@@ -11,11 +11,7 @@ import javax.persistence.Converter;
 public class StringListConverter implements AttributeConverter<List<String>, String> {
 	
   public String convertToDatabaseColumn(List<String> list) {
-	 String result;
-	/**  String result;
-    if(list==null) result="";
-    else result = String.join(",", list); 
-    return result; */
+	  String result;
 	  if(list==null) result="";
 	  else result= String.join(",", list);
 	  return result;

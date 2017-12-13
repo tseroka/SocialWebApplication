@@ -2,7 +2,6 @@ package com.app.web.social.dao;
 
 import java.util.List;
 
-import com.app.web.social.model.PrivateMessage;
 import com.app.web.social.model.Profile;
 
 public interface ProfileDAO {

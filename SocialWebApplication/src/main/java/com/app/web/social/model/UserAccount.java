@@ -2,7 +2,6 @@ package com.app.web.social.model;
 
 import java.io.Serializable;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,40 +10,40 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+
+import com.app.web.social.dao.validations.InputCorrectness;
 
 @Entity
 @Table(name="users",  uniqueConstraints={ @UniqueConstraint( columnNames={"user_id", "username", "nickname", "email"} ) }     )
 @Valid
-public class UserAccount implements Serializable {
+public class UserAccount implements Serializable, InputCorrectness {
 	
-
 	private static final long serialVersionUID = -7400604230107519063L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="user_id", nullable=false, unique=true, length=12)
 	private Integer id;
-	
-//	@Size(min=6, max=25, message="Username must be 6-25 characters length")
-//	@Pattern(regexp="^[a-zA-Z0-9]{6,25}$", message="Invalid username input.")
+
 	@Column(name="username", nullable=false, unique=true, length=25)
+	@Pattern(regexp=USERNAME_VALIDATION_REGEX)
 	private String username;
 	
-//	@Size(min=8, max=40, message="Password must be 8-40 characters length")
-//	@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message="Invalid password input.")
 	@Column(name="password", nullable=false, unique=false, length=100)
+    @Pattern(regexp=PASSWORD_VALIDATION_REGEX)
     private String password;
 	
-//	@Size(min=3, max=25, message="Nickname must be 3-25 characters length")
-//	@Pattern(regexp="^[a-zA-Z\\\\\\\\s]{3,25}$", message="Invalid nickname input")
 	@Column(name="nickname", nullable=false, unique=true, length=25)
+	@Pattern(regexp=NICKNAME_VALIDATION_REGEX)
     private String nickname;
 	
-//	@Pattern(regexp="^([_a-zA-Z0-9-]+(\\\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\\\.[a-zA-Z0-9-]+)*(\\\\.[a-zA-Z]{1,6}))?$", message="Invalid email input")
 	@Column(name="email", nullable=false, unique=true, length=40)
+    @Pattern(regexp=EMAIL_VALIDATION_REGEX)
     private String email;
 	
 	@Column(name="country", nullable=true, unique=false, length=40)
+	@Pattern(regexp=COUNTRY_VALIDATION_REGEX)
     private String country;
 	
 	@Column(name="role", nullable=false, unique=false, length=25)

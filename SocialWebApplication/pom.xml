@@ -131,6 +131,13 @@
     <version>5.2.12.Final</version>
 </dependency>
         
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>6.0.5.Final</version>
+</dependency>
+        
         
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
 <dependency>

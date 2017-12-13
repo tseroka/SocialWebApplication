@@ -29,9 +29,9 @@ public class MessagesService {
 		return this.messagesDAO.getMessage(messageId);
 	}
 	
-	public void removeMessage(PrivateMessage message)
+	public String removeMessage(Long messageId)
 	{
-		this.messagesDAO.removeMessage(message);
+		return this.messagesDAO.removeMessage(messageId);
 	}
 	
 	public void sendMessage(PrivateMessage message)

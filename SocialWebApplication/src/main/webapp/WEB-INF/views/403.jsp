@@ -1,3 +1,4 @@
+<%@ page session="false" %>
 <html>
 <head>
 <title>Access denied</title>

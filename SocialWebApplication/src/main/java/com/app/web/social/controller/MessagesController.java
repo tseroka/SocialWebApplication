@@ -68,13 +68,18 @@ public class MessagesController {
 		   ) 
 		     {  
 			   messagesService.sendMessage(newMessage); 
-		        return new ModelAndView("outbox","outboxMessages",messagesService.getInbox( profileService.getAuthenticatedUserNickname()) );
+		        return new ModelAndView("redirect:outbox");
 		     }
 		   
 		   return new ModelAndView("messages/sendMessage","emptyRecipientsOrSubject", "Neither subject or recipients can be empty or sending recipient(s) not allowed.");
 		 
 	   }
 	    
+	   @RequestMapping(value="remove/{id}")
+	   public ModelAndView removeMessage(@PathVariable Long id)
+	   {
+		   return new ModelAndView("redirect:"+messagesService.removeMessage(id));
+	   }
 	     
 	    @RequestMapping(value="inbox")
 	    public ModelAndView getInbox()

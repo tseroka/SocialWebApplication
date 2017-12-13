@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.web.social.model.PrivateMessage;
 import com.app.web.social.model.Profile;
 
 @Repository
@@ -20,9 +19,6 @@ public class ProfileDAOImpl implements ProfileDAO {
 
 	@Autowired
 	private UserDAO userDAO;
-	
-	@Autowired
-	private FriendsDAO friendsDAO;
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -61,13 +57,24 @@ public class ProfileDAOImpl implements ProfileDAO {
 	
     public List<Profile> searchProfiles(String sex, String city, List<String> interests)
     {   
-    	boolean skipCity = city.equals(""); boolean skipSex = sex.equals(""); boolean skipInterests = interests.get(0).equals("");
-
+     /**boolean skipCity = city.equals(""); boolean skipSex = sex.equals(""); boolean skipInterests = interests.get(0).equals("");
     	List<Profile> allProfiles = getProfilesList();
+     	List<Profile> findedProfiles = new ArrayList<Profile>(); */
     	
-    	List<Profile> findedProfiles = new ArrayList<Profile>();
+    	List<String> emptyInterests = new ArrayList<String>(); emptyInterests.add("");
+    	Session session = this.sessionFactory.getCurrentSession();
     	
-    	for(int i=0;i<allProfiles.size();i++)
+		@SuppressWarnings("unchecked")
+		Query<Profile> query=session.createQuery
+		("from Profile p where ( p.allowSearching=true AND (p.sex:=sex OR sex='') AND (p.city:=city OR city='') AND"
+				+ "( (:interests) in p.interests) OR p.interests:=emptyInterests ) ");
+		
+    	query.setParameter("sex",sex).setParameter("city",city).setParameter("interests",interests)
+    	.setParameter("emptyInterests",emptyInterests);
+        
+    	List<Profile> searchResults =(List<Profile>) query.list();
+        
+    	/**for(int i=0;i<allProfiles.size();i++)
     	{  
     		      Profile currentProfile = allProfiles.get(i);
 
@@ -78,9 +85,9 @@ public class ProfileDAOImpl implements ProfileDAO {
     				     ( currentProfile.getInterests().containsAll(interests) || skipInterests )
     			  )     
     		                   findedProfiles.add( currentProfile ); 
-        }
+        } */
     			
-		return findedProfiles;   	
+		return searchResults;   	
     }
 
 
