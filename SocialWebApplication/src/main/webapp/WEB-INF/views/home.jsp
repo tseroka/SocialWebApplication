@@ -11,8 +11,7 @@
     <meta charset="utf-8">
 	<meta http-equiv="X-Ua-Compatible" content="IE=edge,chrome=1">
 	
-	<style>
-	<%@include file="/css/index_style.css"%></style>
+	<style> <%@include file="/css/index_style.css"%></style>
 	</head>
 <body>
 

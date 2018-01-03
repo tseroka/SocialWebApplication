@@ -42,18 +42,18 @@ public class UniquenessValidation implements Uniqueness
 
     public boolean isPasswordUsernameEmailNicknameAreNotTheSame(UserAccount userAccount)
     {   
-        String password = userAccount.getPassword();
-        String username = userAccount.getUsername();
-        String email = userAccount.getEmail().split("@")[0];
-        String nickname = userAccount.getNickname();
-    	return (
-    			!(password.equals(username)) && 
-    			!(password.equals(email)) &&
-    			!(password.equals(nickname))  &&
+        String password = userAccount.getPassword();    String username = userAccount.getUsername();
+        String email = userAccount.getEmail().split("@")[0];     String nickname = userAccount.getNickname();
+    	return 
+    	        (
+    			!(username.equals(password)) && 
+    			!(email.equals(password)) &&
+    			!(nickname.equals(password))  &&
     			!(username.equals(nickname)) &&
     			!(username.equals(email)) &&
     			!(nickname.equals(email))
     			);
     }
+    
     
 }

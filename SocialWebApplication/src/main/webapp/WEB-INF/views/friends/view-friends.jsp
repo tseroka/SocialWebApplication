@@ -2,11 +2,12 @@
    <html>
    
    <head>
+   <style><%@include file="/css/index_style.css"%></style>
   <title>Friends</title>
   </head>
   
   <body>
-
+<c:if test="${not empty friendsList}">
 <h1>Your Friends</h1>  
 <table border="2" width="70%" cellpadding="2"> 
 
@@ -22,5 +23,11 @@
 </tr>
 </c:forEach>
 </table>
+</c:if>
+
+<c:if test="${empty friendsList}">
+You have no friends, try out <div class="link"><a href="search">Search profiles</a> feature to find someone You would like to know.</div>
+</c:if>
+
 </body> 
 </html>

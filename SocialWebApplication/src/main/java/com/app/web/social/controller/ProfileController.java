@@ -34,12 +34,17 @@ public class ProfileController {
 	 
 	     @RequestMapping(value="view/{nickname}", method=RequestMethod.GET )  
          public ModelAndView viewProfile(@PathVariable String nickname)
-	     {   
-		   Profile profile = profileService.getProfileByNickname(nickname);
-		   ModelAndView model = new ModelAndView("profile/view-profile","profile",profile);
+	     { 
+		  // Profile profile = profileService.getProfileByNickname(nickname);
+		   if( profileService.getProfileByNickname(nickname)!=null ) 
+		   {
+		   ModelAndView model = new ModelAndView("profile/view-profile","profile",profileService.getProfileByNickname(nickname));
 		   model.addObject("isFriend",friendsService.isFriend(nickname));
 		   model.addObject("isInvited",friendsService.isInvited(nickname));
 		   return model;
+		   }
+		   
+		   return new ModelAndView("404","resourceNotFound","Profile You're trying to access does not exist.");
          }  
  
 	
@@ -52,7 +57,7 @@ public class ProfileController {
 	    }
 
 	  
-	 /**--------------------------------EDIT------------------------------------------------------ */
+	 //--------------------------------EDIT------------------------------------------------------ 
 	
 	    @RequestMapping(value="edit" , method = RequestMethod.GET)  
 	    public ModelAndView edit()
@@ -63,7 +68,7 @@ public class ProfileController {
 	  
 	    
 	    @RequestMapping(value="edit/save", method = RequestMethod.POST)  
-	    public ModelAndView editsave(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("profile") Profile profile)
+	    public ModelAndView editSave(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("profile") Profile profile)
 	    {  
 	    	profile.setNickname(profileService.getAuthenticatedUserNickname());
 	    	profileService.editProfile(profile);  

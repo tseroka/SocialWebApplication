@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import com.app.web.social.model.Profile;
-import com.app.web.social.model.SearchProfile;
+import com.app.web.social.model.temp.SearchProfile;
 import com.app.web.social.service.ProfileService;
 
 @Controller
@@ -36,7 +36,7 @@ public class ProfileSearchController {
 	    @RequestMapping(value="/goSearch", method = RequestMethod.POST)
 	    public ModelAndView goSearch(@ModelAttribute("profile") SearchProfile searchProfile)
 	    {  	
-return new ModelAndView("redirect:/search/sex="+searchProfile.getSearchSex()+"/city="+searchProfile.getSearchCity()+"/interests="+searchProfile.getSearchInterests() );
+	    	return new ModelAndView("redirect:/search/sex="+searchProfile.getSearchSex()+"/city="+searchProfile.getSearchCity()+"/interests="+searchProfile.getSearchInterests() );
 	    }
 	    
 	    
@@ -46,8 +46,8 @@ return new ModelAndView("redirect:/search/sex="+searchProfile.getSearchSex()+"/c
 	    public ModelAndView searchProfiles(@PathVariable String sex, @PathVariable String city, @PathVariable
 	    		String interestsInput)
 	    {   
-	    	List<String> interests = Arrays.asList((interestsInput).split(","));
-	    	
+	    	List<String> interests =  Arrays.asList((interestsInput).split(","));
+	   
 	    	List<Profile> findedProfiles = profileService.searchProfiles(sex, city, interests);
 	    	
 	    	if(findedProfiles.isEmpty()) 

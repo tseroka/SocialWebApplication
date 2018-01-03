@@ -1,6 +1,7 @@
 package com.app.web.social.dao;
 
 import java.util.List;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.hibernate.query.Query;
 import com.app.web.social.model.Profile;
 import com.app.web.social.model.Friends;
 import com.app.web.social.model.UserAccount;
+import com.app.web.social.model.SecurityIssues;
 
 @Repository
 @Transactional
@@ -28,25 +30,30 @@ public class UserDAOImpl implements UserDAO {
 	 
 	
 	public void registerUser(UserAccount userAccount) 
-	{
+	{  
 		Session session = this.sessionFactory.getCurrentSession();
 		List<String> empty = new ArrayList<String>();
 		session.persist( new Profile(userAccount.getNickname(), "", empty, "", false, false));
 		session.persist( new Friends(userAccount.getNickname(), empty, empty , empty));
+		session.persist( new SecurityIssues(userAccount.getUsername(),userAccount,"activationCode","",new Timestamp(System.currentTimeMillis()),""));
+		userAccount.setCreationDate(new Timestamp(System.currentTimeMillis()));
 		session.persist(userAccount);		
 	}
    
-	public void editUser(String username) 
+	public void editUser(UserAccount userAccount) 
 	{
-		Session session = this.sessionFactory.getCurrentSession();		
-		UserAccount userAccount = getUserByUsername(username);
-		session.update(userAccount);
+		this.sessionFactory.getCurrentSession().update(userAccount);
 	}
 
 	public String getAuthenticatedUserUsername()
 	{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return auth.getName();
+	}
+	
+	public long getAuthenticatedUserId()
+	{
+		return getUserAccount( getAuthenticatedUserUsername() ).getId();
 	}
 	
 	public UserAccount getUserByUsername(String username) 
@@ -63,12 +70,16 @@ public class UserDAOImpl implements UserDAO {
     
 	public UserAccount getUserAccount(String username) 
 	{
-		Session session = this.sessionFactory.getCurrentSession();
-		String hql = "from UserAccount U where U.username =:user_username";
+		UserAccount userAccount = new UserAccount();
 		@SuppressWarnings("unchecked")
-		Query<UserAccount> query = session.createQuery(hql).setParameter("user_username",username);
-	//	List<UserAccount> result = (List<UserAccount>)query.list(); 
-		return (UserAccount) query.list().get(0);
+		Query<UserAccount> query = this.sessionFactory.getCurrentSession()
+		.createQuery("from UserAccount U where U.username =:user_username").setParameter("user_username",username);
+	    try 
+	    {
+	    	userAccount = (UserAccount) query.list().get(0);
+	    }
+	    catch(IndexOutOfBoundsException ex){userAccount=null;}
+		return userAccount;
 	}
 	
 	
@@ -76,42 +87,54 @@ public class UserDAOImpl implements UserDAO {
 	{		
 		Session session = this.sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		Query<UserAccount> query=session.createQuery("from UserAccount");
+		Query<UserAccount> query=session.createQuery("from UserAccount where role='ROLE USER'");
 		List<UserAccount> userList = (List<UserAccount>)query.list(); 
 		return userList;
 	}
 	
 	
-	public void deleteUser(Integer id) 
+	public void deleteUser(long id) 
 	{
 		Session session = this.sessionFactory.getCurrentSession();
+		
 		UserAccount userAccount = (UserAccount) session.load(UserAccount.class, id);
-		Profile profile = (Profile) session.load(Profile.class, userAccount.getNickname());
-		if(null != userAccount  &&  null != profile)
-		{
-			session.delete(userAccount);
-			session.delete(profile);
-		}
+		String nickname = userAccount.getNickname();
+		session.delete(userAccount);
+		
+		Friends friends = (Friends) session.load(Friends.class, nickname);
+		session.delete(friends);
+		
+		Profile profile = (Profile) session.load(Profile.class, nickname);
+		session.delete(profile);
+		
+		//TODO delete messages
+		
 	}
  
 	
-	public void disableUser(Integer id)
+	public void lockUser(long id)
 	{
 		Session session = this.sessionFactory.getCurrentSession();
 		UserAccount userAccount = (UserAccount) session.load(UserAccount.class, id);
-		userAccount.setEnabled(false);
+		if(userAccount.getRole().equals("ROLE USER"))
+		{
+		userAccount.setNotLocked(false);
 		session.update(userAccount);
+		}
 	}
 	
-	public void enableUser(Integer id)
+	public void unlockUser(long id)
 	{ 
 	   Session session = this.sessionFactory.getCurrentSession();
 	   UserAccount userAccount = (UserAccount) session.load(UserAccount.class, id);
-	   userAccount.setEnabled(true);
+	   if(userAccount.getRole().equals("ROLE USER"))
+	   {
+	   userAccount.setNotLocked(true);
 	   session.update(userAccount);
+	   }
 	}
 
-	public UserAccount getUserById(Integer id) {
+	public UserAccount getUserById(long id) {
 		Session session = this.sessionFactory.getCurrentSession();
 		UserAccount userAccount = (UserAccount) session.load(UserAccount.class, id);
 		return userAccount;

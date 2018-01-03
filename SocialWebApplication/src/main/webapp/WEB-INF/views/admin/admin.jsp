@@ -4,5 +4,6 @@
 <body>
 
 <a href="admin/view-users" >Manage Users</a>
+<a href="admin/sendGlobalMessage" >Send global message</a>
 </body>
 </html>

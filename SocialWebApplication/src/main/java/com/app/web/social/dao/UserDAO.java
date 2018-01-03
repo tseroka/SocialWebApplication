@@ -10,17 +10,19 @@ public interface UserDAO {
 	
 	public void registerUser(UserAccount userAccount);
 
-	public void editUser(String username);
+	public void editUser(UserAccount userAccount);
 	
-	public void deleteUser(Integer id);
+	public void deleteUser(long id);
 	
-	public void disableUser(Integer id);
+	public void lockUser(long id);
 	
-	public void enableUser(Integer id);
+	public void unlockUser(long id);
 	
-	public UserAccount getUserById(Integer id);
+	public UserAccount getUserById(long id);
 	
 	public String getAuthenticatedUserUsername();
+	
+	public long getAuthenticatedUserId();
 	
 	public UserAccount getUserByUsername(String username);
 	

@@ -1,4 +1,4 @@
-package com.app.web.social.model;
+package com.app.web.social.model.temp;
 
 public class SearchProfile {
 	
@@ -15,7 +15,7 @@ public class SearchProfile {
 		this.searchCity = searchCity;
 		this.searchInterests = searchInterests;
 	}
-	
+	 
 	public String getSearchSex() {
 		return searchSex;
 	}

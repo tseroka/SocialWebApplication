@@ -6,7 +6,7 @@
   </head>
   
   <body>
-
+<c:if test="${not empty sentInvitationsList}">
 <h1>Sent invitations</h1>  
 <table border="2" width="70%" cellpadding="2"> 
 
@@ -20,5 +20,10 @@
 </tr>
 </c:forEach>
 </table>
+</c:if>
+
+<c:if test="${empty sentInvitationsList}">
+You have no active sent invitations to friends list.
+</c:if>
 </body> 
 </html>

@@ -17,27 +17,33 @@ import com.app.web.social.service.SocialWebAppUserDetailsService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled=true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter 
+{
      
+	@Autowired
+	private CustomAuthenticationFailureHandler customHandler;
 	
 	@Autowired
 	private SocialWebAppUserDetailsService socialWebAppUserDetailsService;
 	
 
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception 
+	{
 		auth.userDetailsService(socialWebAppUserDetailsService).passwordEncoder(passwordEncoder());
 	}
 
 	
 	@Bean
-	public PasswordEncoder passwordEncoder(){
+	public PasswordEncoder passwordEncoder()
+	{
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder;
 	}
 
     @Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity http) throws Exception 
+    {
 
 	  http.authorizeRequests()
 	  .antMatchers("/").permitAll()
@@ -46,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers("/profile/**","/search/**","/user/**").hasAnyAuthority("ROLE ADMIN", "ROLE USER")
 	 .antMatchers("/admin/**").hasAuthority("ROLE ADMIN")
 	 .and()
-		  .formLogin().loginPage("/login").loginProcessingUrl("/loginProcess").failureUrl("/login")
+		  .formLogin().loginPage("/login").loginProcessingUrl("/loginProcess").failureHandler(customHandler)
 		  .usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/home")
 		.and()
 		  .logout().logoutUrl("/logout").logoutSuccessUrl("/home")
@@ -55,6 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 		  .csrf();
 	  
+	  http.sessionManagement().maximumSessions(1).expiredUrl("/login?error=expired").maxSessionsPreventsLogin(true).
+	  and().invalidSessionUrl("/login?error=expired");
 		
 	}
 	

@@ -12,10 +12,10 @@
 
 <form:form method="POST" action="/SocialWebApplication/search/goSearch">    
 
-   
-             
+  
+         
         
-        Sex: <form:input path="searchSex" />
+        Sex: <form:input path="searchSex" /> 
          
         Interests(separate with commas): <form:input path="searchInterests" /> 
         

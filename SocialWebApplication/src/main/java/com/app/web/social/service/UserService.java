@@ -22,31 +22,31 @@ public class UserService {
 	}
 
 	
-	public void editUser(String username)
+	public void editUser(UserAccount userAccount)
 	{
-		this.userDAO.editUser(username);
+		this.userDAO.editUser(userAccount);
 	}
 	
 	
-	public void deleteUser(Integer id) 
+	public void deleteUser(long id) 
 	{
 		this.userDAO.deleteUser(id);
 	}
 	
 	
-	public void disableUser(Integer id)
+	public void lockUser(long id)
 	{
-		this.userDAO.disableUser(id);
+		this.userDAO.lockUser(id);
 	}
 	
 	
-	public void enableUser(Integer id)
+	public void unlockUser(long id)
 	{
-		this.userDAO.enableUser(id);
+		this.userDAO.unlockUser(id);
 	}
 	
 	
-	public UserAccount getUserById(Integer id)
+	public UserAccount getUserById(long id)
 	{
 		return this.userDAO.getUserById(id);
 	}
@@ -54,6 +54,11 @@ public class UserService {
 	public String getAuthenticatedUserUsername()
 	{
 		return this.userDAO.getAuthenticatedUserUsername();
+	}
+	
+	public long getAuthenticatedUserId()
+	{
+		return this.userDAO.getAuthenticatedUserId();
 	}
 	
 	public UserAccount getUserByUsername(String username)

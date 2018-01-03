@@ -25,12 +25,16 @@ public class SocialWebAppUserDetailsService implements UserDetailsService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
+	{
 		UserAccount userAccount = userDAO.getUserAccount(username);
+		if(userAccount == null) throw new UsernameNotFoundException("");
 		GrantedAuthority authority = new SimpleGrantedAuthority(userAccount.getRole());
       
 		UserDetails userDetails = (UserDetails)new User(userAccount.getUsername(),
-  passwordEncoder.encode( userAccount.getPassword() ), userAccount.getEnabled(), true, true, true, Arrays.asList(authority));
+  passwordEncoder.encode( userAccount.getPassword() ), userAccount.getEnabled(), true, true, userAccount.isNotLocked(), Arrays.asList(authority));
 		return userDetails;
 	}
+	
 }
+ 

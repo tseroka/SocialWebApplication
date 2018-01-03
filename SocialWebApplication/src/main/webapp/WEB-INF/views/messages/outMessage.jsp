@@ -13,7 +13,7 @@
 
 <tr>
 <th>Recipients</th><th>Subject</th>
-<th>Text</th> <th>Remove message</th>
+<th>Text</th> <th>Sent date</th> <th>Remove message</th>
 </tr>  
 
 <td> 
@@ -23,6 +23,7 @@
 </td>  
 <td>${message.messageSubject}</td>  
 <td>${message.messageText}</a></td>  
+<td>${message.sentDate} </td>
 <td><a href='/SocialWebApplication/profile/messages/remove/${message.messageId}'>Remove</a></td>  
 
 </table>

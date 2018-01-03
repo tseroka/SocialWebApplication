@@ -15,6 +15,8 @@
   Email: ${user.email} </br>
   Country: ${user.country} </br> 
 
-
+<table align="center"><tr><td style="font-style: italic; color: green;">${message}</td></tr></table>	
+<a href="/SocialWebApplication/user/edit" >Edit account</a> </br>
+<a href="/SocialWebApplication/user/edit/password/" >Change password</a>
   </body>
   </html>

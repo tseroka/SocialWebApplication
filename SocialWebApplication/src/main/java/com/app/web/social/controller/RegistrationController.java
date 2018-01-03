@@ -42,23 +42,24 @@ public class RegistrationController {
 	  {
 		 if
 		 (
+		     userAccount.getPassword().equals(userAccount.getRepeatPassword()) &&
 		     uniquenessService.isPasswordUsernameEmailNicknameAreNotTheSame(userAccount) &&
 		     uniquenessService.isUsernameNotBusy(userAccount.getUsername()) &&
 		     uniquenessService.isEmailNotBusy(userAccount.getEmail()) &&
 		     uniquenessService.isNicknameNotBusy(userAccount.getNickname())
-		    				 
+		    		  		 
 	     )
 		   {
 			 userService.registerUser(userAccount);
-			 model.setViewName("login"); model.addObject("message","You have successfuly registered.");
-		   }
+			 model.setViewName("login"); model.addObject("registered","You have successfuly registered.");
+		   } 
 		 
 		 else 
 		 {
 					    
 			if(!uniquenessService.isPasswordUsernameEmailNicknameAreNotTheSame(userAccount)) model.addObject("sameInputsMessage","Username, password, email and nickname must be different!");
 			
-		    if(!uniquenessService.isUsernameNotBusy(userAccount.getUsername())); model.addObject("usernameExistsMessage","Username already exists!");
+		    if(!uniquenessService.isUsernameNotBusy(userAccount.getUsername())) model.addObject("usernameExistsMessage","Username already exists!");
 		    
 		    if(!uniquenessService.isEmailNotBusy(userAccount.getEmail())) model.addObject("emailExistsMessage","Email already exists!");
 		    
@@ -67,6 +68,5 @@ public class RegistrationController {
 			
 	  }
 	  return model;  
-  }
-  
+   }
 }

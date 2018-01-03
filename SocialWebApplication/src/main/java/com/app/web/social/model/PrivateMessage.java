@@ -1,5 +1,6 @@
 package com.app.web.social.model;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -34,6 +35,25 @@ public class PrivateMessage {
 	
 	@Column(name="text", nullable=true, unique=false, length=2000)
 	private String messageText;
+
+	@Column(name="sentDate", nullable=false, unique=false)
+	private Timestamp sentDate;
+	
+	public PrivateMessage()
+	{
+		
+	}
+	
+	public PrivateMessage (Long messageId, String messageSender, List<String> messageRecipients,
+			String messageSubject,String messageText, Timestamp sentDate) 
+	{
+		this.messageId = messageId;
+		this.messageSender = messageSender;
+		this.messageRecipients = messageRecipients;
+		this.messageSubject = messageSubject;
+		this.messageText = messageText;
+		this.sentDate = sentDate;
+	}
 
 	public Long getMessageId() {
 		return messageId;
@@ -74,6 +94,15 @@ public class PrivateMessage {
 	public void setMessageText(String messageText) {
 		this.messageText = messageText;
 	}
+
+	public Timestamp getSentDate() {
+		return sentDate;
+	}
+
+	public void setSentDate(Timestamp sentDate) {
+		this.sentDate = sentDate;
+	}
+	
 	
 	
 	

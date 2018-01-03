@@ -9,11 +9,9 @@
 
 	<div id="login-box">
 
-	  <table align="center">
-		<tr>
-			<td style="font-style: italic; color: green;">${message}</td>
-		</tr>
-	</table>	
+	<table align="center"><tr><td style="font-style: bold; color: green;">${registered}</td></tr></table>
+		
+	<table align="center"><tr><td style="font-style: bold; color: red;">${message}</td></tr></table>	
 	
 <form name='loginForm' action="<c:url value='/loginProcess' />" method='POST'>
 
@@ -23,7 +21,7 @@
 	<input type='password' name='password' class="inputData" 
 	placeholder="Password" onfocus="this.placeholder=''" onblur="this.placeholder='Password'" />
 			
-	<input name="submit" type="submit" value="submit" class="inputSubmit" />
+	<input name="submit" type="submit" value="Login" class="inputSubmit" />
 			
     <input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
