@@ -1,8 +1,11 @@
 package com.app.web.social.dao;
 
 import java.util.List;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,6 +21,7 @@ import com.app.web.social.model.Profile;
 import com.app.web.social.model.Friends;
 import com.app.web.social.model.UserAccount;
 import com.app.web.social.model.SecurityIssues;
+import com.app.web.social.service.SecurityService;
 
 @Repository
 @Transactional
@@ -28,15 +32,26 @@ public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 	 
+	@Autowired
+	private SecurityService security;
 	
-	public void registerUser(UserAccount userAccount) 
+	public void registerUser(UserAccount userAccount) throws UnknownHostException 
 	{  
 		Session session = this.sessionFactory.getCurrentSession();
+		
 		List<String> empty = new ArrayList<String>();
+		
+		String ip = InetAddress.getLocalHost().toString();
+		HashSet<String> ipSet = new HashSet<String>(); ipSet.add(ip);
+				
 		session.persist( new Profile(userAccount.getNickname(), "", empty, "", false, false));
+		
 		session.persist( new Friends(userAccount.getNickname(), empty, empty , empty));
-		session.persist( new SecurityIssues(userAccount.getUsername(),userAccount,"activationCode","",new Timestamp(System.currentTimeMillis()),""));
+		
+		session.persist( new SecurityIssues(userAccount.getUsername(),userAccount, security.generateActivationAndUnlockCode(), 0, null, ip , ipSet,new Timestamp(System.currentTimeMillis()),(byte) 0,"Not locked"));
+		
 		userAccount.setCreationDate(new Timestamp(System.currentTimeMillis()));
+		
 		session.persist(userAccount);		
 	}
    
@@ -134,20 +149,17 @@ public class UserDAOImpl implements UserDAO {
 	   }
 	}
 
-	public UserAccount getUserById(long id) {
-		Session session = this.sessionFactory.getCurrentSession();
-		UserAccount userAccount = (UserAccount) session.load(UserAccount.class, id);
-		return userAccount;
+	public UserAccount getUserById(long id) 
+	{
+		return (UserAccount) this.sessionFactory.getCurrentSession().load(UserAccount.class, id);
 	}
 
 	public UserAccount getUserByNickname(String nickname) 
 	{
-		Session session = this.sessionFactory.getCurrentSession();
-		String hql = "from UserAccount U where U.nickname =:user_nickname";
 		@SuppressWarnings("unchecked")
-		Query<UserAccount> query = session.createQuery(hql).setParameter("user_nickname",nickname);
-		List<UserAccount> result = (List<UserAccount>)query.list(); 
-		return result.get(0);
+		Query<UserAccount> query = this.sessionFactory.getCurrentSession()
+		.createQuery("from UserAccount U where U.nickname =:user_nickname").setParameter("user_nickname",nickname);
+		return (UserAccount) query.list().get(0);
 	}
 	
 

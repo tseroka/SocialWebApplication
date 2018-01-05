@@ -1,4 +1,4 @@
-package com.app.web.social.security;
+package com.app.web.social.security.handlers;
 
 import java.io.IOException;
 
@@ -16,6 +16,9 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.app.web.social.service.SecurityService;
 
 @Service
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler 
@@ -23,25 +26,30 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
   private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-  public CustomAuthenticationFailureHandler() 
-  {
-     super();
-  }
- 
+  @Autowired
+  private SecurityService securityService;
+  
+
   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
      throws IOException, ServletException 
   {
     String message = "";
 
+    String username = request.getParameter("username");
+    
     if(exception instanceof UsernameNotFoundException) { message = "credentials"; }
     
     else if(exception instanceof AuthenticationCredentialsNotFoundException) { message = "credentials"; }
     
     else if(exception instanceof DisabledException) { message = "disabled"; }
     
-    else if(exception instanceof LockedException) { message = "locked"; }
+    else if(exception instanceof LockedException) { message = "locked-"+securityService.getLockReason(username); }
     
-    else if(exception instanceof BadCredentialsException) { message = "credentials"; }
+    else if(exception instanceof BadCredentialsException) 
+    { 
+    	message = "credentials"; 
+    	securityService.increaseFailedLoginAttemptsNumberAndLockIfEqualsFive(username);
+    }
     
     else { message = exception.getMessage(); }
     

@@ -1,5 +1,6 @@
 package com.app.web.social.service;
 
+import java.net.UnknownHostException;
 import java.util.List;
 
 
@@ -16,7 +17,7 @@ public class UserService {
 	private UserDAO userDAO;
 
 	
-	public void registerUser(UserAccount userAccount) 
+	public void registerUser(UserAccount userAccount) throws UnknownHostException 
 	{
 		this.userDAO.registerUser(userAccount);
 	}

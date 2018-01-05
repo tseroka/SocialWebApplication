@@ -46,7 +46,7 @@ public class ProfileSearchController {
 	    public ModelAndView searchProfiles(@PathVariable String sex, @PathVariable String city, @PathVariable
 	    		String interestsInput)
 	    {   
-	    	List<String> interests =  Arrays.asList((interestsInput).split(","));
+	    	List<String> interests =  Arrays.asList((interestsInput+",").split(","));
 	   
 	    	List<Profile> findedProfiles = profileService.searchProfiles(sex, city, interests);
 	    	

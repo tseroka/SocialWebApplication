@@ -2,13 +2,8 @@ package com.app.web.social.controller;
 
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,25 +29,19 @@ public class UserController implements InputCorrectness
 	@RequestMapping(value="view", method=RequestMethod.GET )  
     public ModelAndView viewAccount()
 	{   
-		UserAccount userAccount = userService.getUserAccount(userService.getAuthenticatedUserUsername() );
-		return new ModelAndView("account/view-account","user", userAccount);
+		return new ModelAndView("account/view-account","user", userService.getUserAccount(userService.getAuthenticatedUserUsername() ));
     }  
 	
+	//--------------------------------------------EDIT ACCOUNT (BUT NOT PASSWORD)-----------------------------------------
 	 @RequestMapping(value="edit" , method = RequestMethod.GET)  
 	 public ModelAndView edit()
 	 {  
 	   return new ModelAndView("account/edit-account","editAccount", new EditAccount() );
 	 }  
-	 
-	 @RequestMapping(value="edit/password" , method = RequestMethod.GET)  
-	 public ModelAndView changePassword()
-	 {  
-	   return new ModelAndView("account/change-password","editAccount",new EditAccount() );
-	 }  
 	  
 	    
 	 @RequestMapping(value="edit/save", method = RequestMethod.POST)  
-	 public ModelAndView editSave(@ModelAttribute("editAccount") EditAccount editAccount)//, BindingResult results)
+	 public ModelAndView editSave(@ModelAttribute("editAccount") EditAccount editAccount)
 	    {   
 		    System.out.println("email: "+editAccount.getEmail());
 		    ModelAndView model = new ModelAndView("account/edit-account");
@@ -63,11 +52,12 @@ public class UserController implements InputCorrectness
 	          String email = editAccount.getEmail().equals("") ? userAccount.getEmail() : editAccount.getEmail();
 	          String country = editAccount.getCountry().equals("") ? userAccount.getCountry() : editAccount.getCountry();
 	          System.out.println("email: "+email);
-	         // if(!results.hasErrors())
+	        
 	          
 	  		    if
 	  		    (   
 	  		       userAccount.getPassword().equals( editAccount.getCurrentPassword() )&&
+	  		       validateEditAccount(username, email, country) &&
 	  		       !username.equals(email.split("@")[0]) &&
 	  		       (uniquenessService.isUsernameNotBusy(username) || username.equals(userAccount.getUsername()))  &&
 	  		       (uniquenessService.isEmailNotBusy(email) || email.equals(userAccount.getEmail() ) )  		    		    		    		  		 
@@ -80,7 +70,6 @@ public class UserController implements InputCorrectness
 		    	   userService.editUser(userAccount);  
 		         return model.addObject("message","Account has been edited").addObject("user",userAccount);//new ModelAndView("account/view-account","message","Account has been edited"); 
 	  		     } 
-	  		  // }
 	  		 
 	  		  else 
 	  		  { 
@@ -101,7 +90,26 @@ public class UserController implements InputCorrectness
 
     
 	        return model.addObject("noChanges","You didn't type any changes");
-	    }	 
+	    }	
+	 
+	 private boolean validateEditAccount(String username, String email, String country)
+	 {
+		 return 
+	     (
+	    		 Pattern.matches(USERNAME_VALIDATION_REGEX, username) &&
+	    		 Pattern.matches(EMAIL_VALIDATION_REGEX, email) &&
+	    		 Pattern.matches(COUNTRY_VALIDATION_REGEX, country)
+	     );
+	 }
+	 
+	 
+	 //-------------------------------------------CHANGE PASSWORD----------------------------------------------------
+	 @RequestMapping(value="edit/password" , method = RequestMethod.GET)  
+	 public ModelAndView changePassword()
+	 {  
+	   return new ModelAndView("account/change-password","editAccount",new EditAccount() );
+	 }  
+	 
 	 
 	 @RequestMapping(value="edit/password/save", method = RequestMethod.POST)  
 	 public ModelAndView changePasswordProcessing(@ModelAttribute("editAccount") EditAccount editAccount)
@@ -125,5 +133,8 @@ public class UserController implements InputCorrectness
 	     } 
 	     return model;
 	 }
+	 
+	 
+
 	
 }

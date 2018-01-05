@@ -1,5 +1,6 @@
 package com.app.web.social.dao;
 
+import java.net.UnknownHostException;
 import java.util.List;
 
 import com.app.web.social.model.UserAccount;
@@ -8,7 +9,7 @@ import com.app.web.social.model.UserAccount;
 
 public interface UserDAO {
 	
-	public void registerUser(UserAccount userAccount);
+	public void registerUser(UserAccount userAccount) throws UnknownHostException;
 
 	public void editUser(UserAccount userAccount);
 	

@@ -40,13 +40,13 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="lockUser/{id}")  
-    public ModelAndView lockUser(@PathVariable long id){   
+    public ModelAndView lockUserAccount(@PathVariable long id){   
 		userService.lockUser(id);
         return new ModelAndView("redirect:/admin/view-users");  
     }  
 
 	@RequestMapping(value="unlockUser/{id}")  
-    public ModelAndView unlockUser(@PathVariable long id){   
+    public ModelAndView unlockUserAccount(@PathVariable long id){   
 		userService.unlockUser(id);
         return new ModelAndView("redirect:/admin/view-users");  
     }  

@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.app.web.social.service.SocialWebAppUserDetailsService;
+import com.app.web.social.security.handlers.CustomAuthenticationFailureHandler;
+import com.app.web.social.security.handlers.CustomAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -21,7 +23,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
      
 	@Autowired
-	private CustomAuthenticationFailureHandler customHandler;
+	private CustomAuthenticationFailureHandler customFailureHandler;
+	
+	@Autowired
+	private CustomAuthenticationSuccessHandler customSuccessHandler;
 	
 	@Autowired
 	private SocialWebAppUserDetailsService socialWebAppUserDetailsService;
@@ -52,8 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
       .antMatchers("/profile/**","/search/**","/user/**").hasAnyAuthority("ROLE ADMIN", "ROLE USER")
 	 .antMatchers("/admin/**").hasAuthority("ROLE ADMIN")
 	 .and()
-		  .formLogin().loginPage("/login").loginProcessingUrl("/loginProcess").failureHandler(customHandler)
-		  .usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/home")
+		  .formLogin().loginPage("/login").loginProcessingUrl("/loginProcess").
+		  successHandler(customSuccessHandler).failureHandler(customFailureHandler)
+		  .usernameParameter("username").passwordParameter("password")
 		.and()
 		  .logout().logoutUrl("/logout").logoutSuccessUrl("/home")
 		.and()

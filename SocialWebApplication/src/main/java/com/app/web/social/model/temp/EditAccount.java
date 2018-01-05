@@ -1,27 +1,17 @@
 package com.app.web.social.model.temp;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-
-import com.app.web.social.dao.validations.InputCorrectness;
-
-@Valid
-public class EditAccount implements InputCorrectness
+public class EditAccount 
 {
-	@Pattern(regexp=USERNAME_VALIDATION_REGEX)
     private String username;
 	
-	@Pattern(regexp=PASSWORD_VALIDATION_REGEX)
     private String newPassword; 
     
     private String repeatPassword; 
     
     private String currentPassword;
     
-    @Pattern(regexp=EMAIL_VALIDATION_REGEX)
     private String email;
     
-    @Pattern(regexp=COUNTRY_VALIDATION_REGEX)
     private String country;
 
     public EditAccount()

@@ -13,6 +13,9 @@
 		
 	<table align="center"><tr><td style="font-style: bold; color: red;">${message}</td></tr></table>	
 	
+	
+	
+	
 <form name='loginForm' action="<c:url value='/loginProcess' />" method='POST'>
 
 	<input type='text' name='username' class="inputData" 
@@ -27,6 +30,11 @@
 				value="${_csrf.token}" />
 		
 </form>
+
+      <c:if test="${login-action-redirect}">
+      <a href="" >${linkToAction}</a>
+      </c:if>
+      
 	</div>
 
 </body>

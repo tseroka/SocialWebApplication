@@ -16,10 +16,36 @@ public class LoginController {
 	public ModelAndView login(@RequestParam(required = false) String error )
 	{   
 		ModelAndView model = new ModelAndView("login");
-	    if("credentials".equals(error)) model.addObject("message", "Invalid username or password");
-	    else if ("expired".equals(error)) model.addObject("message", "Session expired");
-	    else if ("locked".equals(error)) model.addObject("message","Your account has been locked by administrator");
-	    else if ("disabled".equals(error)) model.addObject("message","Your account hasn't been activated yet");
+		if(!"".equals(error) && !"expired".equals(error))
+		{
+			 model.addObject("login-action-redirect",true);
+			 String linkToAction = "";
+			
+	        if("credentials".equals(error)) 
+	        {
+	    	   model.addObject("message", "Invalid username or password");
+	    	   linkToAction = "Reset password";
+	    	 
+	        }
+	    
+	        else if ("locked-attempts".equals(error))
+	        {
+	    	   model.addObject("message","Your account has been locked due to maximum failed login attempts. You can unlock it via email by special code."); 
+	    	   linkToAction = "Unlock account";
+	        }
+	    
+	        else if ("disabled".equals(error)) 
+	        {
+	    	  model.addObject("message","Your account hasn't been activated yet");	  
+	    	  linkToAction = "Enable account";
+	        }
+	         
+	        model.addObject("linkToAction",linkToAction);
+	    
+		}
+		
+		if ("expired".equals(error)) model.addObject("message", "Session expired");
+		  
 		return model;
 	}
 	
