@@ -11,17 +11,18 @@
 	<div id="activate-box">
 
 	<table align="center"><tr><td style="font-style: bold; color: red;">${message}</td></tr></table>	
+	<table align="center"><tr><td style="font-style: bold; color: green;">${registered}</td></tr></table>	
 	
-    <form:form name='activationForm' action="" method="POST">
+    <form:form name='activationForm' modelAttribute="activate" action="/SocialWebApplication/activateProcessing" method="POST">
 
-	<form:input type="text" path="activationCode" name="activationCode" class="inputData" 
-	placeholder="Activation code" onfocus="this.placeholder=''" onblur="this.placeholder='Activation code'"'/>
+	<form:input type="text" path="code" name="activationCode" class="inputData" 
+	placeholder="Activation code" onfocus="this.placeholder=''" onblur="this.placeholder='Activation code'"/>
 				
 	<form:button id="activate" cssClass="inputSubmit" name="activate">Activate account</form:button>
 			
     </form:form>
     
-    <a href="/send-activation-again">Send activation code again</a>
+    <a href="/SocialWebApplication/sendActivationCodeAgain">Send activation code again</a>
 	</div>
 
 </body>

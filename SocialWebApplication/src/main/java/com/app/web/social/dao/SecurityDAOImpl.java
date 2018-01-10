@@ -3,7 +3,6 @@ package com.app.web.social.dao;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
-import java.util.Random;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.web.social.model.SecurityIssues;
 import com.app.web.social.model.UserAccount;
+//import com.app.web.social.utilities.EmailUtility;
 
 @Repository
 @Transactional
@@ -26,6 +26,9 @@ public class SecurityDAOImpl implements SecurityDAO
 	@Autowired
 	private UserDAO userDAO;
 	
+//	@Autowired 
+//	private EmailUtility mail;
+	
 	Session session = null;
 	
 	@SuppressWarnings("unchecked")
@@ -37,22 +40,8 @@ public class SecurityDAOImpl implements SecurityDAO
 		 return (SecurityIssues) query.list().get(0);
 	}
 	
-
-
-	public int generateActivationAndUnlockCode()
-	{
-		Random random = new Random();
-		return random.nextInt(99999999) + 10000000;
-	}
 	
-	public Long generateResetPasswordCode()
-	{
-		long from = 1000000000000000000L; 
-		long to = 8999999999999999999L; 
-		Random random = new Random();
-		return Long.valueOf( from + ( (long) (random.nextDouble()*(to-from)) ) );
-	}
-	
+
 //------------------ON LOGIN SUCCESS ----------------------------------------------------------------
 	
 	public void loginSuccess(String username) throws UnknownHostException
@@ -69,6 +58,8 @@ public class SecurityDAOImpl implements SecurityDAO
 		issue.setLastIPAddress(ip);
 		issue.addIPAddress(ip);
 		
+		this.sessionFactory.getCurrentSession().update(issue);
+		
 		System.out.println(ip);
 	}
 
@@ -79,16 +70,21 @@ public class SecurityDAOImpl implements SecurityDAO
 		return getSecurityIssuesAccountByUsername(username).getLockReason();
 	}
 	
-	
-	
+	public Timestamp getUnlockDateByUsername(String username)
+	{
+		return getSecurityIssuesAccountByUsername(username).getUnlockDate();
+	}
+		
 //-------------------------------------------------A C T I V A T I O N ---------------------------------------------------	
 	
-	public void sendEmailWithActivationCode(String username)
+	public void sendEmailWithActivationCode(String email, String username)
 	{
 		SecurityIssues issues = getSecurityIssuesAccountByUsername(username);
 		String emailTextContent = "Activate Your account by typing this code into activation window:  "+issues.getActivationCode();
 		
 		//send email
+	//	mail.send(email, "Activate Your Account", emailTextContent);
+		System.out.println(emailTextContent);
 	}
 	
 	
@@ -101,19 +97,26 @@ public class SecurityDAOImpl implements SecurityDAO
 	}
 	
 	
-	public void sendAgainEmailWithActivationCode(String username)
+	public void sendAgainEmailWithActivationCode(String email, String username)
 	{
 	    resetActivationCode(username);
-	    sendEmailWithActivationCode(username);
+	    sendEmailWithActivationCode(email, username);
 	}
 	
 	
-	public void acceptActivationCodeAndEnableAccount(String username)
-	{
-		 session = this.sessionFactory.getCurrentSession();
-		 UserAccount userAccount = userDAO.getUserAccount(username);
-		 userAccount.setEnabled(true);
-		 session.update(userAccount);
+	public void acceptActivationCodeAndEnableAccount(String code)
+	{		 
+     	    session = this.sessionFactory.getCurrentSession();
+			Query<?> query = session.createQuery("from SecurityIssues S WHERE S.activationCode=:code")
+			.setParameter("code",code);
+			
+			SecurityIssues issue = (SecurityIssues) query.list().get(0);
+			issue.setActivationCode(null);
+			session.update(issue);
+			
+			UserAccount userAccount = userDAO.getUserAccount((issue.getUsername()));
+			userAccount.setEnabled(true);
+			session.update(userAccount);
 	}
 	
 	
@@ -141,6 +144,7 @@ public class SecurityDAOImpl implements SecurityDAO
 	
 	public void sendEmailWithUnlockCodeAfterSecurityLockup(String email, String username)
 	{
+		resetUnlockCode(username);
 		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
 		String lockReason = issue.getLockReason();
 		if(lockReason!=null && lockReason.equals(MAX_ATTEMPTS_REASON))
@@ -148,17 +152,11 @@ public class SecurityDAOImpl implements SecurityDAO
 			String emailTextContent = "Your account has been locked due to maximum login attempts. "
 			+ "Type this code to proper field to unlock Your account:  "+issue.getUnlockCode();
 			//send email
+		//	mail.send(email, "Unlock Your Account", emailTextContent);
+			System.out.println(emailTextContent);
 		}
+		
     }
-	
-	
-	
-	public void sendAgainEmailWithUnlockCodeAfterSecurityLockup(String email, String username)
-	{
-		resetUnlockCode(username);
-		sendEmailWithUnlockCodeAfterSecurityLockup(email, username);
-	}
-
 	
 	
 	private void resetUnlockCode(String username)
@@ -169,19 +167,82 @@ public class SecurityDAOImpl implements SecurityDAO
 		session.update(issues);
 	}
 	
-	
-	
-	public void resetFailedLoginAttemptsAndUnlockAccount(String username)
+	public void sendAgainEmailWithUnlockCodeAfterSecurityLockup(String email, String username)
 	{
-		userDAO.getUserAccount(username).setNotLocked(true);
-		
-		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
-		
-		issue.setUnlockCode(0);
-		issue.setLockReason("Not locked");
-		this.sessionFactory.getCurrentSession().update(issue);
+		resetUnlockCode(username);
+		sendEmailWithUnlockCodeAfterSecurityLockup(email, username);
 	}
 	
+	
+	
+	public void resetFailedLoginAttemptsAndUnlockAccount(String code)
+	{		
+   	        session = this.sessionFactory.getCurrentSession();
+			Query<?> query = session.createQuery("from SecurityIssues S WHERE S.unlockCode=:code")
+			.setParameter("code",code);
+			
+			SecurityIssues issue = (SecurityIssues) query.list().get(0);
+			if(issue.getLockReason().equals(MAX_ATTEMPTS_REASON))
+			{
+			issue.setUnlockCode(null);
+			issue.setLockReason(null);
+			issue.setNumberOfLoginFails((byte)0);
+			session.update(issue);
+			
+			UserAccount userAccount = userDAO.getUserAccount((issue.getUsername()));
+			userAccount.setNotLocked(true);
+			session.update(userAccount);
+			}
+	}
+	
+	 
+//-------------------------R E S E T    P A S S W O R D ---------------------------------------------------------------------
 
 	
+	
+	public void sendEmailWithPasswordResetCode(String email, String username)
+	{
+		resetPasswordResetCode(username);
+		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
+		String code = issue.getResetPasswordCode();
+
+	    String emailTextContent = "Type this code to proper field to reset Your password:  "+code;
+			//send email
+	  //  mail.send(email, "Reset Your password", emailTextContent);
+			System.out.println(emailTextContent);
+    }
+	
+	
+	private void resetPasswordResetCode(String username)
+	{
+		session = this.sessionFactory.getCurrentSession();
+		SecurityIssues issues = getSecurityIssuesAccountByUsername(username);
+		issues.setResetPasswordCode(generateResetPasswordCode());
+		session.update(issues);
+	}
+	
+	public void sendAgainEmailWithPasswordResetCode(String email, String username)
+	{
+		resetPasswordResetCode(username);
+		sendEmailWithUnlockCodeAfterSecurityLockup(email, username);
+	}
+	
+	
+	
+	public void resetPassword(String password, String code)
+	{
+		session = this.sessionFactory.getCurrentSession();
+		Query<?> query = session.createQuery("from SecurityIssues S WHERE S.resetPasswordCode=:code")
+		.setParameter("code",code);
+		
+		SecurityIssues issue = new SecurityIssues();
+	
+		issue  = (SecurityIssues) query.list().get(0);
+		issue.setResetPasswordCode(null);
+		session.update(issue);
+		UserAccount userAccount = userDAO.getUserAccount((issue.getUsername()));
+		userAccount.setPassword(password);
+		session.update(userAccount);
+
+	}
 }

@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.app.web.social.dao.validations.InputCorrectness;
 import com.app.web.social.model.temp.EditAccount;
 import com.app.web.social.model.UserAccount;
+import com.app.web.social.model.SecurityIssues;
 import com.app.web.social.service.UserService;
+import com.app.web.social.service.SecurityService;
 import com.app.web.social.service.UniquenessService;
 
 @Controller
@@ -24,12 +27,17 @@ public class UserController implements InputCorrectness
     private UserService userService;
 	
     @Autowired
+    private SecurityService securityService;
+    
+    @Autowired
     private UniquenessService uniquenessService;
 
+    
+    
 	@RequestMapping(value="view", method=RequestMethod.GET )  
     public ModelAndView viewAccount()
 	{   
-		return new ModelAndView("account/view-account","user", userService.getUserAccount(userService.getAuthenticatedUserUsername() ));
+		return new ModelAndView("account/view-account","user", userService.getUserAccount( userService.getAuthenticatedUserUsername() ));
     }  
 	
 	//--------------------------------------------EDIT ACCOUNT (BUT NOT PASSWORD)-----------------------------------------
@@ -41,13 +49,16 @@ public class UserController implements InputCorrectness
 	  
 	    
 	 @RequestMapping(value="edit/save", method = RequestMethod.POST)  
-	 public ModelAndView editSave(@ModelAttribute("editAccount") EditAccount editAccount)
+	 public ModelAndView editSave(@ModelAttribute("editAccount") EditAccount editAccount, RedirectAttributes attributes)
 	    {   
 		    System.out.println("email: "+editAccount.getEmail());
 		    ModelAndView model = new ModelAndView("account/edit-account");
 	        if(!editAccount.getUsername().equals("") || !editAccount.getEmail().equals("") || !editAccount.getCountry().equals("") )
 	        {
 	          UserAccount userAccount = userService.getUserAccount( userService.getAuthenticatedUserUsername() );
+	          
+	          SecurityIssues issue = securityService.getSecurityIssuesAccountByUsername(userService.getAuthenticatedUserUsername() );
+	          
 	          String username = editAccount.getUsername().equals("") ? userAccount.getUsername() : editAccount.getUsername();
 	          String email = editAccount.getEmail().equals("") ? userAccount.getEmail() : editAccount.getEmail();
 	          String country = editAccount.getCountry().equals("") ? userAccount.getCountry() : editAccount.getCountry();
@@ -67,8 +78,10 @@ public class UserController implements InputCorrectness
 	  			   userAccount.setUsername(username);
 	  			   userAccount.setEmail(email);
 	  			   userAccount.setCountry(country);
-		    	   userService.editUser(userAccount);  
-		         return model.addObject("message","Account has been edited").addObject("user",userAccount);//new ModelAndView("account/view-account","message","Account has been edited"); 
+	  			   issue.setUsername(username);
+		    	   userService.editUser(userAccount, issue); 
+                   attributes.addFlashAttribute("message","Account has been successfuly edited");
+		           return new ModelAndView("redirect:/view"); 
 	  		     } 
 	  		 
 	  		  else 
@@ -112,11 +125,13 @@ public class UserController implements InputCorrectness
 	 
 	 
 	 @RequestMapping(value="edit/password/save", method = RequestMethod.POST)  
-	 public ModelAndView changePasswordProcessing(@ModelAttribute("editAccount") EditAccount editAccount)
+	 public ModelAndView changePasswordProcessing(@ModelAttribute("editAccount") EditAccount editAccount,  RedirectAttributes attributes)
 	 {
-		 ModelAndView model = new ModelAndView("account/view-account");
-		if( "".equals(editAccount.getCurrentPassword()) || "".equals(editAccount.getRepeatPassword()) )
-		{
+		  ModelAndView model = new ModelAndView("account/edit-account");
+		  System.out.println("editAccount.getCurrentPassword()" + editAccount.getCurrentPassword() );
+		  System.out.println("editAccount.getRepeatPassword()" + editAccount.getRepeatPassword() );
+		   
+
 		   UserAccount userAccount = userService.getUserAccount( userService.getAuthenticatedUserUsername() );
 		   if
 		   ( 
@@ -125,12 +140,16 @@ public class UserController implements InputCorrectness
 		     editAccount.getNewPassword().equals(editAccount.getRepeatPassword())
 		   ) 
 		   {
+			   System.out.println("password:" + userAccount.getPassword() );
+			   System.out.println("new password:" + editAccount.getNewPassword() );
 		   	   userAccount.setPassword(editAccount.getNewPassword());
 			   userService.editUser(userAccount);
-		       return new ModelAndView("account/view-account","message","Password has been changed");
+			   
+			   attributes.addFlashAttribute("message","Password successfuly changed.");
+		       return new ModelAndView("redirect:/view");
 		   }
-		   else model.addObject("Current password is not correct"); //because for honest user javascript allerts is enough
-	     } 
+		   else model.addObject("message","Current password is not correct"); //because for honest user javascript allerts is enough
+		   
 	     return model;
 	 }
 	 

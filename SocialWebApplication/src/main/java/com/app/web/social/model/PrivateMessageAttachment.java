@@ -26,7 +26,7 @@ public class PrivateMessageAttachment
 	@Column(name="fileType", nullable=false, unique=false, length=100)
 	private String fileType;
 	
-	// @Lob @Basic(fetch = FetchType.LAZY)
+	@Lob @Basic(fetch = FetchType.LAZY)
     @Column(name="attachment", nullable=false)
     private byte[] attachment;
  

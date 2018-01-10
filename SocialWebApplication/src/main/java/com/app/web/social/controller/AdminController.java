@@ -4,6 +4,8 @@ import com.app.web.social.model.PrivateMessage;
 import com.app.web.social.model.UserAccount;
 import com.app.web.social.service.UserService;
 import com.app.web.social.service.MessagesService;
+import com.app.web.social.service.AdminService;
+import com.app.web.social.model.temp.LockAccount;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +26,15 @@ public class AdminController {
     private UserService userService;
 	
 	@Autowired
+    private AdminService adminService;
+	
+	@Autowired
 	private MessagesService messagesService;
 	 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView adminPage() 
+	public String adminPage() 
 	{
-       return new ModelAndView("admin/admin");
+       return "admin/admin";
 	}
 	 
 	@RequestMapping(value="view-users", method = RequestMethod.GET)
@@ -39,18 +44,31 @@ public class AdminController {
 	        return new ModelAndView("admin/view-users","listUser",listUser);  
 	}
 	
-	@RequestMapping(value="lockUser/{id}")  
-    public ModelAndView lockUserAccount(@PathVariable long id){   
-		userService.lockUser(id);
-        return new ModelAndView("redirect:/admin/view-users");  
+	
+	@RequestMapping(value="lockUser/{id}", method = RequestMethod.GET)  
+    public ModelAndView getLockUserAccountForm(@PathVariable long id)
+	{   
+		LockAccount lockAccount = new LockAccount();
+		lockAccount.setId(id);
+        return new ModelAndView("admin/lockForm","lockAccount",lockAccount);  
+    }  
+	
+	
+	@RequestMapping(value="lockProcessing", method = RequestMethod.POST)
+	public String lockUser(@ModelAttribute("lockAccount") LockAccount lockAccount)
+	{
+		adminService.lockUser(lockAccount);
+		return "redirect:/admin/view-users";
+	}
+	
+
+	@RequestMapping(value="unlockUser/{id}", method = RequestMethod.GET)  
+    public String unlockUserAccount(@PathVariable long id){   
+		adminService.unlockUser(id);
+        return "redirect:/admin/view-users";  
     }  
 
-	@RequestMapping(value="unlockUser/{id}")  
-    public ModelAndView unlockUserAccount(@PathVariable long id){   
-		userService.unlockUser(id);
-        return new ModelAndView("redirect:/admin/view-users");  
-    }  
-
+	
 	@RequestMapping(value="sendGlobalMessage", method = RequestMethod.GET)
 	public ModelAndView sendToAll()
 	{
@@ -58,12 +76,12 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="sendProcessing", method = RequestMethod.POST)
-	public ModelAndView sendProcessing(@ModelAttribute("message") PrivateMessage message)
+	public String sendProcessing(@ModelAttribute("message") PrivateMessage message)
 	{
 		List<String> all = new ArrayList<String>(); all.add("ALL");
 		message.setMessageSender("ADMIN");
 		message.setMessageRecipients(all);
 		messagesService.sendMessage(message);
-		return new ModelAndView("redirect:/admin"); 
+		return "redirect:/admin"; 
 	}
 }

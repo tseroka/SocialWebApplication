@@ -4,7 +4,7 @@
 	pageEncoding="ISO-8859-1" session="false" %>
 <html>
 <head>
-<title>Send unlock code</title>
+<title>Send reset password code</title>
 <style><%@include file="/css/login_style.css"%></style> 
 </head>
 
@@ -12,9 +12,9 @@
 
 	<table align="center"><tr><td style="font-style: bold; color: red;">${message}</td></tr></table>	
 	
-	Send account unlock code
+	Send reset password code
 	
-    <form:form name='sendUnlockCodeForm' modelAttribute="sendUnlockCode" action="/SocialWebApplication/exceptions/sendUnlockCodeProcessing" method="POST">
+    <form:form name='sendResetPasswordCodeForm' modelAttribute="sendResetPasswordCode" action="/SocialWebApplication/exceptions/sendResetPasswordCodeProcessing" method="POST">
 
 	<form:input type="text" path="email" name="Email" class="inputData" 
 	placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"/>
@@ -22,7 +22,7 @@
 	<form:input type="text" path="username" name="Username" class="inputData" 
 	placeholder="Username" onfocus="this.placeholder=''" onblur="this.placeholder='Username'"/>		
 	
-	<form:button id="sendUlockCode" cssClass="inputSubmit" name="sendUnlockCode">Send unlock code</form:button>
+	<form:button id="sendResetPasswordCode" cssClass="inputSubmit" name="sendResetPasswordCode">Send reset password code</form:button>
 			
     </form:form>
     

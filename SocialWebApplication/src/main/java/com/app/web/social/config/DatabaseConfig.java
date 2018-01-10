@@ -31,11 +31,11 @@ public class DatabaseConfig {
 	  @Bean
       public HibernateTemplate hibernateTemplate() 
 	  {
-      return new HibernateTemplate(sessionFactory());
+      return new HibernateTemplate(getSessionFactory());
       }   
 	  
 	    @Bean
-		public SessionFactory sessionFactory() {
+		public SessionFactory getSessionFactory() {
 		      LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
 		      lsfb.setDataSource(getDataSource());
 		      lsfb.setPackagesToScan("com.app.web.social.model");
@@ -70,7 +70,7 @@ public class DatabaseConfig {
 		 
 		@Bean
 		public HibernateTransactionManager hibernateTransactionManager(){
-		     return new HibernateTransactionManager(sessionFactory());
+		     return new HibernateTransactionManager(getSessionFactory());
 		}
 	  
 }

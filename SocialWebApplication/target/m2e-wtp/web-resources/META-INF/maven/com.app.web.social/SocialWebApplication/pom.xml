@@ -109,6 +109,13 @@
     <version>2.0.0.Final</version>
 </dependency>
 	
+	<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+<dependency>
+    <groupId>com.sun.mail</groupId>
+    <artifactId>javax.mail</artifactId>
+    <version>1.5.6</version>
+</dependency>
+	
 	
 		<!-- MySQL database driver -->
 		<dependency>

@@ -21,7 +21,7 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 
 @Entity
-@Table(name="securityIssues",  uniqueConstraints={ @UniqueConstraint( columnNames={"user_id", "username" } ) }     )
+@Table(name="securityIssues",  uniqueConstraints={ @UniqueConstraint( columnNames={"user_id", "username","activationCode", "unlockCode", "resetPasswordCode"  } ) }     )
 public class SecurityIssues implements Serializable
 {
 
@@ -35,14 +35,14 @@ public class SecurityIssues implements Serializable
 	@JoinColumn(name = "user_id")
 	private UserAccount userAccount;
 	
-	@Column(name="activationCode", nullable=false, unique=false, length=8 )
-	private int activationCode;
+	@Column(name="activationCode", nullable=true, unique=true, length=20 )
+	private String activationCode;
 	
-	@Column(name="unlockCode", nullable=true, unique=false, length=8 )
-	private int unlockCode;
+	@Column(name="unlockCode", nullable=true, unique=true, length=20 )
+	private String unlockCode;
 	
-	@Column(name="resetPasswordCode", nullable=true, unique=false, length=19 )
-	private Long resetPasswordCode;
+	@Column(name="resetPasswordCode", nullable=true, unique=true, length=30 )
+	private String resetPasswordCode;
 	
 	@Column(name="lastIPAddress", nullable=false, unique=false, length=16 )
 	private String lastIPAddress;
@@ -62,14 +62,17 @@ public class SecurityIssues implements Serializable
 	@Column(name="lockReason", nullable=true, unique=false, length=300)
 	private String lockReason;
 	
+	@Column(name="unlockDate", nullable=true, unique=false)
+	private Timestamp unlockDate;
+	
 	public SecurityIssues() 
 	{
 		
 	}
 	
-	public SecurityIssues(String username, UserAccount userAccount, int activationCode, int unlockCode, Long resetPasswordCode,
+	public SecurityIssues(String username, UserAccount userAccount, String activationCode, String unlockCode, String resetPasswordCode,
 			String lastIPAddress, HashSet<String> allIPAddresses, Timestamp lastLoginDate, 
-			byte numberOfLoginFails, String lockReason) 
+			byte numberOfLoginFails, String lockReason, Timestamp unlockDate) 
 	{
 		this.username = username;
 		this.userAccount = userAccount;
@@ -81,6 +84,7 @@ public class SecurityIssues implements Serializable
 		this.lastLoginDate = lastLoginDate;
 		this.numberOfLoginFails = numberOfLoginFails;
 		this.lockReason = lockReason;
+		this.unlockDate = unlockDate;
 	}
 
 	public String getUsername() {
@@ -99,28 +103,28 @@ public class SecurityIssues implements Serializable
 	     this.userAccount = userAccount;
 	}
 
-	public int getActivationCode() {
+	public String getActivationCode() {
 		return activationCode;
 	}
 
-	public void setActivationCode(int activationCode) {
+	public void setActivationCode(String activationCode) {
 		this.activationCode = activationCode;
 	}
 
-	public int getUnlockCode() {
+	public String getUnlockCode() {
 		return unlockCode;
 	}
 
-	public void setUnlockCode(int unlockCode) {
+	public void setUnlockCode(String unlockCode) {
 		this.unlockCode = unlockCode;
 	}
 
 	
-	public Long getResetPasswordCode() {
+	public String getResetPasswordCode() {
 		return resetPasswordCode;
 	}
 
-	public void setResetPasswordCode(Long resetPasswordCode) {
+	public void setResetPasswordCode(String resetPasswordCode) {
 		this.resetPasswordCode = resetPasswordCode;
 	}
 
@@ -172,6 +176,19 @@ public class SecurityIssues implements Serializable
 	public void setLockReason(String lockReason) {
 		this.lockReason = lockReason;
 	}
+
+	public Timestamp getUnlockDate() {
+		return unlockDate;
+	}
+
+	public void setUnlockDate(Timestamp unlockDate) {
+		this.unlockDate = unlockDate;
+	}
     
+	public boolean isLockTimeElapsed()
+	{
+		return ( this.unlockDate.getTime() - (System.currentTimeMillis()) ) < 0 ;
+	}
+	
     
 }

@@ -20,10 +20,15 @@
 placeholder="Subject" onfocus="this.placeholder=''" onblur="this.placeholder='Subject'"/>
 	
 				
-				
-<form:input path="messageText" name="messageText" id="text" cssClass="inputData" 
+<form:textarea rows="10" cols="30" path="messageText" name="messageText" id="text" cssClass="inputData" 
 placeholder="Text" onfocus="this.placeholder=''" onblur="this.placeholder='Text'" />
 				
 <form:button>Send</form:button>
 		
 </form:form>
+
+</div>
+
+</body>
+
+</html>

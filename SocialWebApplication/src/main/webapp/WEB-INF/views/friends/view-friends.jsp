@@ -26,7 +26,7 @@
 </c:if>
 
 <c:if test="${empty friendsList}">
-You have no friends, try out <div class="link"><a href="search">Search profiles</a> feature to find someone You would like to know.</div>
+You have no friends, try out <div class="link"> <a href="/SocialWebApplication/search">Search profiles</a> </div> feature to find someone You would like to know.
 </c:if>
 
 </body> 

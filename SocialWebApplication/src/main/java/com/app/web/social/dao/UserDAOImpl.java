@@ -25,7 +25,8 @@ import com.app.web.social.service.SecurityService;
 
 @Repository
 @Transactional
-public class UserDAOImpl implements UserDAO {
+public class UserDAOImpl implements UserDAO 
+{
 
 
 	  
@@ -48,22 +49,39 @@ public class UserDAOImpl implements UserDAO {
 		
 		session.persist( new Friends(userAccount.getNickname(), empty, empty , empty));
 		
-		session.persist( new SecurityIssues(userAccount.getUsername(),userAccount, security.generateActivationAndUnlockCode(), 0, null, ip , ipSet,new Timestamp(System.currentTimeMillis()),(byte) 0,"Not locked"));
-		
 		userAccount.setCreationDate(new Timestamp(System.currentTimeMillis()));
 		
 		session.persist(userAccount);		
+		
+		session.persist( new SecurityIssues(userAccount.getUsername(),userAccount, security.generateActivationAndUnlockCode(), null, null, ip , ipSet,new Timestamp(System.currentTimeMillis()),(byte) 0, null, null));
+		
+		security.sendEmailWithActivationCode(userAccount.getEmail(), userAccount.getUsername());
 	}
    
-	public void editUser(UserAccount userAccount) 
+	public void editUser(UserAccount userAccount, SecurityIssues issue) 
 	{
-		this.sessionFactory.getCurrentSession().update(userAccount);
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		session.update(userAccount);
+		
+		session.update(issue);
+		
+	}
+	
+	public void editUser(UserAccount userAccount) 
+	{	
+		this.sessionFactory.getCurrentSession().update(userAccount);	
 	}
 
 	public String getAuthenticatedUserUsername()
 	{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return auth.getName();
+	}
+	
+	public boolean isAuthenticated()
+	{
+		return !getAuthenticatedUserUsername().equals("anonymousUser");
 	}
 	
 	public long getAuthenticatedUserId()
@@ -126,28 +144,6 @@ public class UserDAOImpl implements UserDAO {
 		
 	}
  
-	
-	public void lockUser(long id)
-	{
-		Session session = this.sessionFactory.getCurrentSession();
-		UserAccount userAccount = (UserAccount) session.load(UserAccount.class, id);
-		if(userAccount.getRole().equals("ROLE USER"))
-		{
-		userAccount.setNotLocked(false);
-		session.update(userAccount);
-		}
-	}
-	
-	public void unlockUser(long id)
-	{ 
-	   Session session = this.sessionFactory.getCurrentSession();
-	   UserAccount userAccount = (UserAccount) session.load(UserAccount.class, id);
-	   if(userAccount.getRole().equals("ROLE USER"))
-	   {
-	   userAccount.setNotLocked(true);
-	   session.update(userAccount);
-	   }
-	}
 
 	public UserAccount getUserById(long id) 
 	{

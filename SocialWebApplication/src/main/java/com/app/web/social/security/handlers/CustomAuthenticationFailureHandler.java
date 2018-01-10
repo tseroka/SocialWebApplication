@@ -1,7 +1,6 @@
 package com.app.web.social.security.handlers;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.app.web.social.service.SecurityService;
+import com.app.web.social.service.AdminService;
+import com.app.web.social.model.SecurityIssues;
 
 @Service
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler 
@@ -29,6 +30,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
   @Autowired
   private SecurityService securityService;
   
+  @Autowired
+  private AdminService adminService;
 
   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
      throws IOException, ServletException 
@@ -41,9 +44,23 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     
     else if(exception instanceof AuthenticationCredentialsNotFoundException) { message = "credentials"; }
     
-    else if(exception instanceof DisabledException) { message = "disabled"; }
+    else if(exception instanceof DisabledException) { message = "activate"; }
     
-    else if(exception instanceof LockedException) { message = "locked-"+securityService.getLockReason(username); }
+    else if(exception instanceof LockedException) 
+    {
+    	SecurityIssues issue = securityService.getSecurityIssuesAccountByUsername(username);
+        message = "locked-"+issue.getLockReason();//+"&"+username;
+        
+        if(issue.getUnlockDate()!=null && issue.isLockTimeElapsed() ) 
+        {
+        	adminService.accountSelfUnlockAfterLockTimeout(issue);
+        	message = "locked-end";
+        //	request.getSession(true).setAttribute("unlockDate",issue.getUnlockDate());
+        //	 request.setAttribute("unlockDate", issue.getUnlockDate());
+        }
+        
+        
+    }
     
     else if(exception instanceof BadCredentialsException) 
     { 
@@ -53,7 +70,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     
     else { message = exception.getMessage(); }
     
-     redirectStrategy.sendRedirect(request, response, "/login?error="+message);
+    // redirectStrategy.sendRedirect(request, response, "/login?error="+message);
+     response.sendRedirect("/SocialWebApplication/login?error="+message);
+     
   }
 
 }

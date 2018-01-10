@@ -39,26 +39,26 @@ public class FriendsController
 	
 	
 	@RequestMapping(value="invitation/accept={accepted}", method=RequestMethod.GET)
-	public ModelAndView acceptInvitation(@PathVariable String accepted)
+	public String acceptInvitation(@PathVariable String accepted)
 	{
 		friendsService.acceptInvitationToFriendsList(accepted);
-		return new ModelAndView("redirect:/profile/friends/viewReceivedInvitations");
+		return "redirect:/profile/friends/viewFriends";
 	}
 	 
 	
 	@RequestMapping(value="invitation/decline={declined}", method=RequestMethod.GET)
-	public ModelAndView declineInvitation(@PathVariable String declined)
+	public String declineInvitation(@PathVariable String declined)
 	{
 		friendsService.declineInvitationToFriendsList(declined);
-		return new ModelAndView("redirect:/profile/friends/viewReceivedInvitations");
+		return "redirect:/profile/friends/viewReceivedInvitations";
 	}
 	
 	
 	@RequestMapping(value="invite={invited}", method=RequestMethod.GET)
-	public ModelAndView inviteToFriends(@PathVariable String invited)
+	public String inviteToFriends(@PathVariable String invited)
 	{
 		friendsService.addToFriendsList(invited);
-		return new ModelAndView("redirect:/profile/friends/viewSentInvitations");
+		return "redirect:/profile/view/"+invited;
 	}	
 	
 	@RequestMapping(value="remove={removed}", method=RequestMethod.GET)

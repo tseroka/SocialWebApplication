@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.web.social.dao.UserDAO;
 import com.app.web.social.model.UserAccount;
+import com.app.web.social.model.SecurityIssues;
 
 @Service
 public class UserService {
@@ -23,27 +24,19 @@ public class UserService {
 	}
 
 	
+	public void editUser(UserAccount userAccount, SecurityIssues issue)
+	{
+		this.userDAO.editUser(userAccount, issue);
+	}
+	
 	public void editUser(UserAccount userAccount)
 	{
 		this.userDAO.editUser(userAccount);
 	}
 	
-	
 	public void deleteUser(long id) 
 	{
 		this.userDAO.deleteUser(id);
-	}
-	
-	
-	public void lockUser(long id)
-	{
-		this.userDAO.lockUser(id);
-	}
-	
-	
-	public void unlockUser(long id)
-	{
-		this.userDAO.unlockUser(id);
 	}
 	
 	
@@ -55,6 +48,11 @@ public class UserService {
 	public String getAuthenticatedUserUsername()
 	{
 		return this.userDAO.getAuthenticatedUserUsername();
+	}
+	
+	public boolean isAuthenticated()
+	{
+		return this.userDAO.isAuthenticated();
 	}
 	
 	public long getAuthenticatedUserId()
