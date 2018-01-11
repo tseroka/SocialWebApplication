@@ -16,10 +16,10 @@
 	
     <form:form name='sendResetPasswordCodeForm' modelAttribute="sendResetPasswordCode" action="/SocialWebApplication/exceptions/sendResetPasswordCodeProcessing" method="POST">
 
-	<form:input type="text" path="email" name="Email" class="inputData" 
+	<form:input type="text" path="email" name="Email" cssClass="inputData" 
 	placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"/>
 		
-	<form:input type="text" path="username" name="Username" class="inputData" 
+	<form:input type="text" path="username" name="Username" cssClass="inputData" 
 	placeholder="Username" onfocus="this.placeholder=''" onblur="this.placeholder='Username'"/>		
 	
 	<form:button id="sendResetPasswordCode" cssClass="inputSubmit" name="sendResetPasswordCode">Send reset password code</form:button>

@@ -37,7 +37,8 @@ public class UserController implements InputCorrectness
 	@RequestMapping(value="view", method=RequestMethod.GET )  
     public ModelAndView viewAccount()
 	{   
-		return new ModelAndView("account/view-account","user", userService.getUserAccount( userService.getAuthenticatedUserUsername() ));
+		UserAccount userAccount = userService.getUserAccount( userService.getAuthenticatedUserUsername() );
+		return new ModelAndView("account/view-account","user", userAccount);
     }  
 	
 	//--------------------------------------------EDIT ACCOUNT (BUT NOT PASSWORD)-----------------------------------------
@@ -81,7 +82,7 @@ public class UserController implements InputCorrectness
 	  			   issue.setUsername(username);
 		    	   userService.editUser(userAccount, issue); 
                    attributes.addFlashAttribute("message","Account has been successfuly edited");
-		           return new ModelAndView("redirect:/view"); 
+		           return new ModelAndView("redirect:/user/view"); 
 	  		     } 
 	  		 
 	  		  else 
@@ -96,14 +97,12 @@ public class UserController implements InputCorrectness
 	  		    
 	  		  }	
 	  			
-	  	  return model;  
+	  	   return model;  
 	    }  
 	        
-	   
-
-    
-	        return model.addObject("noChanges","You didn't type any changes");
+	      return model.addObject("noChanges","You didn't type any changes");
 	    }	
+	 
 	 
 	 private boolean validateEditAccount(String username, String email, String country)
 	 {
@@ -146,7 +145,7 @@ public class UserController implements InputCorrectness
 			   userService.editUser(userAccount);
 			   
 			   attributes.addFlashAttribute("message","Password successfuly changed.");
-		       return new ModelAndView("redirect:/view");
+		       return new ModelAndView("redirect:/user/view");
 		   }
 		   else model.addObject("message","Current password is not correct"); //because for honest user javascript allerts is enough
 		   

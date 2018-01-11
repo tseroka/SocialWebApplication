@@ -16,10 +16,10 @@
 	
     <form:form name='sendUnlockCodeForm' modelAttribute="sendUnlockCode" action="/SocialWebApplication/exceptions/sendUnlockCodeProcessing" method="POST">
 
-	<form:input type="text" path="email" name="Email" class="inputData" 
+	<form:input type="text" path="email" name="Email" cssClass="inputData" 
 	placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"/>
 		
-	<form:input type="text" path="username" name="Username" class="inputData" 
+	<form:input type="text" path="username" name="Username" cssClass="inputData" 
 	placeholder="Username" onfocus="this.placeholder=''" onblur="this.placeholder='Username'"/>		
 	
 	<form:button id="sendUlockCode" cssClass="inputSubmit" name="sendUnlockCode">Send unlock code</form:button>

@@ -31,15 +31,14 @@ public class SecurityDAOImpl implements SecurityDAO
 	
 	Session session = null;
 	
-	@SuppressWarnings("unchecked")
 	public SecurityIssues getSecurityIssuesAccountByUsername(String username)
 	{
 		 session = this.sessionFactory.getCurrentSession();
-		 Query<SecurityIssues> query = this.sessionFactory.getCurrentSession().createQuery("from SecurityIssues S where S.username=:username")
-		.setParameter("username",username);
-		 return (SecurityIssues) query.list().get(0);
+		 
+		 return session.createQuery("from SecurityIssues S where S.username=:username",SecurityIssues.class)
+		.setParameter("username",username).list().get(0);
 	}
-	
+	 
 	
 
 //------------------ON LOGIN SUCCESS ----------------------------------------------------------------
@@ -107,7 +106,7 @@ public class SecurityDAOImpl implements SecurityDAO
 	public void acceptActivationCodeAndEnableAccount(String code)
 	{		 
      	    session = this.sessionFactory.getCurrentSession();
-			Query<?> query = session.createQuery("from SecurityIssues S WHERE S.activationCode=:code")
+			Query<SecurityIssues> query = session.createQuery("from SecurityIssues S WHERE S.activationCode=:code",SecurityIssues.class)
 			.setParameter("code",code);
 			
 			SecurityIssues issue = (SecurityIssues) query.list().get(0);
@@ -232,14 +231,13 @@ public class SecurityDAOImpl implements SecurityDAO
 	public void resetPassword(String password, String code)
 	{
 		session = this.sessionFactory.getCurrentSession();
-		Query<?> query = session.createQuery("from SecurityIssues S WHERE S.resetPasswordCode=:code")
-		.setParameter("code",code);
 		
-		SecurityIssues issue = new SecurityIssues();
-	
-		issue  = (SecurityIssues) query.list().get(0);
+		SecurityIssues issue = session.createQuery("from SecurityIssues S WHERE S.resetPasswordCode=:code", SecurityIssues.class)
+		.setParameter("code",code).list().get(0);
+		
 		issue.setResetPasswordCode(null);
 		session.update(issue);
+		
 		UserAccount userAccount = userDAO.getUserAccount((issue.getUsername()));
 		userAccount.setPassword(password);
 		session.update(userAccount);

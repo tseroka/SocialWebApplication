@@ -16,7 +16,7 @@
 	
     <form:form name="resetPassword" modelAttribute="resetPassword" action="/SocialWebApplication/exceptions/resetPasswordProcessing" method="POST">
 
-	<form:input type="text" path="code" name="unlockCode" class="inputData" 
+	<form:input type="text" path="code" name="unlockCode" cssClass="inputData" 
 	placeholder="Unlock code" onfocus="this.placeholder=''" onblur="this.placeholder='Unlock code'"/>
 				
 	<form:password path="newPassword" name="newPassword" id="newPassword"  cssClass="inputData" 

@@ -1,5 +1,7 @@
 package com.app.web.social.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,21 +22,24 @@ public class FriendsController
 	@RequestMapping(value="viewFriends", method=RequestMethod.GET)
 	public ModelAndView viewFriends()
 	{
-		return new ModelAndView("friends/view-friends","friendsList",friendsService.getFriendsList());
+		List<String> friendsList = friendsService.getFriendsList();
+		return new ModelAndView("friends/view-friends","friendsList",friendsList);
 	}
 	
 	
 	@RequestMapping(value="viewSentInvitations", method=RequestMethod.GET)
 	public ModelAndView viewSentInvitations()
 	{
-		return new ModelAndView("friends/view-sentInvitations","sentInvitationsList",friendsService.getSentInvitations());
+		List<String> sentInvitations = friendsService.getSentInvitations();
+		return new ModelAndView("friends/view-sentInvitations","sentInvitationsList",sentInvitations);
 	}
 	
 	
 	@RequestMapping(value="viewReceivedInvitations", method=RequestMethod.GET)
 	public ModelAndView viewReceivedInvitations()
 	{
-		return new ModelAndView("friends/view-receivedInvitations","receivedInvitationsList",friendsService.getReceivedInvitations());
+	    List<String> receivedInvitations = 	friendsService.getReceivedInvitations();
+		return new ModelAndView("friends/view-receivedInvitations","receivedInvitationsList",receivedInvitations);
 	}
 	
 	

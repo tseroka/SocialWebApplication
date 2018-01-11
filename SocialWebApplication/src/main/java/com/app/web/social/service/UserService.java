@@ -58,13 +58,7 @@ public class UserService {
 	public long getAuthenticatedUserId()
 	{
 		return this.userDAO.getAuthenticatedUserId();
-	}
-	
-	public UserAccount getUserByUsername(String username)
-	{
-		return this.userDAO.getUserByUsername(username);
-	}
-	
+	}	
 	
 	public UserAccount getUserByNickname(String nickname)
 	{
@@ -82,4 +76,8 @@ public class UserService {
 		return this.userDAO.getUsersList();
 	}
 	
+	public void clearSession()
+	{
+		this.userDAO.clearSession();
+	}
 }

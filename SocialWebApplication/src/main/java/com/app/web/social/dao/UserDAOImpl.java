@@ -89,27 +89,14 @@ public class UserDAOImpl implements UserDAO
 		return getUserAccount( getAuthenticatedUserUsername() ).getId();
 	}
 	
-	public UserAccount getUserByUsername(String username) 
-	{
-		Session session = this.sessionFactory.getCurrentSession();
-		String hql = "from UserAccount U where U.username =:user_username";
-		@SuppressWarnings("unchecked")
-		Query<UserAccount> query = session.createQuery(hql).setParameter("user_username",username);
-		UserAccount user = (UserAccount)query.list().get(0); 
-	    user.setPassword("");
-	    return user;
-	}
-	
-    
 	public UserAccount getUserAccount(String username) 
 	{
 		UserAccount userAccount = new UserAccount();
-		@SuppressWarnings("unchecked")
-		Query<UserAccount> query = this.sessionFactory.getCurrentSession()
-		.createQuery("from UserAccount U where U.username =:user_username").setParameter("user_username",username);
+		Query<UserAccount> query = this.sessionFactory.openSession()
+		.createQuery("from UserAccount U where U.username =:user_username",UserAccount.class).setParameter("user_username",username);
 	    try 
 	    {
-	    	userAccount = (UserAccount) query.list().get(0);
+	    	userAccount = query.list().get(0);
 	    }
 	    catch(IndexOutOfBoundsException ex){userAccount=null;}
 		return userAccount;
@@ -118,11 +105,7 @@ public class UserDAOImpl implements UserDAO
 	
 	public List<UserAccount> getUsersList() 
 	{		
-		Session session = this.sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		Query<UserAccount> query=session.createQuery("from UserAccount where role='ROLE USER'");
-		List<UserAccount> userList = (List<UserAccount>)query.list(); 
-		return userList;
+	   return this.sessionFactory.getCurrentSession().createQuery("from UserAccount where role='ROLE USER'", UserAccount.class).list();
 	}
 	
 	
@@ -147,18 +130,20 @@ public class UserDAOImpl implements UserDAO
 
 	public UserAccount getUserById(long id) 
 	{
-		return (UserAccount) this.sessionFactory.getCurrentSession().load(UserAccount.class, id);
+		return this.sessionFactory.getCurrentSession().load(UserAccount.class, id);
 	}
 
 	public UserAccount getUserByNickname(String nickname) 
 	{
-		@SuppressWarnings("unchecked")
-		Query<UserAccount> query = this.sessionFactory.getCurrentSession()
-		.createQuery("from UserAccount U where U.nickname =:user_nickname").setParameter("user_nickname",nickname);
-		return (UserAccount) query.list().get(0);
+	   return this.sessionFactory.getCurrentSession().createQuery("from UserAccount U where U.nickname =:user_nickname",UserAccount.class).setParameter("user_nickname",nickname).list().get(0);
 	}
 	
 
+	public void clearSession()
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+    	session.clear(); 
+	}
 	
 }
 

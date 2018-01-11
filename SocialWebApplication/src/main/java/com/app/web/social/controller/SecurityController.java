@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.app.web.social.dao.validations.InputCorrectness;
 import com.app.web.social.model.temp.SecurityIssuesFormHandler;
@@ -29,7 +30,7 @@ public class SecurityController implements InputCorrectness
 	}
 	
 	 @RequestMapping(value="sendResetPasswordCodeProcessing", method=RequestMethod.POST)
-	 public ModelAndView sendPasswordResetCodeProcessiong(@ModelAttribute("sendResetPasswordCode") SecurityIssuesFormHandler  sendResetPasswordCode )
+	 public ModelAndView sendPasswordResetCodeProcessiong(@ModelAttribute("sendResetPasswordCode") SecurityIssuesFormHandler  sendResetPasswordCode, RedirectAttributes attributes )
 	   {
 			String email = sendResetPasswordCode.getEmail(); String username = sendResetPasswordCode.getUsername();
 			
@@ -38,7 +39,8 @@ public class SecurityController implements InputCorrectness
 			  try 
 			  {  
 		      securityService.sendEmailWithPasswordResetCode(email, username);
-		      return new ModelAndView("account/exceptions/resetPassword/set","message","If email and username are valid, code to reset password will be send on this email address");
+		      attributes.addFlashAttribute("message","If email and username are valid, code to reset password will be send on this email address");
+		      return new ModelAndView("redirect:resetPassword/set");
 			  }
 			  catch(IndexOutOfBoundsException ex)
 			  {
@@ -70,7 +72,7 @@ public class SecurityController implements InputCorrectness
 		   }
 		   catch(IndexOutOfBoundsException ex)
 		   {
-			   return new ModelAndView("account/exceptions/reset-pasword","message","Wrong reset password code");
+			   return new ModelAndView("account/exceptions/reset-password","message","Wrong reset password code");
 		   }
 		
 		   return new ModelAndView("login","ok","Password changed. You can now log in");
@@ -89,7 +91,7 @@ public class SecurityController implements InputCorrectness
 	}
 
     @RequestMapping(value="sendUnlockCodeProcessing", method=RequestMethod.POST)
-	public ModelAndView sendUnlockCodeProcessiong(@ModelAttribute("sendUnlockCode") SecurityIssuesFormHandler  sendUnlockCode )
+	public ModelAndView sendUnlockCodeProcessiong(@ModelAttribute("sendUnlockCode") SecurityIssuesFormHandler  sendUnlockCode, RedirectAttributes attributes )
 	{
 		String email = sendUnlockCode.getEmail(); String username = sendUnlockCode.getUsername();
 		
@@ -98,9 +100,9 @@ public class SecurityController implements InputCorrectness
 		   try
 		   {
 		   securityService.sendEmailWithUnlockCodeAfterSecurityLockup(email, username);
-		   ModelAndView model = new ModelAndView("account/exceptions/unlock","message","If email and username are valid, code to unlock account will be send on this email address") ;
-		   model.addObject("unlockAccount", new SecurityIssuesFormHandler());
-		   return model;
+		   
+		   attributes.addFlashAttribute("message","If email and username are valid, code to unlock account will be send on this email address");
+		   return new ModelAndView("redirect:unlock") ;	 
 		   }
 		   catch(IndexOutOfBoundsException ex)
 		   {

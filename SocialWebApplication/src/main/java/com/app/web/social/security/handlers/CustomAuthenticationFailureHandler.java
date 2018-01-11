@@ -49,7 +49,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     else if(exception instanceof LockedException) 
     {
     	SecurityIssues issue = securityService.getSecurityIssuesAccountByUsername(username);
-        message = "locked-"+issue.getLockReason();//+"&"+username;
+        message = "locked-"+issue.getLockReason();
         
         if(issue.getUnlockDate()!=null && issue.isLockTimeElapsed() ) 
         {
@@ -59,13 +59,17 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         //	 request.setAttribute("unlockDate", issue.getUnlockDate());
         }
         
-        
+        response.sendRedirect("/SocialWebApplication/login?error="+message+"&kjhubvJHbt="+username);
     }
     
     else if(exception instanceof BadCredentialsException) 
     { 
     	message = "credentials"; 
+    	try 
+    	{
     	securityService.increaseFailedLoginAttemptsNumberAndLockIfEqualsFive(username);
+    	}
+    	catch(IndexOutOfBoundsException ex) {}
     }
     
     else { message = exception.getMessage(); }

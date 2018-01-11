@@ -39,9 +39,9 @@ public class AdminController {
 	 
 	@RequestMapping(value="view-users", method = RequestMethod.GET)
 	public ModelAndView viewUsers()
-	{
-		    List<UserAccount> listUser =userService.getUsersList();  
-	        return new ModelAndView("admin/view-users","listUser",listUser);  
+	{ 
+		List<UserAccount> usersList = userService.getUsersList();
+	    return new ModelAndView("admin/view-users","listUser",usersList);  
 	}
 	
 	

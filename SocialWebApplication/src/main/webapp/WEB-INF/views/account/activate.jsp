@@ -15,8 +15,10 @@
 	
     <form:form name='activationForm' modelAttribute="activate" action="/SocialWebApplication/activateProcessing" method="POST">
 
-	<form:input type="text" path="code" name="activationCode" class="inputData" 
+	<form:input type="text" path="code" name="activationCode" cssClass="inputData" 
 	placeholder="Activation code" onfocus="this.placeholder=''" onblur="this.placeholder='Activation code'"/>
+				
+	
 				
 	<form:button id="activate" cssClass="inputSubmit" name="activate">Activate account</form:button>
 			

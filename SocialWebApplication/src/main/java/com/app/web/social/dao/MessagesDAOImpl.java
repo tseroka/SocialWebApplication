@@ -39,33 +39,30 @@ public class MessagesDAOImpl implements MessagesDAO, InputCorrectness {
 	private SessionFactory sessionFactory;
 	
 	
-	@SuppressWarnings("unchecked")
 	public List<PrivateMessage> getInbox() 
 	{		
         List<String> oneRecipient = new ArrayList<String>(); oneRecipient.add(profileDAO.getAuthenticatedUserNickname());
 			
-		Query<?> query = this.sessionFactory.openSession().createQuery("from PrivateMessage Pm WHERE  (:oneRecipient) in Pm.messageRecipients ORDER BY Pm.sentDate desc")
+		Query<PrivateMessage> query = this.sessionFactory.getCurrentSession().createQuery("from PrivateMessage Pm WHERE  (:oneRecipient) in Pm.messageRecipients ORDER BY Pm.sentDate desc",PrivateMessage.class)
 				.setParameter("oneRecipient",oneRecipient);
 				
 		return removeSignOfRemovalFromSenderAndReturnMessagesList( (List<PrivateMessage>)query.list() );
 	 }
 	
 	
-	@SuppressWarnings("unchecked")
 	public List<PrivateMessage> getOutbox() 
 	{
-		Query<?> query = this.sessionFactory.openSession().createQuery("from PrivateMessage Pm WHERE Pm.messageSender =:msgSender ORDER BY Pm.sentDate desc ")
+		Query<PrivateMessage> query = this.sessionFactory.getCurrentSession().createQuery("from PrivateMessage Pm WHERE Pm.messageSender =:msgSender ORDER BY Pm.sentDate desc ",PrivateMessage.class)
 				.setParameter("msgSender",profileDAO.getAuthenticatedUserNickname());
 	
-		return returnMessagesListWithRemovedSignOfRemovalFromRecipients( (List<PrivateMessage>)query.list() );
+		return returnMessagesListWithRemovedSignOfRemovalFromRecipients( query.list() );
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<PrivateMessage> getGlobalMessages() 
 	{		
 		List<String> all = new ArrayList<String>(); all.add("ALL");
 			
-		Query<?> query = this.sessionFactory.openSession().createQuery("from PrivateMessage Pm WHERE (:all) in Pm.messageRecipients  ORDER BY Pm.sentDate desc")
+		Query<PrivateMessage> query = this.sessionFactory.getCurrentSession().createQuery("from PrivateMessage Pm WHERE (:all) in Pm.messageRecipients  ORDER BY Pm.sentDate desc",PrivateMessage.class)
 				.setParameter("all",all);
 				
 	   return (List<PrivateMessage>)query.list();
@@ -75,7 +72,7 @@ public class MessagesDAOImpl implements MessagesDAO, InputCorrectness {
 	
 	public PrivateMessage getMessage(Long messageId)
 	{
-		Session session = this.sessionFactory.openSession();		
+		Session session = this.sessionFactory.getCurrentSession();		
 		PrivateMessage message = (PrivateMessage) session.load(PrivateMessage.class, messageId);
 		String sender = message.getMessageSender();
 		List<String> recipients = message.getMessageRecipients();

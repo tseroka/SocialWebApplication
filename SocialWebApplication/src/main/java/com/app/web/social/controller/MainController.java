@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -16,6 +15,7 @@ import com.app.web.social.service.UserService;
 @Controller
 public class MainController {
 
+	
 	@Autowired
 	private UserService userService;
 	
@@ -36,14 +36,15 @@ public class MainController {
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
 	public String accesssDenied() 
 	{
-	 return "403";
+	    return "403";
     }
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response) 
 	{
 	    if (userService.isAuthenticated())
-	    {    
+	    {   
+	    	userService.clearSession();
 	        new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
 	    }
 	    return "redirect:/home";

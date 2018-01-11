@@ -156,7 +156,7 @@ public class UserAccount implements Serializable, InputCorrectness {
 		this.role = role;
 	}
 	
-	public boolean getEnabled() {
+	public boolean isEnabled() {
 		return enabled;
 	}
 

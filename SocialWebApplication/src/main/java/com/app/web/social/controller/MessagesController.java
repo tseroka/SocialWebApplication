@@ -133,7 +133,8 @@ public class MessagesController {
 	    @RequestMapping(value="inbox", method = RequestMethod.GET)
 	    public ModelAndView getInbox()
 	    {
-	    	return new ModelAndView("messages/inbox","inboxMessages",messagesService.getInbox());
+	    	List<PrivateMessage> inbox = messagesService.getInbox();
+	    	return new ModelAndView("messages/inbox","inboxMessages",inbox);
 	    }
 	   
 	  
@@ -141,13 +142,15 @@ public class MessagesController {
 	    @RequestMapping(value="outbox", method = RequestMethod.GET)
 	    public ModelAndView getOutbox()
 	    {
-	    	return new ModelAndView("messages/outbox","outboxMessages",messagesService.getOutbox());
+	    	List<PrivateMessage> outbox = messagesService.getOutbox();
+	    	return new ModelAndView("messages/outbox","outboxMessages",outbox);
 	    }
 	    
 	    @RequestMapping(value="globalMessages", method = RequestMethod.GET)
 	    public ModelAndView getGlobalMessages()
 	    {
-	    	return new ModelAndView("messages/globalMessages","globalMessages",messagesService.getGlobalMessages());
+	    	List<PrivateMessage> globalMessages = messagesService.getGlobalMessages();
+	    	return new ModelAndView("messages/globalMessages","globalMessages",globalMessages);
 	    }
 	    
 	    

@@ -26,15 +26,16 @@ public interface UserDAO {
 	
 	public boolean isAuthenticated();
 	
-	public long getAuthenticatedUserId();
-	
-	public UserAccount getUserByUsername(String username);
+	public long getAuthenticatedUserId();	
 	
 	public UserAccount getUserAccount(String username);
 	
 	public UserAccount getUserByNickname(String nickname);
 	
 	public List<UserAccount> getUsersList();
+    
+	
+	public void clearSession();
 
 	
 

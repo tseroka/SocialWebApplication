@@ -16,7 +16,7 @@
 	                                                                                                           
     <form:form name='unlockAccountForm' modelAttribute="unlockAccount" action="/SocialWebApplication/exceptions/unlockProcessing" method="POST">
 
-	<form:input type="text" path="code" name="unlockCode" class="inputData" 
+	<form:input type="text" path="code" name="unlockCode" cssClass="inputData" 
 	placeholder="Unlock code" onfocus="this.placeholder=''" onblur="this.placeholder='Unlock code'"/>
 				
 	<form:button id="unlock" cssClass="inputSubmit" name="unlock">Unlock account</form:button>

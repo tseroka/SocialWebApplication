@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,30 +24,30 @@ public class LoginController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public ModelAndView login(@RequestParam(required = false) String error, HttpServletRequest request, HttpServletResponse response, HttpSession session )
+	@RequestMapping(value="/login", method = RequestMethod.GET)                                                //username
+	public ModelAndView login(@RequestParam(name="error", required = false) String error, @RequestParam(name="kjhubvJHbt", required=false) String username, HttpServletRequest request, HttpServletResponse response, HttpSession session )
 	{   
         
-		System.out.println("name: "+SecurityContextHolder.getContext().getAuthentication().getName());
+
 		if(userService.isAuthenticated()) 
 		{ 
 			return new ModelAndView("redirect:/home") ; 
 		}
-		
+	
+		 
 		ModelAndView model = new ModelAndView("login");
-		//String errorTwo = error;
+
 		boolean isException = false; 
 		
-		if(!"".equals(error) && !"expired".equals(error) && error!=null)
+		if(error!=null && !"expired".equals(error))
 		{
 			 isException = true;
-			 String linkToAction = "";
-			
+			 String linkToAction = ""; 
+			 
 	        if("credentials".equals(error)) 
 	        {
 	    	   model.addObject("message", "Invalid username or password");
 	    	   linkToAction = "Reset password";
-	    	 
 	        }
 	    
 	       
@@ -77,12 +75,9 @@ public class LoginController {
 	    	   model.addObject("message","Your account has been permanently locked for bad language."); 
 	        }
 	        
-	        else if ("locked-badLanguage-time".equals(error.split("&")[0]))
+	        else if ("locked-badLanguage-time".equals(error))
 	        {
-	       //    String username = errorTwo.split("&")[1];
-	    	   model.addObject("message","Your account has been locked until for bad language."); 
-	           System.out.println("unlock date: "+request.getAttribute("unlockDate"));
-	           System.out.println("username: "+request.getAttribute("username"));
+	    	   model.addObject("message","Your account has been locked until "+securityService.getUnlockDateByUsername(username)+" for bad language."); 
 	        }
 	        
 	       

@@ -14,10 +14,11 @@
 	
     <form:form name='activationForm' modelAttribute="send-activation-code-again" action="/SocialWebApplication/sendActivationCodeAgainProcessing" method="POST">
 
-	<form:input type="text" path="email" name="Email" class="inputData" 
+	<form:input type="text" path="email" name="Email" cssClass="inputData" 
 	placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"/>
 		
-	<form:input type="text" path="username" name="Username" class="inputData" 
+		
+	<form:input type="text" path="username" name="Username" cssClass="inputData" 
 	placeholder="Username" onfocus="this.placeholder=''" onblur="this.placeholder='Username'"/>		
 	
 	<form:button id="sendActivationCode" cssClass="inputSubmit" name="sendActivationCode">Send activation code</form:button>

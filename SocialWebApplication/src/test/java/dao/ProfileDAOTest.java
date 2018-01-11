@@ -44,8 +44,8 @@ public class ProfileDAOTest {
 	     @Transactional
 	     public void getUserByUsernameTest() { 
        
-	        assertEquals("Invalid user loaded",Long.valueOf(7), Long.valueOf(userService.getUserByUsername("sebabanan").getId()));
-	        assertNotSame("Invalid user loaded",8, userService.getUserByUsername("sebabanan").getId());
+	        assertEquals("Invalid user loaded",Long.valueOf(7), Long.valueOf(userService.getUserAccount("sebabanan").getId()));
+	        assertNotSame("Invalid user loaded",8, userService.getUserAccount("sebabanan").getId());
 	     
 	    } 
 	

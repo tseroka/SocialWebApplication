@@ -83,7 +83,7 @@ public class AdminDAOImpl implements AdminDAO
 	   
 	   SecurityIssues issue = (SecurityIssues) session.load(SecurityIssues.class, id);
 	   issue.setLockReason(null);
-	   issue.setUnlockDate( null);
+	   issue.setUnlockDate(null);
 	   session.update(issue);
 	   
 	   }

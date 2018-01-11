@@ -35,10 +35,10 @@ public class ProfileController {
 	     @RequestMapping(value="view/{nickname}", method=RequestMethod.GET )  
          public ModelAndView viewProfile(@PathVariable String nickname)
 	     { 
-		  // Profile profile = profileService.getProfileByNickname(nickname);
-		   if( profileService.getProfileByNickname(nickname)!=null ) 
+		   Profile profile = profileService.getProfileByNickname(nickname);
+		   if( profile!=null ) 
 		   {
-		   ModelAndView model = new ModelAndView("profile/view-profile","profile",profileService.getProfileByNickname(nickname));
+		   ModelAndView model = new ModelAndView("profile/view-profile","profile",profile);
 		   model.addObject("isFriend",friendsService.isFriend(nickname));
 		   model.addObject("isInvited",friendsService.isInvited(nickname));
 		   return model;

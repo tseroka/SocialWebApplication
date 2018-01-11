@@ -32,7 +32,7 @@ public class SocialWebAppUserDetailsService implements UserDetailsService {
 		GrantedAuthority authority = new SimpleGrantedAuthority(userAccount.getRole());
       
 		UserDetails userDetails = (UserDetails)new User(userAccount.getUsername(),
-  passwordEncoder.encode( userAccount.getPassword() ), userAccount.getEnabled(), true, true, userAccount.isNotLocked(), Arrays.asList(authority));
+  passwordEncoder.encode( userAccount.getPassword() ), userAccount.isEnabled(), true, true, userAccount.isNotLocked(), Arrays.asList(authority));
 		return userDetails;
 	}
 	
