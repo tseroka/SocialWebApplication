@@ -2,8 +2,17 @@ package com.app.web.social.dao;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +31,11 @@ public class ProfileDAOImpl implements ProfileDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	public static final List<String> emptyInterests = Arrays.asList(new String[]{""});
 	
 	public Profile getProfileByNickname(String nickname) 
 	{
-		return this.sessionFactory.openSession().get(Profile.class, nickname);
+		return this.sessionFactory.getCurrentSession().get(Profile.class, nickname);
 	}
    
 	public String getAuthenticatedUserNickname()
@@ -40,47 +50,55 @@ public class ProfileDAOImpl implements ProfileDAO {
 		this.sessionFactory.getCurrentSession().update(profile);
 	}
 	
-    
-	@SuppressWarnings("unchecked")
 	public List<Profile> getProfilesList()
     {
-		Query<Profile> query = this.sessionFactory.getCurrentSession().createQuery("from Profile p where p.allowSearching=true");     
-	    return (List<Profile>)query.list(); 
+		return this.sessionFactory.getCurrentSession().createQuery("from Profile p where p.allowSearching=true",Profile.class).list();     
     }
     
 	
-    public List<Profile> searchProfiles(String sex, String city, List<String> interests)
+    public List<String> searchProfiles(String sex, String city, List<String> interests)
     {   
-     /**boolean skipCity = city.equals(""); boolean skipSex = sex.equals(""); boolean skipInterests = interests.get(0).equals("");
-    	List<Profile> allProfiles = getProfilesList();
-     	List<Profile> findedProfiles = new ArrayList<Profile>(); */
     	
-    	List<String> emptyInterests = new ArrayList<String>(); emptyInterests.add(""); 
-    	
-		@SuppressWarnings("unchecked")
-		Query<Profile> query = this.sessionFactory.getCurrentSession().createQuery
-		("from Profile p where  p.allowSearching=true AND (p.sex=:sex OR :sex='') AND (p.city=:city OR :city='') AND"
-				+ "(  (:interests) in p.interests OR (:interests)=:emptyInterests )      ");
-		
-    	query.setParameter("sex",sex).setParameter("city",city).setParameter("interests",interests)
-    	.setParameter("emptyInterests",emptyInterests);
+    	Session session =  this.sessionFactory.getCurrentSession();    	
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<String> criteriaQuery = builder.createQuery(String.class); 	    	
+        Root<Profile> root = criteriaQuery.from(Profile.class);  	
         
-        
-    	/**for(int i=0;i<allProfiles.size();i++)
-    	{  
-    		      Profile currentProfile = allProfiles.get(i);
+      	List<Predicate> predicates = new ArrayList<>();
+      	
+      	if(!"".equals(sex) ) 
+      	{
+      		 predicates.add(builder.equal(root.get("sex"), sex ));
+      	}
+      	
+      	if(!"".equals(city))
+      	{
+      		predicates.add(builder.equal(root.get("city"), city ));      		
+      	}
+      	
+      	if(!emptyInterests.equals(interests))
+      	{
+      	//	Expression<String> interestsExpression = root.as(interests);
+      		//Expression<String> interestsExpression = root.get("interests");
+      	//	Predicate predicate = ((CriteriaBuilder) interests).in(root.get("interests"));
+    //  		predicates.add(predicate);
+      
 
-    			  if
-    		      (    
-    		    		 ( currentProfile.getCity().equals(city) || skipCity ) &&
-    				     ( currentProfile.getSex().equals(sex) || skipSex ) &&
-    				     ( currentProfile.getInterests().containsAll(interests) || skipInterests )
-    			  )     
-    		                   findedProfiles.add( currentProfile ); 
-        } */
-    			
-		return (List<Profile>) query.list();   	
+      	//	Expression<Boolean> interestsExpression = root.get("interests").in(interests);
+      		//Predicate interestsPredicate = interestsExpression.in(interests);
+      //		predicates.add(interestsExpression);
+    
+      		 Expression<String> exp2 = root.get("interests");
+      	    Predicate p2 = exp2.in(interests);
+      	    predicates.add(p2);
+      	}
+      	 
+      
+      //	Predicate [] predicatesArr = predicates.toArray(new Predicate[predicates.size()]); 
+      
+      	criteriaQuery.select(root.<String>get("nickname")).where(predicates.toArray(new Predicate[]{}));
+      	System.out.println(session.createQuery(criteriaQuery).getSingleResult());
+      	return session.createQuery(criteriaQuery).list();  //ClassCastException
     }
-
-
+    
 }

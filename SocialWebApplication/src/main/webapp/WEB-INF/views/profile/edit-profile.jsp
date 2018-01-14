@@ -12,12 +12,13 @@
 
 <form:form modelAttribute="profile" method="POST" action="/SocialWebApplication/profile/edit/save">    
 
-   
-             
-        
-         <form:radiobutton path="sex" value="M" label="M" /> 
-         <form:radiobutton path="sex" value="F" label="F" /> </br>
-    
+ 
+   Sex:<form:select path="sex" name="sex" id="sex" cssClass="inputData">
+       <option value="">Unspecified</option>
+	   <option value="M">Male</option>
+       <option value="F">Female</option>
+	   </form:select> </br>
+	
         Interests(separate with commas): <form:input path="interests" /> </br>
         
         City: <form:input path="city"/> </br>

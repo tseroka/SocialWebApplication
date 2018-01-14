@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)  
 @ContextConfiguration(classes = { com.app.web.social.config.MvcConfig.class,com.app.web.social.config.Initializer.class, com.app.web.social.config.DatabaseConfig.class})
 @WebAppConfiguration
+@Transactional
 public class ProfileDAOTest {
 	
 	@Autowired
@@ -32,7 +33,6 @@ public class ProfileDAOTest {
 	private UserService userService;
 	
 	     @Test
-	     @Transactional
 	     public void getProfileByNicknameTest() { 
        
 	        assertEquals("Invalid profile loaded","sebix", profileService.getProfileByNickname("sebix").getNickname());
@@ -41,11 +41,10 @@ public class ProfileDAOTest {
 	    }
 
 	     @Test
-	     @Transactional
 	     public void getUserByUsernameTest() { 
        
-	        assertEquals("Invalid user loaded",Long.valueOf(7), Long.valueOf(userService.getUserAccount("sebabanan").getId()));
-	        assertNotSame("Invalid user loaded",8, userService.getUserAccount("sebabanan").getId());
+	        assertEquals("Invalid user loaded",7L, userService.getUserAccount("sebabanan").getId());
+	        assertNotSame("Invalid user loaded",8L, userService.getUserAccount("sebabanan").getId());
 	     
 	    } 
 	

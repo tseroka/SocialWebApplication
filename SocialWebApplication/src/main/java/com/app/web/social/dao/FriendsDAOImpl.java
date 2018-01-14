@@ -44,15 +44,18 @@ public class FriendsDAOImpl implements FriendsDAO
 		String acceptorName = profileDAO.getAuthenticatedUserNickname();
 		
 		Friends acceptor = (Friends) session.load(Friends.class,acceptorName);
-		acceptor.getFriends().add(nickname);
-		acceptor.getInvitationsReceived().remove(nickname);
-		session.update(acceptor);
 		
-		Friends sender = (Friends) session.load(Friends.class,nickname);
-		sender.getInvitationsSent().remove(acceptorName);
-		sender.getFriends().add(acceptorName);
-		session.update(sender);
+		if(acceptor.getInvitationsReceived().contains(nickname))
+		{
+		  acceptor.getFriends().add(nickname);
+		  acceptor.getInvitationsReceived().remove(nickname);
+		  session.update(acceptor);
 		
+	      Friends sender = (Friends) session.load(Friends.class,nickname);
+		  sender.getInvitationsSent().remove(acceptorName);
+		  sender.getFriends().add(acceptorName);
+		  session.update(sender);
+		}
 	}
 	
 	

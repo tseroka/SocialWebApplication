@@ -21,15 +21,15 @@ public class SecurityController implements InputCorrectness
 
 	@Autowired
 	private SecurityService securityService;
+
 	
-	
-	@RequestMapping(value="Reset password", method=RequestMethod.GET)
+	@RequestMapping(value = "Reset password", method = RequestMethod.GET)
 	public ModelAndView getSendResetPasswordCodeForm()
 	{		
 		return new ModelAndView("account/exceptions/send-reset-password-code","sendResetPasswordCode", new SecurityIssuesFormHandler());		
 	}
 	
-	 @RequestMapping(value="sendResetPasswordCodeProcessing", method=RequestMethod.POST)
+	 @RequestMapping(value = "sendResetPasswordCodeProcessing", method = RequestMethod.POST)
 	 public ModelAndView sendPasswordResetCodeProcessiong(@ModelAttribute("sendResetPasswordCode") SecurityIssuesFormHandler  sendResetPasswordCode, RedirectAttributes attributes )
 	   {
 			String email = sendResetPasswordCode.getEmail(); String username = sendResetPasswordCode.getUsername();
@@ -53,14 +53,14 @@ public class SecurityController implements InputCorrectness
 	 
 	
 	
-	@RequestMapping(value="resetPassword/set", method=RequestMethod.GET)
+	@RequestMapping(value = "resetPassword/set", method = RequestMethod.GET)
 	public ModelAndView getResetPasswordForm()
 	{
 		return new ModelAndView("account/exceptions/reset-password", "resetPassword", new SecurityIssuesFormHandler() );
 	}
 	
 	
-	 @RequestMapping(value="resetPasswordProcessing", method=RequestMethod.POST)
+	 @RequestMapping(value = "resetPasswordProcessing", method = RequestMethod.POST)
 	 public ModelAndView passwordResetProcessiong(@ModelAttribute("resetPassword") SecurityIssuesFormHandler  resetPassword )
 	   {
            String password = resetPassword.getNewPassword();
@@ -84,13 +84,13 @@ public class SecurityController implements InputCorrectness
 	 
 //----------------------------------------- U N L O C K --------------------------------------------------
 	
-	@RequestMapping(value="Unlock account", method=RequestMethod.GET)
+	@RequestMapping(value = "Unlock account", method=RequestMethod.GET)
 	public ModelAndView getSendUnlockCodeForm()
 	{
 		return new ModelAndView("account/exceptions/send-unlock-code","sendUnlockCode", new SecurityIssuesFormHandler());
 	}
 
-    @RequestMapping(value="sendUnlockCodeProcessing", method=RequestMethod.POST)
+    @RequestMapping(value = "sendUnlockCodeProcessing", method=RequestMethod.POST)
 	public ModelAndView sendUnlockCodeProcessiong(@ModelAttribute("sendUnlockCode") SecurityIssuesFormHandler  sendUnlockCode, RedirectAttributes attributes )
 	{
 		String email = sendUnlockCode.getEmail(); String username = sendUnlockCode.getUsername();
@@ -126,7 +126,7 @@ public class SecurityController implements InputCorrectness
 	 @RequestMapping(value="unlockProcessing", method=RequestMethod.POST)
 	 public ModelAndView accountUnlockProcessiong(@ModelAttribute("unlockAccount") SecurityIssuesFormHandler  unlockAccount )
 	   {
-
+           
 		   try
 		   {   	       		       
 			     securityService.resetFailedLoginAttemptsAndUnlockAccount(unlockAccount.getCode());	      

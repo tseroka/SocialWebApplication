@@ -15,7 +15,11 @@
   
          
         
-        Sex: <form:input path="searchSex" /> 
+       Sex: <form:select path="searchSex" name="sex" id="sex" cssClass="inputData">
+       <option value="">Unspecified</option>
+	   <option value="M">Male</option>
+       <option value="F">Female</option>
+	</form:select>
          
         Interests(separate with commas): <form:input path="searchInterests" /> 
         

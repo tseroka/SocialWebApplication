@@ -135,7 +135,12 @@ public class UserDAOImpl implements UserDAO
 
 	public UserAccount getUserByNickname(String nickname) 
 	{
-	   return this.sessionFactory.getCurrentSession().createQuery("from UserAccount U where U.nickname =:user_nickname",UserAccount.class).setParameter("user_nickname",nickname).list().get(0);
+	   return this.sessionFactory.getCurrentSession().createQuery("from UserAccount U where U.nickname =:nickname",UserAccount.class).setParameter("nickname",nickname).list().get(0);
+	}
+	
+	public UserAccount getUserByEmail(String email) 
+	{
+	   return this.sessionFactory.getCurrentSession().createQuery("from UserAccount U where U.email =:email",UserAccount.class).setParameter("email",email).list().get(0);
 	}
 	
 

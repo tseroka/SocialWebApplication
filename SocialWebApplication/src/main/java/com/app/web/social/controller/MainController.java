@@ -39,7 +39,7 @@ public class MainController {
 	    return "403";
     }
 	
-	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response) 
 	{
 	    if (userService.isAuthenticated())

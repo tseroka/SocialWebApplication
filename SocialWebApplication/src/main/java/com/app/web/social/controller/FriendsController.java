@@ -19,7 +19,7 @@ public class FriendsController
 	@Autowired
 	private FriendsService friendsService;
 	
-	@RequestMapping(value="viewFriends", method=RequestMethod.GET)
+	@RequestMapping(value = "viewFriends", method = RequestMethod.GET)
 	public ModelAndView viewFriends()
 	{
 		List<String> friendsList = friendsService.getFriendsList();
@@ -27,7 +27,7 @@ public class FriendsController
 	}
 	
 	
-	@RequestMapping(value="viewSentInvitations", method=RequestMethod.GET)
+	@RequestMapping(value = "viewSentInvitations", method = RequestMethod.GET)
 	public ModelAndView viewSentInvitations()
 	{
 		List<String> sentInvitations = friendsService.getSentInvitations();
@@ -35,7 +35,7 @@ public class FriendsController
 	}
 	
 	
-	@RequestMapping(value="viewReceivedInvitations", method=RequestMethod.GET)
+	@RequestMapping(value = "viewReceivedInvitations", method = RequestMethod.GET)
 	public ModelAndView viewReceivedInvitations()
 	{
 	    List<String> receivedInvitations = 	friendsService.getReceivedInvitations();
@@ -43,7 +43,7 @@ public class FriendsController
 	}
 	
 	
-	@RequestMapping(value="invitation/accept={accepted}", method=RequestMethod.GET)
+	@RequestMapping(value = "invitation/accept={accepted}", method = RequestMethod.GET)
 	public String acceptInvitation(@PathVariable String accepted)
 	{
 		friendsService.acceptInvitationToFriendsList(accepted);
@@ -51,7 +51,7 @@ public class FriendsController
 	}
 	 
 	
-	@RequestMapping(value="invitation/decline={declined}", method=RequestMethod.GET)
+	@RequestMapping(value =" invitation/decline={declined}", method = RequestMethod.GET)
 	public String declineInvitation(@PathVariable String declined)
 	{
 		friendsService.declineInvitationToFriendsList(declined);
@@ -59,14 +59,14 @@ public class FriendsController
 	}
 	
 	
-	@RequestMapping(value="invite={invited}", method=RequestMethod.GET)
+	@RequestMapping(value = "invite={invited}", method = RequestMethod.GET)
 	public String inviteToFriends(@PathVariable String invited)
 	{
 		friendsService.addToFriendsList(invited);
 		return "redirect:/profile/view/"+invited;
 	}	
 	
-	@RequestMapping(value="remove={removed}", method=RequestMethod.GET)
+	@RequestMapping(value = "remove={removed}", method = RequestMethod.GET)
 	public ModelAndView removeFromFriendsList(@PathVariable String removed)
 	{
 		friendsService.removeFromFriendsList(removed);		

@@ -59,13 +59,17 @@ public class AdminDAOImpl implements AdminDAO
 		SecurityIssues issue = (SecurityIssues) session.load(SecurityIssues.class, lockAccount.getId());
 		issue.setLockReason(lockAccount.getLockReason());
 		
-		if(lockAccount.getLockTime()==0) { issue.setUnlockDate(null);}
+		if(lockAccount.getLockTime()==0L) 
+		{
+			issue.setUnlockDate(null);
+		}
 		
-		System.out.println("lock time: "+lockAccount.getLockTime());
+		else 
+		{
+		    issue.setUnlockDate( new Timestamp( System.currentTimeMillis() + 86400000L*lockAccount.getLockTime() ) );
+		}
 		
-		if(lockAccount.getLockTime()!=0) {issue.setUnlockDate( new Timestamp( System.currentTimeMillis() + 86400000L*lockAccount.getLockTime() ) );}
-		
-		System.out.println("lock time: "+lockAccount.getLockTime());
+
 		session.update(issue);
 		}
 	}

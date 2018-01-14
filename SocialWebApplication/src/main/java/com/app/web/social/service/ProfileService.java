@@ -34,7 +34,7 @@ public class ProfileService {
 		    this.profileDAO.editProfile(profile);
 		}
 		
-		public List<Profile> searchProfiles(String sex, String city, List<String> intersests)
+		public List<String> searchProfiles(String sex, String city, List<String> intersests)
 		{
 			return this.profileDAO.searchProfiles(sex, city, intersests);
 		}

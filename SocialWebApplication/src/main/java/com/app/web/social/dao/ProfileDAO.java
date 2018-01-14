@@ -18,7 +18,7 @@ public interface ProfileDAO {
 	
 	public List<Profile> getProfilesList();
 	
-	public List<Profile> searchProfiles(String sex, String city, List<String> intersests);
+	public List<String> searchProfiles(String sex, String city, List<String> intersests);
 	
 	
 }

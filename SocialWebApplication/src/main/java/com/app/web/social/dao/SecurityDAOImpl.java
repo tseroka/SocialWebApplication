@@ -74,6 +74,10 @@ public class SecurityDAOImpl implements SecurityDAO
 		return getSecurityIssuesAccountByUsername(username).getUnlockDate();
 	}
 		
+    private boolean isEmailAndUsernameMatching(String email, String username)
+    {
+    	return userDAO.getUserByEmail(email).getUsername().equals(username);
+    }
 //-------------------------------------------------A C T I V A T I O N ---------------------------------------------------	
 	
 	public void sendEmailWithActivationCode(String email, String username)
@@ -98,8 +102,11 @@ public class SecurityDAOImpl implements SecurityDAO
 	
 	public void sendAgainEmailWithActivationCode(String email, String username)
 	{
-	    resetActivationCode(username);
-	    sendEmailWithActivationCode(email, username);
+		if(isEmailAndUsernameMatching(email,username))
+		{
+	      resetActivationCode(username);
+	      sendEmailWithActivationCode(email, username);
+		}
 	}
 	
 	
@@ -109,7 +116,7 @@ public class SecurityDAOImpl implements SecurityDAO
 			Query<SecurityIssues> query = session.createQuery("from SecurityIssues S WHERE S.activationCode=:code",SecurityIssues.class)
 			.setParameter("code",code);
 			
-			SecurityIssues issue = (SecurityIssues) query.list().get(0);
+			SecurityIssues issue = query.list().get(0);
 			issue.setActivationCode(null);
 			session.update(issue);
 			
@@ -144,12 +151,11 @@ public class SecurityDAOImpl implements SecurityDAO
 	public void sendEmailWithUnlockCodeAfterSecurityLockup(String email, String username)
 	{
 		resetUnlockCode(username);
-		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
-		String lockReason = issue.getLockReason();
-		if(lockReason!=null && lockReason.equals(MAX_ATTEMPTS_REASON))
+		String unlockCode = getSecurityIssuesAccountByUsername(username).getUnlockCode();
+		if(unlockCode!=null && isEmailAndUsernameMatching(email,username) )
 		{
 			String emailTextContent = "Your account has been locked due to maximum login attempts. "
-			+ "Type this code to proper field to unlock Your account:  "+issue.getUnlockCode();
+			+ "Type this code to proper field to unlock Your account:  "+unlockCode;
 			//send email
 		//	mail.send(email, "Unlock Your Account", emailTextContent);
 			System.out.println(emailTextContent);
@@ -161,26 +167,24 @@ public class SecurityDAOImpl implements SecurityDAO
 	private void resetUnlockCode(String username)
 	{
 		session = this.sessionFactory.getCurrentSession();
-		SecurityIssues issues = getSecurityIssuesAccountByUsername(username);
-		issues.setUnlockCode(generateActivationAndUnlockCode());
-		session.update(issues);
+		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
+		
+		if(MAX_ATTEMPTS_REASON.equals(issue.getLockReason()))
+		{
+		   issue.setUnlockCode(generateActivationAndUnlockCode());
+		}
+		
+		session.update(issue);
 	}
-	
-	public void sendAgainEmailWithUnlockCodeAfterSecurityLockup(String email, String username)
-	{
-		resetUnlockCode(username);
-		sendEmailWithUnlockCodeAfterSecurityLockup(email, username);
-	}
-	
 	
 	
 	public void resetFailedLoginAttemptsAndUnlockAccount(String code)
 	{		
    	        session = this.sessionFactory.getCurrentSession();
-			Query<?> query = session.createQuery("from SecurityIssues S WHERE S.unlockCode=:code")
+			Query<SecurityIssues> query = session.createQuery("from SecurityIssues S WHERE S.unlockCode=:code", SecurityIssues.class )
 			.setParameter("code",code);
 			
-			SecurityIssues issue = (SecurityIssues) query.list().get(0);
+			SecurityIssues issue = query.list().get(0);
 			if(issue.getLockReason().equals(MAX_ATTEMPTS_REASON))
 			{
 			issue.setUnlockCode(null);
@@ -202,13 +206,13 @@ public class SecurityDAOImpl implements SecurityDAO
 	public void sendEmailWithPasswordResetCode(String email, String username)
 	{
 		resetPasswordResetCode(username);
-		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
-		String code = issue.getResetPasswordCode();
-
-	    String emailTextContent = "Type this code to proper field to reset Your password:  "+code;
-			//send email
-	  //  mail.send(email, "Reset Your password", emailTextContent);
-			System.out.println(emailTextContent);
+		if(isEmailAndUsernameMatching(email,username))
+			{
+				String emailTextContent = "Type this code to proper field to reset Your password:  "+getSecurityIssuesAccountByUsername(username).getResetPasswordCode();
+				//send email
+			//	mail.send(email, "Unlock Your Account", emailTextContent);
+				System.out.println(emailTextContent);
+			}
     }
 	
 	
@@ -220,11 +224,6 @@ public class SecurityDAOImpl implements SecurityDAO
 		session.update(issues);
 	}
 	
-	public void sendAgainEmailWithPasswordResetCode(String email, String username)
-	{
-		resetPasswordResetCode(username);
-		sendEmailWithUnlockCodeAfterSecurityLockup(email, username);
-	}
 	
 	
 	

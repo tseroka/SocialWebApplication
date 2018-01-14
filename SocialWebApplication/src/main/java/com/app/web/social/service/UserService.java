@@ -65,6 +65,10 @@ public class UserService {
 		return this.userDAO.getUserByNickname(nickname);
 	}
 	
+	public UserAccount getUserByEmail(String email) 
+	{
+	    return this.userDAO.getUserByEmail(email);
+	}
 	public UserAccount getUserAccount(String username)
 	{
 		return this.userDAO.getUserAccount(username);

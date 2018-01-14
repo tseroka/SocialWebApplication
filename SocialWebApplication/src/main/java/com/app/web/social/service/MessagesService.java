@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.web.social.dao.MessagesDAO;
 import com.app.web.social.model.PrivateMessage;
-import com.app.web.social.model.PrivateMessageAttachment;
-import com.app.web.social.model.FileWrapper;
+import com.app.web.social.model.Attachment;
 
 @Service
 public class MessagesService {
@@ -37,6 +36,21 @@ public class MessagesService {
 		return this.messagesDAO.getMessage(messageId);
 	}
 	
+	public Attachment getAttachment(Long attachmentId)
+	{
+		return this.messagesDAO.getAttachment(attachmentId);
+	}
+	
+	public void downloadAttachment(Attachment attachment)
+	{
+		this.messagesDAO.downloadAttachment(attachment);
+	}
+	
+	public boolean isDownloadingAllowed(Attachment attachment, Long messageId)
+	{
+	   return this.messagesDAO.isDownloadingAllowed(attachment, messageId);	
+	}
+	
 	public String removeMessage(Long messageId)
 	{
 		return this.messagesDAO.removeMessage(messageId);
@@ -46,22 +60,7 @@ public class MessagesService {
 	{
 		this.messagesDAO.sendMessage(message);
 	}
-	
-	public void sendMessage(PrivateMessage message, FileWrapper fileWrapper) throws IOException
-	{
-		this.messagesDAO.sendMessage(message, fileWrapper);
-	}
-	
-	public void sendMessageAttachment(PrivateMessageAttachment messageAttachment) throws IOException
-	{
-		this.messagesDAO.sendMessageAttachment(messageAttachment);
-	}
-	
-	public void uploadFile(FileWrapper fileWrapper) throws IOException
-	{
-		this.messagesDAO.uploadFile(fileWrapper);
-	}
-	
+
 	public boolean isMessageSendingAllowed(List<String> recipients) 
 	{
 	    return this.messagesDAO.isMessageSendingAllowed(recipients);

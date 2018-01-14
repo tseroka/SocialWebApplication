@@ -32,6 +32,8 @@ public interface UserDAO {
 	
 	public UserAccount getUserByNickname(String nickname);
 	
+	public UserAccount getUserByEmail(String email);
+	
 	public List<UserAccount> getUsersList();
     
 	

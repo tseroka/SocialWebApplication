@@ -84,11 +84,6 @@ public class SecurityService
        this.securityDAO.sendEmailWithUnlockCodeAfterSecurityLockup(email, username);	
     }
 	
-	public void sendAgainEmailWithUnlockCodeAfterSecurityLockup(String email, String username)
-	{
-		this.securityDAO.sendAgainEmailWithUnlockCodeAfterSecurityLockup(email, username);
-	}
-	
 	public void resetFailedLoginAttemptsAndUnlockAccount(String username)
 	{
 	    this.securityDAO.resetFailedLoginAttemptsAndUnlockAccount(username);
@@ -104,10 +99,6 @@ public class SecurityService
 		this.securityDAO.sendEmailWithPasswordResetCode(email, username);
 	}
 	
-	public void sendAgainEmailWithPasswordResetCode(String email, String username)
-	{
-		this.securityDAO.sendAgainEmailWithPasswordResetCode(email, username);
-	}
 	
 	public void resetPassword(String password, String code)
 	{

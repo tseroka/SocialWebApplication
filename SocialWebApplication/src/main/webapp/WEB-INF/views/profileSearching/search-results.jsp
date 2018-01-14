@@ -12,12 +12,12 @@
 <th>Nickname</th>
 </tr>  
 
-   <c:forEach var="profile" items="${findedProfiles}">   
+   <c:forEach var="nickname" items="${findedProfiles}">   
 
     
    <tr>  
  
-   <td><a href='/SocialWebApplication/profile/view/${profile.nickname}'>${profile.nickname}</a></td>  
+   <td><a href='/SocialWebApplication/profile/view/${nickname}'>${nickname}</a></td>  
   
 
    </tr>  

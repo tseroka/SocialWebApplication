@@ -37,7 +37,7 @@ public class AdminController {
        return "admin/admin";
 	}
 	 
-	@RequestMapping(value="view-users", method = RequestMethod.GET)
+	@RequestMapping(value = " view-users", method = RequestMethod.GET)
 	public ModelAndView viewUsers()
 	{ 
 		List<UserAccount> usersList = userService.getUsersList();
@@ -45,7 +45,7 @@ public class AdminController {
 	}
 	
 	
-	@RequestMapping(value="lockUser/{id}", method = RequestMethod.GET)  
+	@RequestMapping(value = "lockUser/{id}", method = RequestMethod.GET)  
     public ModelAndView getLockUserAccountForm(@PathVariable long id)
 	{   
 		LockAccount lockAccount = new LockAccount();
@@ -54,7 +54,7 @@ public class AdminController {
     }  
 	
 	
-	@RequestMapping(value="lockProcessing", method = RequestMethod.POST)
+	@RequestMapping(value = "lockProcessing", method = RequestMethod.POST)
 	public String lockUser(@ModelAttribute("lockAccount") LockAccount lockAccount)
 	{
 		adminService.lockUser(lockAccount);
@@ -62,20 +62,20 @@ public class AdminController {
 	}
 	
 
-	@RequestMapping(value="unlockUser/{id}", method = RequestMethod.GET)  
+	@RequestMapping(value = "unlockUser/{id}", method = RequestMethod.GET)  
     public String unlockUserAccount(@PathVariable long id){   
 		adminService.unlockUser(id);
         return "redirect:/admin/view-users";  
     }  
 
 	
-	@RequestMapping(value="sendGlobalMessage", method = RequestMethod.GET)
+	@RequestMapping(value = "sendGlobalMessage", method = RequestMethod.GET)
 	public ModelAndView sendToAll()
 	{
 	  return new ModelAndView("admin/sendGlobalMessage","message",new PrivateMessage());	
 	}
 	
-	@RequestMapping(value="sendProcessing", method = RequestMethod.POST)
+	@RequestMapping(value = "sendProcessing", method = RequestMethod.POST)
 	public String sendProcessing(@ModelAttribute("message") PrivateMessage message)
 	{
 		List<String> all = new ArrayList<String>(); all.add("ALL");

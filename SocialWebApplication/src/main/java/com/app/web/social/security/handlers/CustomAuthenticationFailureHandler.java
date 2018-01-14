@@ -11,8 +11,6 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +22,6 @@ import com.app.web.social.model.SecurityIssues;
 @Service
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler 
 {
-
-  private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
   @Autowired
   private SecurityService securityService;
@@ -55,8 +51,6 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         {
         	adminService.accountSelfUnlockAfterLockTimeout(issue);
         	message = "locked-end";
-        //	request.getSession(true).setAttribute("unlockDate",issue.getUnlockDate());
-        //	 request.setAttribute("unlockDate", issue.getUnlockDate());
         }
         
         response.sendRedirect("/SocialWebApplication/login?error="+message+"&kjhubvJHbt="+username);
@@ -74,8 +68,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     
     else { message = exception.getMessage(); }
     
-    // redirectStrategy.sendRedirect(request, response, "/login?error="+message);
-     response.sendRedirect("/SocialWebApplication/login?error="+message);
+    response.sendRedirect("/SocialWebApplication/login?error="+message);
      
   }
 

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -15,6 +16,7 @@ import javax.validation.constraints.Max;
 
 import com.app.web.social.model.converter.StringSetConverter;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 
 import java.sql.Timestamp;
@@ -36,12 +38,15 @@ public class SecurityIssues implements Serializable
 	private UserAccount userAccount;
 	
 	@Column(name="activationCode", nullable=true, unique=true, length=20 )
+	@Basic(fetch = FetchType.LAZY)
 	private String activationCode;
 	
 	@Column(name="unlockCode", nullable=true, unique=true, length=20 )
+	@Basic(fetch = FetchType.LAZY)
 	private String unlockCode;
 	
 	@Column(name="resetPasswordCode", nullable=true, unique=true, length=30 )
+	@Basic(fetch = FetchType.LAZY)
 	private String resetPasswordCode;
 	
 	@Column(name="lastIPAddress", nullable=false, unique=false, length=16 )
@@ -60,9 +65,11 @@ public class SecurityIssues implements Serializable
 	private byte numberOfLoginFails;
 	
 	@Column(name="lockReason", nullable=true, unique=false, length=300)
+	@Basic(fetch = FetchType.LAZY)
 	private String lockReason;
 	
 	@Column(name="unlockDate", nullable=true, unique=false)
+	@Basic(fetch = FetchType.LAZY)
 	private Timestamp unlockDate;
 	
 	public SecurityIssues() 

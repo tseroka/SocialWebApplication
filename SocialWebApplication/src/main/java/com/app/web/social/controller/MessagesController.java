@@ -1,12 +1,11 @@
 package com.app.web.social.controller;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
-import java.sql.Timestamp;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,18 +13,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.app.web.social.model.PrivateMessage;
-import com.app.web.social.model.PrivateMessageAttachment;
-import com.app.web.social.model.FileWrapper;
+import com.app.web.social.model.Attachment;
 import com.app.web.social.service.ProfileService;
 import com.app.web.social.service.MessagesService;
-import com.app.web.social.dao.validations.FileValidator;
+
 
 @RequestMapping(value="/profile/messages/")
 @Controller
@@ -40,97 +36,82 @@ public class MessagesController {
 	  
 	 
 	   @RequestMapping(value="send/recipient={recipient}", method = RequestMethod.GET)
-	   public ModelAndView sendMessageFromProfileViewButton()//@PathVariable String recipient)
-	   {   /**
-		   PrivateMessage newMessage = new PrivateMessage();
+	   public ModelAndView sendMessageFromProfileViewButton(@PathVariable String recipient)
+	   {   
+		   PrivateMessage message = new PrivateMessage();
 		   if(!recipient.equals(""))
 		   {
 		   List<String> recipients = new ArrayList<String>();
 		   recipients.add(recipient);		   
-		   newMessage.setMessageRecipients(recipients);
+		   message.setMessageRecipients(recipients);
 		   }	
-	     */
-		 //  FileWrapper fileWrapper = new FileWrapper();
-		  // CommonsMultipartFile fileUpload = new CommonsMultipartFile(null);
-		   ModelAndView model = new ModelAndView("messages/sendMessage");
-		  // model.addObject("newMessage", newMessage);
-		//   model.addObject("fileModel",fileWrapper);
-		//   model.addObject("fileUpload",fileUpload);
-		   return model;
+	       return new ModelAndView("messages/sendMessage","message", message);
+
 	   }
 	    
-	   @RequestMapping(value="send", method = RequestMethod.GET)
-	   public ModelAndView getSendView() 
-	   {
-		   return new ModelAndView("messages/sendMessage");//,"command", new CommonsMultipartFile());
-	   }
 	   
-	   /**
 	   @RequestMapping(value="sendProcessing", method = RequestMethod.POST)
-	   public ModelAndView sendingMessageProcessing(@ModelAttribute("newMessage") PrivateMessage newMessage)
+	   public ModelAndView sendingMessageProcessing(@ModelAttribute("message") PrivateMessage message)
+	   throws IOException
 	   {    
 		    if
 		     (           
-			     messagesService.isMessageSendingAllowed(newMessage.getMessageRecipients())
+			     messagesService.isMessageSendingAllowed(message.getMessageRecipients())
 		     ) 
 		     {  
-		    	newMessage.setMessageSender( profileService.getAuthenticatedUserNickname() );
+		    	message.setMessageSender( profileService.getAuthenticatedUserNickname() );
 		    	
-			    if(newMessage.getMessageSubject().equals("")) newMessage.setMessageSubject("No subject");
+			    if(message.getMessageSubject().equals("")) message.setMessageSubject("No subject");
 			   
-			  
-			    messagesService.sendMessage(newMessage); 
+			    CommonsMultipartFile fileUpload = message.getFileUpload();
+	  		    if(fileUpload!=null)
+			    {
+	  		    message.setIsAnyAttachment(true);
+	  		    
+			    Attachment attachment = new Attachment();	    
+                attachment.setFileName(fileUpload.getOriginalFilename());          
+                attachment.setFileType(fileUpload.getContentType());
+                attachment.setFileContent(fileUpload.getBytes());
+                attachment.setMessage(message);
+                
+                Set<Attachment> attachments = new HashSet<>(); attachments.add(attachment);
+                message.setAttachments(attachments);
+			    } 
+			    messagesService.sendMessage(message); 
+			    
 			   
-			 
 	            return new ModelAndView("redirect:outbox");
 		    }
 		   return new ModelAndView("messages/sendMessage","sendingNotAllowed", "Sending not allowed (recipient doesn't exist or doesn't permit to send message).");
 		 
-	   } */
+	   }  
 	    
-	   @RequestMapping(value="sendProcessing", method = RequestMethod.POST)
-	   public ModelAndView sendingMessageProcessing(HttpServletRequest request,
-              @RequestParam(value = "fileUpload") CommonsMultipartFile fileUpload) throws IOException
-		
-	   {   
-		   //if (fileUpload != null)
-		  // {
-			   System.out.println("Saving file: " + fileUpload.getOriginalFilename());
-			   PrivateMessageAttachment privateMessageAttachment = new PrivateMessageAttachment();
-			   privateMessageAttachment.setAttachmentName(fileUpload.getOriginalFilename());
-			   privateMessageAttachment.setFileType(fileUpload.getContentType());
-			   privateMessageAttachment.setAttachment(fileUpload.getBytes());
-               messagesService.sendMessageAttachment(privateMessageAttachment);      
-		  // }
-			   
-	            return new ModelAndView("redirect:outbox");
-	   } 
-	   
-	  /** @RequestMapping(value="sendProcessing", method = RequestMethod.POST)
-	   public ModelAndView sendingMessageProcessing(HttpServletRequest request,
-              @ModelAttribute(value = "messageAttachment") PrivateMessageAttachment messageAttachment) throws IOException
-		
-	   {   
-		   //if (fileUpload != null)
-		  // {
-			   System.out.println("Saving file: " + fileUpload.getOriginalFilename());
-			   PrivateMessageAttachment privateMessageAttachment = new PrivateMessageAttachment();
-			   privateMessageAttachment.setAttachmentName(fileUpload.getOriginalFilename());
-			   privateMessageAttachment.setFileType(fileUpload.getContentType());
-			   privateMessageAttachment.setAttachment(fileUpload.getBytes());
-               messagesService.sendMessageAttachment(privateMessageAttachment);      
-		  // }
-			   
-	            return new ModelAndView("redirect:outbox");
-	   } */
+	   @RequestMapping(value = "download", method = RequestMethod.GET)
+	   public String downloadAttachment(@RequestParam(name = "msg", required = true) Long messageId,
+	   @RequestParam(name = "att", required = true) Long attachmentId	)
+	   {
+		   Attachment attachment = messagesService.getAttachment(attachmentId);
+		   
+		   if(messagesService.isDownloadingAllowed(attachment, messageId))
+		   {
+			   messagesService.downloadAttachment(attachment);
+			   System.out.println("Downloading attachment...");
+		   }
+		   else
+		   {
+			   attachment = null;
+			   return "redirect:/403";
+		   }
+		   return "redirect:inbox/"+messageId;
+	   }
 	    
-	   @RequestMapping(value="remove/{id}", method = RequestMethod.GET)
+	   @RequestMapping(value = "remove/{id}", method = RequestMethod.GET)
 	   public ModelAndView removeMessage(@PathVariable Long id)
 	   {
 		   return new ModelAndView("redirect:"+messagesService.removeMessage(id));
 	   }
 	     
-	    @RequestMapping(value="inbox", method = RequestMethod.GET)
+	    @RequestMapping(value = "inbox", method = RequestMethod.GET)
 	    public ModelAndView getInbox()
 	    {
 	    	List<PrivateMessage> inbox = messagesService.getInbox();
@@ -139,14 +120,14 @@ public class MessagesController {
 	   
 	  
 	  
-	    @RequestMapping(value="outbox", method = RequestMethod.GET)
+	    @RequestMapping(value = "outbox", method = RequestMethod.GET)
 	    public ModelAndView getOutbox()
 	    {
 	    	List<PrivateMessage> outbox = messagesService.getOutbox();
 	    	return new ModelAndView("messages/outbox","outboxMessages",outbox);
 	    }
 	    
-	    @RequestMapping(value="globalMessages", method = RequestMethod.GET)
+	    @RequestMapping(value = "globalMessages", method = RequestMethod.GET)
 	    public ModelAndView getGlobalMessages()
 	    {
 	    	List<PrivateMessage> globalMessages = messagesService.getGlobalMessages();

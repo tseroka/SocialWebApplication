@@ -6,13 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-
-import com.app.web.social.model.Profile;
 import com.app.web.social.model.temp.SearchProfile;
 import com.app.web.social.service.ProfileService;
 
@@ -25,7 +23,7 @@ public class ProfileSearchController {
 	
 	
 	
-	    @RequestMapping
+	    @RequestMapping(method = RequestMethod.GET)
 	    public ModelAndView search()
 	    {
 	    	 return new ModelAndView("profileSearching/search-profiles","command", new SearchProfile() );    	
@@ -33,22 +31,23 @@ public class ProfileSearchController {
 	    
 	    
 	
-	    @RequestMapping(value="/goSearch", method = RequestMethod.POST)
+	    @RequestMapping(value = "/goSearch", method = RequestMethod.POST)
 	    public ModelAndView goSearch(@ModelAttribute("profile") SearchProfile searchProfile)
 	    {  	
-	    	return new ModelAndView("redirect:/search/sex="+searchProfile.getSearchSex()+"/city="+searchProfile.getSearchCity()+"/interests="+searchProfile.getSearchInterests() );
+	    	return new ModelAndView("redirect:/search/query?sex="+searchProfile.getSearchSex()+"&city="+searchProfile.getSearchCity()+"&interests="+searchProfile.getSearchInterests() );
 	    }
-	    
+	     
 	    
 	    
 
-	    @RequestMapping(value="/sex={sex}/city={city}/interests={interestsInput}")
-	    public ModelAndView searchProfiles(@PathVariable String sex, @PathVariable String city, @PathVariable
-	    		String interestsInput)
+	    @RequestMapping(value = "/query")
+	    public ModelAndView searchProfiles(@RequestParam(name = "sex", defaultValue = "") String sex,
+	    		@RequestParam(name = "city", defaultValue = "") String city,
+	    		@RequestParam(name = "interests", defaultValue = "") String interestsInput)
 	    {   
-	    	List<String> interests =  Arrays.asList((interestsInput+",").split(","));
+	    	List<String> interests =  Arrays.asList((interestsInput).split(","));
 	   
-	    	List<Profile> findedProfiles = profileService.searchProfiles(sex, city, interests);
+	    	List<String> findedProfiles = profileService.searchProfiles(sex, city, interests);
 	    	
 	    	if(findedProfiles.isEmpty()) 
 	    	{
@@ -57,5 +56,5 @@ public class ProfileSearchController {
 	    	
 	    	return new ModelAndView("profileSearching/search-results","findedProfiles",findedProfiles);
 	    }
-
+ 
 }

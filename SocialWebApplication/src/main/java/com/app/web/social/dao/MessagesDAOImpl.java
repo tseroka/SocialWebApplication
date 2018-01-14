@@ -3,6 +3,7 @@ package com.app.web.social.dao;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import java.sql.Timestamp;
@@ -16,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.web.social.model.PrivateMessage;
-import com.app.web.social.model.PrivateMessageAttachment;
-import com.app.web.social.model.FileWrapper;
-
+import com.app.web.social.model.Attachment;
 import com.app.web.social.dao.validations.Uniqueness;
 import com.app.web.social.dao.validations.InputCorrectness;
 
@@ -38,7 +37,7 @@ public class MessagesDAOImpl implements MessagesDAO, InputCorrectness {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	
+	 
 	public List<PrivateMessage> getInbox() 
 	{		
         List<String> oneRecipient = new ArrayList<String>(); oneRecipient.add(profileDAO.getAuthenticatedUserNickname());
@@ -73,7 +72,7 @@ public class MessagesDAOImpl implements MessagesDAO, InputCorrectness {
 	public PrivateMessage getMessage(Long messageId)
 	{
 		Session session = this.sessionFactory.getCurrentSession();		
-		PrivateMessage message = (PrivateMessage) session.load(PrivateMessage.class, messageId);
+		PrivateMessage message = session.load(PrivateMessage.class, messageId);
 		String sender = message.getMessageSender();
 		List<String> recipients = message.getMessageRecipients();
 		message.setMessageSender(removeSignOfRemoval(sender));
@@ -81,6 +80,22 @@ public class MessagesDAOImpl implements MessagesDAO, InputCorrectness {
 		return message;
 	}
 	
+	public Attachment getAttachment(Long attachmentId)
+	{
+		return (Attachment) this.sessionFactory.getCurrentSession().load(Attachment.class, attachmentId);	
+	}
+	
+	public boolean isDownloadingAllowed(Attachment attachment, Long messageId)
+	{
+		String nickname = profileDAO.getAuthenticatedUserNickname();
+		PrivateMessage message = getMessage(messageId);
+		return ((message.getMessageSender().equals(nickname) || message.getMessageRecipients().contains(nickname)) && message.getAttachments().iterator().next().getAttachmentId().equals(attachment.getAttachmentId()));
+	}
+	
+	public void downloadAttachment(Attachment attachment)
+	{
+		
+	}
 	
 	//------------------------------------REMOVING HELP METHODS ----------------------------------------------
 	private boolean checkIsRemoved(String sender)
@@ -174,48 +189,16 @@ public class MessagesDAOImpl implements MessagesDAO, InputCorrectness {
 		Session session = this.sessionFactory.getCurrentSession();
 		message.setSentDate(new Timestamp(System.currentTimeMillis()));
 		session.persist(message);	
+		Set<Attachment> attachments = message.getAttachments();
+		if(!message.getAttachments().isEmpty())
+		{
+			for(Attachment attachment : attachments)
+			{
+				session.persist(attachment);
+			}
+		}
 	}
-	
-	public void sendMessage(PrivateMessage message, FileWrapper fileWrapper) throws IOException
-	{
-		Session session = this.sessionFactory.getCurrentSession();
-		session.persist(message);	
-	
-	    session.persist(setMessageAttachment(fileWrapper, message.getMessageId()));
-		
-	}	
-	
-	public void sendMessageAttachment(PrivateMessageAttachment messageAttachment) throws IOException
-	{
-		Session session = this.sessionFactory.getCurrentSession();
-		session.persist(messageAttachment);	
-	}
-	
-	private PrivateMessageAttachment setMessageAttachment(FileWrapper fileWrapper, Long id) throws IOException{
-        
-		PrivateMessageAttachment messageAttachment = new PrivateMessageAttachment();
-        MultipartFile multipartFile = fileWrapper.getFile();
-         
-        messageAttachment.setAttachment(multipartFile.getBytes());
-        messageAttachment.setAttachmentName(multipartFile.getOriginalFilename());
-        messageAttachment.setFileType(multipartFile.getContentType());
-        messageAttachment.setMessageId(id);
-        return messageAttachment;
-    }
-	
-	public void uploadFile(FileWrapper fileWrapper) throws IOException
-	{
-		Session session = this.sessionFactory.getCurrentSession();
-		PrivateMessageAttachment messageAttachment = new PrivateMessageAttachment();
-        MultipartFile multipartFile = fileWrapper.getFile();
-         
-        messageAttachment.setAttachment(multipartFile.getBytes());
-        messageAttachment.setAttachmentName(multipartFile.getOriginalFilename());
-        messageAttachment.setFileType(multipartFile.getContentType());
-        
-        session.persist(messageAttachment);	
-	}
-	
+
 	public boolean isMessageSendingAllowed(List<String> recipients)
 	{
 		for(String recipient : recipients)

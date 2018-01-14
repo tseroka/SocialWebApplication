@@ -2,42 +2,61 @@ package com.app.web.social.model;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.Transient;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import javax.persistence.OneToMany;
+
+import com.app.web.social.model.Attachment;
 import com.app.web.social.model.converter.StringListConverter;
 
 @Entity
-@Table(name="privatemessages",  uniqueConstraints={ @UniqueConstraint( columnNames={"message_id"} ) }     )
+@Table(name = "privatemessages",  uniqueConstraints ={ @UniqueConstraint( columnNames = {"message_id"} ) }     )
 public class PrivateMessage {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="message_id", nullable=false, unique=true, length=22)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "message_id", nullable = false, unique = true, length = 22)
 	private Long messageId;
    
-	@Column(name="sender", nullable=false, unique=false, length=25)
+	@Column(name = "sender", nullable = false, unique = false, length = 25)
 	private String messageSender;
 	
-	@Column(name="recipient", nullable=false, unique=false, length=270)
+	@Column(name = "recipient", nullable = false, unique = false, length = 270)
 	@Convert(converter = StringListConverter.class)
 	private List<String> messageRecipients;
 	  
-	@Column(name="subject", nullable=false, unique=false, length=100)
+	@Column(name = "subject", nullable = false, unique = false, length = 100)
 	private String messageSubject;
 	
 	@Column(name="text", nullable=true, unique=false, length=2000)
+	@Basic(fetch = FetchType.LAZY)
 	private String messageText;
 
-	@Column(name="sentDate", nullable=false, unique=false)
+	@Column(name = "sentDate", nullable = false, unique = false)
 	private Timestamp sentDate;
+	
+	@Column(name = "anyAttachment", nullable = false, unique = false)
+	private boolean anyAttachment=false;
+	
+	@OneToMany(mappedBy = "message", fetch = FetchType.EAGER)
+	private Set<Attachment> attachments;
+	
+	@Transient
+	private CommonsMultipartFile fileUpload;
 	
 	public PrivateMessage()
 	{
@@ -45,7 +64,7 @@ public class PrivateMessage {
 	}
 	
 	public PrivateMessage (Long messageId, String messageSender, List<String> messageRecipients,
-			String messageSubject,String messageText, Timestamp sentDate) 
+			String messageSubject,String messageText, Timestamp sentDate, boolean anyAttachment, Set<Attachment> attachments) 
 	{
 		this.messageId = messageId;
 		this.messageSender = messageSender;
@@ -53,6 +72,8 @@ public class PrivateMessage {
 		this.messageSubject = messageSubject;
 		this.messageText = messageText;
 		this.sentDate = sentDate;
+		this.anyAttachment = anyAttachment;
+		this.attachments = attachments;
 	}
 
 	public Long getMessageId() {
@@ -102,8 +123,41 @@ public class PrivateMessage {
 	public void setSentDate(Timestamp sentDate) {
 		this.sentDate = sentDate;
 	}
+
 	
+	public boolean isAnyAttachment() {
+		return anyAttachment;
+	}
+
+	public void setIsAnyAttachment(boolean anyAttachment) {
+		this.anyAttachment = anyAttachment;
+	}
+
+	public Set<Attachment> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(Set<Attachment> attachments) {
+		this.attachments = attachments;
+	}
 	
+	public void addAttachment(Attachment attachment)
+	{
+		this.attachments.add(attachment);
+	}
+	
+	public void removeAttachment(Attachment attachment)
+	{
+		this.attachments.remove(attachment);
+	}
+
+	public CommonsMultipartFile getFileUpload() {
+		return fileUpload;
+	}
+
+	public void setFileUpload(CommonsMultipartFile fileUpload) {
+		this.fileUpload = fileUpload;
+	}
 	
 	
 } 

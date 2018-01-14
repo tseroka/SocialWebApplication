@@ -13,18 +13,31 @@
 </head>
 <body>
 
-      <div id="container">
-<form:form method="POST" action="/SocialWebApplication/profile/messages/sendProcessing" enctype="multipart/form-data">
-            <table border="0">
-                <tr>
-                   
-                    <td><form:input id="fileUpload" type="file" path="fileUpload"  name="fileUpload" size="50" /></td>
-                </tr>
+      <div id="container">                                   
+<form:form modelAttribute = "message" method="POST" action="/SocialWebApplication/profile/messages/sendProcessing?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data">
          
-                <tr>
-                    <td colspan="2" align="center"><input type="submit" value="Upload" /></td>
-                </tr>
-            </table>
+
+ <form:input  path="messageRecipients" name="messageRecipients" id="recipients" cssClass="inputData" 
+placeholder="Recipients" onfocus="this.placeholder=''"  onblur="this.placeholder='Recipients'"/> </br>
+			
+			
+			
+ <form:input path="messageSubject" name="messageSubject" id="subject"  cssClass="inputData" 
+placeholder="Subject" onfocus="this.placeholder=''" onblur="this.placeholder='Subject'"/> </br>
+	
+				
+<form:textarea rows="10" cols="30" path="messageText" name="messageText" id="text" cssClass="inputData" 
+      placeholder="Text" onfocus="this.placeholder=''" onblur="this.placeholder='Text'" /> </br>
+
+<form:input  id="fileUpload" type="file" path="fileUpload" name="fileUpload" size="50" /> </br>	
+
+<form:hidden path="fileUpload" name="${_csrf.parameterName}" value="${_csrf.token}" />
+  
+                
+                <form:button>Send</form:button> 
+                
+         
+  
         </form:form>
 
 

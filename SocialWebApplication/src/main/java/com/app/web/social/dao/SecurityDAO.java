@@ -62,20 +62,18 @@ public interface SecurityDAO
 	public void sendAgainEmailWithActivationCode(String email, String username);
 	
 	public void acceptActivationCodeAndEnableAccount(String username);
+
+	
 	
 	public void increaseFailedLoginAttemptsNumberAndLockIfEqualsFive(String username);
 	
 	public void sendEmailWithUnlockCodeAfterSecurityLockup(String email, String username);
-	
-	public void sendAgainEmailWithUnlockCodeAfterSecurityLockup(String email, String username);
 	
 	public void resetFailedLoginAttemptsAndUnlockAccount(String username);
 	
 	
 	
 	public void sendEmailWithPasswordResetCode(String email, String username);
-	
-	public void sendAgainEmailWithPasswordResetCode(String email, String username);
 	
 	public void resetPassword(String password, String code);
 	
