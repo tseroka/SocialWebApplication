@@ -42,6 +42,8 @@ placeholder="Nickname" onfocus="this.placeholder=''" onblur="this.placeholder='N
 
 <form:input path="country" name="country" id="country" cssClass="inputData" 
 placeholder="Country" onfocus="this.placeholder=''" onblur="this.placeholder='Country'" />
+			
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				
 <form:button id="register" cssClass="inputSubmit" name="register">Register</form:button>
 		

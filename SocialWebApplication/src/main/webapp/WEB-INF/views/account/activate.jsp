@@ -18,7 +18,7 @@
 	<form:input type="text" path="code" name="activationCode" cssClass="inputData" 
 	placeholder="Activation code" onfocus="this.placeholder=''" onblur="this.placeholder='Activation code'"/>
 				
-	
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				
 	<form:button id="activate" cssClass="inputSubmit" name="activate">Activate account</form:button>
 			

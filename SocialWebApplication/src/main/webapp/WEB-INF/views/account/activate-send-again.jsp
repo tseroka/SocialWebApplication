@@ -21,6 +21,8 @@
 	<form:input type="text" path="username" name="Username" cssClass="inputData" 
 	placeholder="Username" onfocus="this.placeholder=''" onblur="this.placeholder='Username'"/>		
 	
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	
 	<form:button id="sendActivationCode" cssClass="inputSubmit" name="sendActivationCode">Send activation code</form:button>
 			
     </form:form>

@@ -32,20 +32,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	private SocialWebAppUserDetailsService socialWebAppUserDetailsService;
 	
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception 
+	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception 
 	{
-		auth.userDetailsService(socialWebAppUserDetailsService).passwordEncoder(passwordEncoder());
-	}
+       auth.userDetailsService(socialWebAppUserDetailsService).passwordEncoder(passwordEncoder());
+    }
 
 	
 	@Bean
 	public PasswordEncoder passwordEncoder()
 	{
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder;
+		return new BCryptPasswordEncoder();
 	}
 
+	  
     @Override
 	protected void configure(HttpSecurity http) throws Exception 
     {

@@ -24,6 +24,11 @@ public class ProfileService {
 			return this.profileDAO.getProfileByNickname(nickname);
 		}
 		
+		public Profile getAuthenticatedProfile()
+		{
+		    return this.profileDAO.getAuthenticatedProfile();	
+		}
+		
 		public String getAuthenticatedUserNickname()
 		{
 			return this.profileDAO.getAuthenticatedUserNickname();

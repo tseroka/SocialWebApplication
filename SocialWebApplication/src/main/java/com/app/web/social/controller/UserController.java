@@ -37,7 +37,7 @@ public class UserController implements InputCorrectness
 	@RequestMapping(value="view", method=RequestMethod.GET )  
     public ModelAndView viewAccount()
 	{   
-		UserAccount userAccount = userService.getUserAccount( userService.getAuthenticatedUserUsername() );
+		UserAccount userAccount = userService.getAuthenticatedUserAccount();
 		return new ModelAndView("account/view-account","user", userAccount);
     }  
 	
@@ -52,24 +52,21 @@ public class UserController implements InputCorrectness
 	 @RequestMapping(value="edit/save", method = RequestMethod.POST)  
 	 public ModelAndView editSave(@ModelAttribute("editAccount") EditAccount editAccount, RedirectAttributes attributes)
 	    {   
-		    System.out.println("email: "+editAccount.getEmail());
 		    ModelAndView model = new ModelAndView("account/edit-account");
 	        if(!editAccount.getUsername().equals("") || !editAccount.getEmail().equals("") || !editAccount.getCountry().equals("") )
 	        {
-	          UserAccount userAccount = userService.getUserAccount( userService.getAuthenticatedUserUsername() );
+	          UserAccount userAccount = userService.getAuthenticatedUserAccount();
 	          
-	          SecurityIssues issue = securityService.getSecurityIssuesAccountByUsername(userService.getAuthenticatedUserUsername() );
+	          SecurityIssues issue = securityService.getAuthenticatedSecurityIssues();
 	          
 	          String username = editAccount.getUsername().equals("") ? userAccount.getUsername() : editAccount.getUsername();
 	          String email = editAccount.getEmail().equals("") ? userAccount.getEmail() : editAccount.getEmail();
-	          String country = editAccount.getCountry().equals("") ? userAccount.getCountry() : editAccount.getCountry();
-	          System.out.println("email: "+email);
-	        
+	          String country = editAccount.getCountry().equals("") ? userAccount.getCountry() : editAccount.getCountry();       
 	          
 	  		    if
 	  		    (   
 	  		       userAccount.getPassword().equals( editAccount.getCurrentPassword() )&&
-	  		       validateEditAccount(username, email, country) &&
+	  		       editAccount.validateChanges() &&
 	  		       !username.equals(email.split("@")[0]) &&
 	  		       (uniquenessService.isUsernameNotBusy(username) || username.equals(userAccount.getUsername()))  &&
 	  		       (uniquenessService.isEmailNotBusy(email) || email.equals(userAccount.getEmail() ) )  		    		    		    		  		 
@@ -104,15 +101,7 @@ public class UserController implements InputCorrectness
 	    }	
 	 
 	 
-	 private boolean validateEditAccount(String username, String email, String country)
-	 {
-		 return 
-	     (
-	    		 Pattern.matches(USERNAME_VALIDATION_REGEX, username) &&
-	    		 Pattern.matches(EMAIL_VALIDATION_REGEX, email) &&
-	    		 Pattern.matches(COUNTRY_VALIDATION_REGEX, country)
-	     );
-	 }
+
 	 
 	 
 	 //-------------------------------------------CHANGE PASSWORD----------------------------------------------------
@@ -131,7 +120,7 @@ public class UserController implements InputCorrectness
 		  System.out.println("editAccount.getRepeatPassword()" + editAccount.getRepeatPassword() );
 		   
 
-		   UserAccount userAccount = userService.getUserAccount( userService.getAuthenticatedUserUsername() );
+		   UserAccount userAccount = userService.getAuthenticatedUserAccount();
 		   if
 		   ( 
 			 userAccount.getPassword().equals(editAccount.getCurrentPassword()) &&

@@ -32,33 +32,38 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
      throws IOException, ServletException 
   {
-    String message = "";
+    StringBuffer message = new StringBuffer();
 
     String username = request.getParameter("username");
     
-    if(exception instanceof UsernameNotFoundException) { message = "credentials"; }
+    if(exception instanceof UsernameNotFoundException) { message.append("credentials"); }
     
-    else if(exception instanceof AuthenticationCredentialsNotFoundException) { message = "credentials"; }
+    else if(exception instanceof AuthenticationCredentialsNotFoundException) { message.append("credentials"); }
     
-    else if(exception instanceof DisabledException) { message = "activate"; }
+    else if(exception instanceof DisabledException) { message.append("activate"); }
     
     else if(exception instanceof LockedException) 
     {
     	SecurityIssues issue = securityService.getSecurityIssuesAccountByUsername(username);
-        message = "locked-"+issue.getLockReason();
-        
+   
         if(issue.getUnlockDate()!=null && issue.isLockTimeElapsed() ) 
         {
         	adminService.accountSelfUnlockAfterLockTimeout(issue);
-        	message = "locked-end";
+        	message.append("locked-end");
         }
-        
-        response.sendRedirect("/SocialWebApplication/login?error="+message+"&kjhubvJHbt="+username);
+        if(issue.getNumberOfLoginFails()==5)
+        {
+        message.append("locked-"+issue.getLockReason());
+        }
+        else
+        {
+        	message.append("locked-"+issue.getLockReason()+"&kjhubvJHbt="+username);
+        }
     }
     
     else if(exception instanceof BadCredentialsException) 
     { 
-    	message = "credentials"; 
+    	message.append("credentials"); 
     	try 
     	{
     	securityService.increaseFailedLoginAttemptsNumberAndLockIfEqualsFive(username);
@@ -66,9 +71,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     	catch(IndexOutOfBoundsException ex) {}
     }
     
-    else { message = exception.getMessage(); }
+    else { message.append(exception.getMessage()); }
     
-    response.sendRedirect("/SocialWebApplication/login?error="+message);
+    response.sendRedirect("/SocialWebApplication/login?error="+message.toString());
      
   }
 

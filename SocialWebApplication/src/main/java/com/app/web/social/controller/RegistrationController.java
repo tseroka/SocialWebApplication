@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.app.web.social.dao.validations.InputCorrectness;
 import com.app.web.social.model.UserAccount;
@@ -19,6 +20,7 @@ import com.app.web.social.model.temp.SecurityIssuesFormHandler ;
 import com.app.web.social.service.UserService;
 import com.app.web.social.service.SecurityService;
 import com.app.web.social.service.UniquenessService;
+import com.app.web.social.utilities.CodeExpiredException;
 
 @Controller
 public class RegistrationController implements InputCorrectness {
@@ -45,7 +47,7 @@ public class RegistrationController implements InputCorrectness {
   {
 	  ModelAndView model = new ModelAndView("register");
 	  
-	  if(!results.hasErrors()) 
+	  if(!results.hasErrors() && Pattern.matches(PASSWORD_VALIDATION_REGEX, userAccount.getPassword())) 
 	  {
 		 if
 		 (   
@@ -59,7 +61,7 @@ public class RegistrationController implements InputCorrectness {
 	     )
 		   {
 			 userService.registerUser(userAccount);
-			 model.setViewName("account/activate"); model.addObject("registered","You have successfuly registered. Now You need to activate Your account by code sent on Your email address");
+			 model.setViewName("account/activate"); model.addObject("registered","You have successfuly registered. Now You need to activate Your account by 5 minutes valid code sent on Your email address");
 		     model.addObject("activate", new SecurityIssuesFormHandler());
 		   } 
 		 
@@ -95,9 +97,9 @@ public class RegistrationController implements InputCorrectness {
 	   {
 	   securityService.acceptActivationCodeAndEnableAccount(activate.getCode());
 	   }
-	   catch(IndexOutOfBoundsException ex)
+	   catch(IndexOutOfBoundsException | CodeExpiredException ex)
 	   {
-		   return new ModelAndView("account/activate","message","Wrong activation code");
+		   return new ModelAndView("account/activate","message","Wrong or expired activation code");
 	   }
 	   
 	   return new ModelAndView("/login","ok","Account activated. You can now log in.");
@@ -113,7 +115,7 @@ public class RegistrationController implements InputCorrectness {
    }
    
    @RequestMapping(value="/sendActivationCodeAgainProcessing", method=RequestMethod.POST)
-   public ModelAndView sendAgain(@ModelAttribute("send-activation-code-again") SecurityIssuesFormHandler sendAgain )
+   public ModelAndView sendAgain(@ModelAttribute("send-activation-code-again") SecurityIssuesFormHandler sendAgain, RedirectAttributes attributes )
    {
 	   String email = sendAgain.getEmail(); String username = sendAgain.getUsername();
 	   
@@ -122,7 +124,8 @@ public class RegistrationController implements InputCorrectness {
 	      try 
 	      {  
 		   securityService.sendAgainEmailWithActivationCode(email, username);
-		   return new ModelAndView("account/activate","message","If email and username are valid, activation code will be send again");
+		   attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to activate account will be send on this email address");
+		   return new ModelAndView("redirect:/exceptions/Activate account");
 	      }
 	      catch(IndexOutOfBoundsException ex)
 	      {

@@ -1,6 +1,5 @@
 package com.app.web.social.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +38,6 @@ public class MessagesService {
 	public Attachment getAttachment(Long attachmentId)
 	{
 		return this.messagesDAO.getAttachment(attachmentId);
-	}
-	
-	public void downloadAttachment(Attachment attachment)
-	{
-		this.messagesDAO.downloadAttachment(attachment);
 	}
 	
 	public boolean isDownloadingAllowed(Attachment attachment, Long messageId)

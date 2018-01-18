@@ -4,8 +4,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,43 +11,41 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.web.social.model.SecurityIssues;
 import com.app.web.social.model.UserAccount;
+import com.app.web.social.utilities.CodeExpiredException;
 //import com.app.web.social.utilities.EmailUtility;
 
 @Repository
 @Transactional
-public class SecurityDAOImpl implements SecurityDAO
+public class SecurityDAOImpl extends SuperDAO<Long, SecurityIssues> implements SecurityDAO
 {
-
-	@Autowired
-	private SessionFactory sessionFactory;
-	
 	@Autowired
 	private UserDAO userDAO;
 	
 //	@Autowired 
 //	private EmailUtility mail;
-	
-	Session session = null;
-	
+		
 	public SecurityIssues getSecurityIssuesAccountByUsername(String username)
-	{
-		 session = this.sessionFactory.getCurrentSession();
-		 
-		 return session.createQuery("from SecurityIssues S where S.username=:username",SecurityIssues.class)
+	{	 
+		 return getSession().createQuery("from SecurityIssues S where S.username=:username",SecurityIssues.class)
 		.setParameter("username",username).list().get(0);
 	}
-	 
 	
+	public SecurityIssues getSecurityIssuesById(long id)
+	{
+		return getEntityByPrimaryKey(id);
+	}
+	
+	public SecurityIssues getAuthenticatedSecurityIssues()
+	{
+		return getSecurityIssuesAccountByUsername(userDAO.getAuthenticatedUserUsername());
+	}
 
 //------------------ON LOGIN SUCCESS ----------------------------------------------------------------
 	
 	public void loginSuccess(String username) throws UnknownHostException
 	{
-
 		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
-		
-		issue.setNumberOfLoginFails((byte)0);
-		
+		issue.setNumberOfLoginFails((byte)0);		
 		issue.setLastLoginDate(new Timestamp(System.currentTimeMillis()));
 		
 		String ip = InetAddress.getLocalHost().toString();
@@ -57,12 +53,10 @@ public class SecurityDAOImpl implements SecurityDAO
 		issue.setLastIPAddress(ip);
 		issue.addIPAddress(ip);
 		
-		this.sessionFactory.getCurrentSession().update(issue);
-		
-		System.out.println(ip);
+		update(issue);
 	}
 
-//----------------ACCOUNT LOCK REASON------------------------------------------------------------------
+
 	
 	public String getLockReason(String username)
 	{
@@ -93,10 +87,10 @@ public class SecurityDAOImpl implements SecurityDAO
 	
 	private void resetActivationCode(String username)
 	{
-		session = this.sessionFactory.getCurrentSession();
-		SecurityIssues issues = getSecurityIssuesAccountByUsername(username);
-		issues.setActivationCode(generateActivationAndUnlockCode());
-		session.update(issues);
+		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
+		issue.setActivationCode(generateActivationAndUnlockCode());
+		issue.setTimeToExpire();
+		update(issue);
 	}
 	
 	
@@ -110,19 +104,26 @@ public class SecurityDAOImpl implements SecurityDAO
 	}
 	
 	
-	public void acceptActivationCodeAndEnableAccount(String code)
+	public void acceptActivationCodeAndEnableAccount(String code) throws CodeExpiredException
 	{		 
-     	    session = this.sessionFactory.getCurrentSession();
-			Query<SecurityIssues> query = session.createQuery("from SecurityIssues S WHERE S.activationCode=:code",SecurityIssues.class)
+			Query<SecurityIssues> query = getSession().createQuery("from SecurityIssues S WHERE S.activationCode=:code",SecurityIssues.class)
 			.setParameter("code",code);
 			
 			SecurityIssues issue = query.list().get(0);
+			if(issue.codeNotExpired())
+			{
 			issue.setActivationCode(null);
-			session.update(issue);
+			issue.setCodeExpirationDate(null);
 			
 			UserAccount userAccount = userDAO.getUserAccount((issue.getUsername()));
 			userAccount.setEnabled(true);
-			session.update(userAccount);
+			update(issue);
+			}
+			else 
+			{
+				throw new CodeExpiredException("Code expired");
+			}
+			
 	}
 	
 	
@@ -131,18 +132,17 @@ public class SecurityDAOImpl implements SecurityDAO
 	
 	public void increaseFailedLoginAttemptsNumberAndLockIfEqualsFive(String username)
 	{
-		 SecurityIssues issues = getSecurityIssuesAccountByUsername(username);
+		 SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
 				
-		 issues.setNumberOfLoginFails((byte)(issues.getNumberOfLoginFails()+1));
+		 issue.setNumberOfLoginFails((byte)(issue.getNumberOfLoginFails()+1));
 		 
-		 if(issues.getNumberOfLoginFails()==5) 
+		 if(issue.getNumberOfLoginFails()==5) 
 	     {
-			 userDAO.getUserAccount(username).setNotLocked(false); 
-			 issues.setLockReason(MAX_ATTEMPTS_REASON);
-			 issues.setUnlockCode(generateActivationAndUnlockCode());
+			 UserAccount userAccount = userDAO.getUserAccount(username);
+			 userAccount.setNotLocked(false); 
+			 issue.setLockReason(MAX_ATTEMPTS_REASON);
 		 }
-		 
-		 this.session.update(issues);
+		 update(issue);
 	}
 	
 	
@@ -166,35 +166,40 @@ public class SecurityDAOImpl implements SecurityDAO
 	
 	private void resetUnlockCode(String username)
 	{
-		session = this.sessionFactory.getCurrentSession();
 		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
 		
 		if(MAX_ATTEMPTS_REASON.equals(issue.getLockReason()))
 		{
 		   issue.setUnlockCode(generateActivationAndUnlockCode());
+		   issue.setTimeToExpire();
 		}
-		
-		session.update(issue);
+		update(issue);
 	}
 	
 	
-	public void resetFailedLoginAttemptsAndUnlockAccount(String code)
+	public void resetFailedLoginAttemptsAndUnlockAccount(String code) throws CodeExpiredException
 	{		
-   	        session = this.sessionFactory.getCurrentSession();
-			Query<SecurityIssues> query = session.createQuery("from SecurityIssues S WHERE S.unlockCode=:code", SecurityIssues.class )
+			Query<SecurityIssues> query = getSession().createQuery("from SecurityIssues S WHERE S.unlockCode=:code", SecurityIssues.class )
 			.setParameter("code",code);
 			
 			SecurityIssues issue = query.list().get(0);
-			if(issue.getLockReason().equals(MAX_ATTEMPTS_REASON))
+			if(issue.getLockReason().equals(MAX_ATTEMPTS_REASON) && issue.codeNotExpired() )
 			{
-			issue.setUnlockCode(null);
-			issue.setLockReason(null);
-			issue.setNumberOfLoginFails((byte)0);
-			session.update(issue);
+			   if(issue.codeNotExpired())
+			   {
+			   issue.setUnlockCode(null);
+			   issue.setLockReason(null);
+			   issue.setNumberOfLoginFails((byte)0);
+			   issue.setCodeExpirationDate(null);
 			
-			UserAccount userAccount = userDAO.getUserAccount((issue.getUsername()));
-			userAccount.setNotLocked(true);
-			session.update(userAccount);
+			   UserAccount userAccount = userDAO.getUserAccount((issue.getUsername()));
+			   userAccount.setNotLocked(true);
+			   update(issue);
+			   }
+			   else 
+			   {
+					throw new CodeExpiredException("Code expired");
+			   }
 			}
 	}
 	
@@ -218,28 +223,32 @@ public class SecurityDAOImpl implements SecurityDAO
 	
 	private void resetPasswordResetCode(String username)
 	{
-		session = this.sessionFactory.getCurrentSession();
-		SecurityIssues issues = getSecurityIssuesAccountByUsername(username);
-		issues.setResetPasswordCode(generateResetPasswordCode());
-		session.update(issues);
+		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
+		issue.setResetPasswordCode(generateResetPasswordCode());
+		issue.setTimeToExpire();
+		update(issue);
 	}
 	
 	
 	
 	
-	public void resetPassword(String password, String code)
+	public void resetPassword(String password, String code) throws CodeExpiredException
 	{
-		session = this.sessionFactory.getCurrentSession();
-		
-		SecurityIssues issue = session.createQuery("from SecurityIssues S WHERE S.resetPasswordCode=:code", SecurityIssues.class)
+		SecurityIssues issue = getSession().createQuery("from SecurityIssues S WHERE S.resetPasswordCode=:code", SecurityIssues.class)
 		.setParameter("code",code).list().get(0);
 		
+		if(issue.codeNotExpired())
+		{
 		issue.setResetPasswordCode(null);
-		session.update(issue);
+		issue.setCodeExpirationDate(null);
 		
 		UserAccount userAccount = userDAO.getUserAccount((issue.getUsername()));
 		userAccount.setPassword(password);
-		session.update(userAccount);
-
+		update(issue);
+		}
+		else 
+		{
+			throw new CodeExpiredException("Code expired");
+		}
 	}
 }

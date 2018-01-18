@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-
 import com.app.web.social.model.converter.StringListConverter;
 
 @Entity

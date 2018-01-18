@@ -24,6 +24,8 @@ placeholder="New password" onfocus="this.placeholder=''" onblur="this.placeholde
 <form:password path="repeatPassword" name="Current password" id="repeatPassword"  cssClass="inputData" 
 placeholder="Repeat password" onfocus="this.placeholder=''" onblur="this.placeholder='Repeat password'"/>	
 
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
 <form:button id="change" cssClass="inputSubmit" name="change">Change password</form:button>
 			
 </form:form>

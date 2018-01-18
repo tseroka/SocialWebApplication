@@ -47,7 +47,12 @@ public class ProfileController {
 		   return new ModelAndView("404","resourceNotFound","Profile You're trying to access does not exist.");
          }  
  
-	
+	     @RequestMapping(value="/yourProfile", method=RequestMethod.GET )  
+         public ModelAndView viewProfile()
+	     { 
+		   Profile profile = profileService.getAuthenticatedProfile();
+		   return new ModelAndView("profile/view-profile","profile",profile);
+         }  
 	
 	    @RequestMapping(value="view/all/", method=RequestMethod.GET)
 	    public ModelAndView viewProfiles()
@@ -62,13 +67,13 @@ public class ProfileController {
 	    @RequestMapping(value="edit" , method = RequestMethod.GET)  
 	    public ModelAndView edit()
 	    {  
-		  Profile profile = profileService.getProfileByNickname( profileService.getAuthenticatedUserNickname() );
+		  Profile profile = profileService.getAuthenticatedProfile();
           return new ModelAndView("profile/edit-profile","profile", profile);
 	    }  
 	  
 	    
 	    @RequestMapping(value="edit/save", method = RequestMethod.POST)  
-	    public ModelAndView editSave(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("profile") Profile profile)
+	    public ModelAndView editSave(@ModelAttribute("profile") Profile profile)
 	    {  
 	    	profile.setNickname(profileService.getAuthenticatedUserNickname());
 	    	profileService.editProfile(profile);  

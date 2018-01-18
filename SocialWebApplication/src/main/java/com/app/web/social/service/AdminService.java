@@ -1,10 +1,13 @@
 package com.app.web.social.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.web.social.dao.AdminDAO;
 import com.app.web.social.model.SecurityIssues;
+import com.app.web.social.model.UserAccount;
 import com.app.web.social.model.temp.LockAccount;
 
 @Service
@@ -13,6 +16,11 @@ public class AdminService
 
 	@Autowired
 	private AdminDAO adminDAO;
+	
+	public List<UserAccount> getUsersList()
+	{
+		return this.adminDAO.getUsersList();
+	}
 	
 	public void accountSelfUnlockAfterLockTimeout(SecurityIssues issue)
 	{

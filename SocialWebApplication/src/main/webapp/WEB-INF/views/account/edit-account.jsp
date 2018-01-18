@@ -33,6 +33,7 @@ placeholder="Country" onfocus="this.placeholder=''" onblur="this.placeholder='Co
 <form:password path="currentPassword" name="Current password" id="currentPassword"  cssClass="inputData" 
 placeholder="Current password" onfocus="this.placeholder=''" onblur="this.placeholder='Current password'"/>
 
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				
 <form:button id="save" cssClass="inputSubmit" name="save">Save</form:button>
 		

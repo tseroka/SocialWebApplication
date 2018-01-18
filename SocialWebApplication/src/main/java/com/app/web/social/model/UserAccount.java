@@ -29,13 +29,12 @@ public class UserAccount implements Serializable, InputCorrectness {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="user_id", nullable=false, unique=true, length=12)
 	private long id;
-
+   
 	@Column(name="username", nullable=false, unique=true, length=25)
 	@Pattern(regexp=USERNAME_VALIDATION_REGEX)
 	private String username;
 	 
 	@Column(name="password", nullable=false, unique=false, length=100)
-    @Pattern(regexp=PASSWORD_VALIDATION_REGEX)
     private String password;
 	 	
 	@Transient

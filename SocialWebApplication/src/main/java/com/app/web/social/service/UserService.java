@@ -1,8 +1,6 @@
 package com.app.web.social.service;
 
 import java.net.UnknownHostException;
-import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,11 +72,11 @@ public class UserService {
 		return this.userDAO.getUserAccount(username);
     }
 	
-	
-	public List<UserAccount> getUsersList()
+	public UserAccount getAuthenticatedUserAccount() 
 	{
-		return this.userDAO.getUsersList();
+	    return this.userDAO.getAuthenticatedUserAccount();	
 	}
+
 	
 	public void clearSession()
 	{

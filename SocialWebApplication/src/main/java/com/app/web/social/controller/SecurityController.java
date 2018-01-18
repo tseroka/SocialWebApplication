@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.app.web.social.dao.validations.InputCorrectness;
 import com.app.web.social.model.temp.SecurityIssuesFormHandler;
 import com.app.web.social.service.SecurityService;
+import com.app.web.social.utilities.CodeExpiredException;
 
 @Controller
 @RequestMapping(value = "/exceptions/")
@@ -39,7 +40,7 @@ public class SecurityController implements InputCorrectness
 			  try 
 			  {  
 		      securityService.sendEmailWithPasswordResetCode(email, username);
-		      attributes.addFlashAttribute("message","If email and username are valid, code to reset password will be send on this email address");
+		      attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to reset password will be send on this email address");
 		      return new ModelAndView("redirect:resetPassword/set");
 			  }
 			  catch(IndexOutOfBoundsException ex)
@@ -70,9 +71,9 @@ public class SecurityController implements InputCorrectness
 			     securityService.resetPassword(password, resetPassword.getCode());
 		       }
 		   }
-		   catch(IndexOutOfBoundsException ex)
+		   catch(IndexOutOfBoundsException | CodeExpiredException ex)
 		   {
-			   return new ModelAndView("account/exceptions/reset-password","message","Wrong reset password code");
+			   return new ModelAndView("account/exceptions/reset-password","message","Wrong or expired reset password code");
 		   }
 		
 		   return new ModelAndView("login","ok","Password changed. You can now log in");
@@ -101,7 +102,7 @@ public class SecurityController implements InputCorrectness
 		   {
 		   securityService.sendEmailWithUnlockCodeAfterSecurityLockup(email, username);
 		   
-		   attributes.addFlashAttribute("message","If email and username are valid, code to unlock account will be send on this email address");
+		   attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to unlock account will be send on this email address");
 		   return new ModelAndView("redirect:unlock") ;	 
 		   }
 		   catch(IndexOutOfBoundsException ex)
@@ -131,9 +132,9 @@ public class SecurityController implements InputCorrectness
 		   {   	       		       
 			     securityService.resetFailedLoginAttemptsAndUnlockAccount(unlockAccount.getCode());	      
 		   }
-		   catch(IndexOutOfBoundsException ex)
+		   catch(IndexOutOfBoundsException | CodeExpiredException ex)
 		   {
-			   return new ModelAndView("account/exceptions/unlock","message","Wrong unlock code");
+			   return new ModelAndView("account/exceptions/unlock","message","Wrong or expired unlock code");
 		   }
 		
 		   return new ModelAndView("login","ok","Account unlocked. You can now log in");

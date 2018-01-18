@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 
 import com.app.web.social.dao.SecurityDAO;
 import com.app.web.social.model.SecurityIssues;
+import com.app.web.social.utilities.CodeExpiredException;
 
 @Service
 public class SecurityService 
@@ -23,7 +24,15 @@ public class SecurityService
 		return this.securityDAO.getSecurityIssuesAccountByUsername(username);
 	}
 	
+	public SecurityIssues getSecurityIssuesById(long id)
+	{
+		return this.securityDAO.getSecurityIssuesById(id);
+	}
 	
+	public SecurityIssues getAuthenticatedSecurityIssues()
+	{
+		return this.securityDAO.getAuthenticatedSecurityIssues();
+	}
 	
 	public void loginSuccess(String username) throws UnknownHostException
 	{
@@ -65,7 +74,7 @@ public class SecurityService
 		this.securityDAO.sendAgainEmailWithActivationCode(email, username);
 	}
 	
-	public void acceptActivationCodeAndEnableAccount(String username)
+	public void acceptActivationCodeAndEnableAccount(String username) throws CodeExpiredException
 	{
 		this.securityDAO.acceptActivationCodeAndEnableAccount(username);
 	}
@@ -84,7 +93,7 @@ public class SecurityService
        this.securityDAO.sendEmailWithUnlockCodeAfterSecurityLockup(email, username);	
     }
 	
-	public void resetFailedLoginAttemptsAndUnlockAccount(String username)
+	public void resetFailedLoginAttemptsAndUnlockAccount(String username) throws CodeExpiredException
 	{
 	    this.securityDAO.resetFailedLoginAttemptsAndUnlockAccount(username);
 	}
@@ -100,7 +109,7 @@ public class SecurityService
 	}
 	
 	
-	public void resetPassword(String password, String code)
+	public void resetPassword(String password, String code) throws CodeExpiredException
 	{
 		this.securityDAO.resetPassword(password, code);
 	}

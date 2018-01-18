@@ -22,6 +22,8 @@
 	<form:input type="text" path="username" name="Username" cssClass="inputData" 
 	placeholder="Username" onfocus="this.placeholder=''" onblur="this.placeholder='Username'"/>		
 	
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	
 	<form:button id="sendResetPasswordCode" cssClass="inputSubmit" name="sendResetPasswordCode">Send reset password code</form:button>
 			
     </form:form>

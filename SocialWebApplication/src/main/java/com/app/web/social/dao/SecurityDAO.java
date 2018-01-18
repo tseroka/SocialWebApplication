@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.Random;
 
 import com.app.web.social.model.SecurityIssues;
+import com.app.web.social.utilities.CodeExpiredException;
 
 public interface SecurityDAO 
 {
@@ -17,7 +18,9 @@ public interface SecurityDAO
 	
 	public SecurityIssues getSecurityIssuesAccountByUsername(String username);
 			
+	public SecurityIssues getSecurityIssuesById(long id);
 	
+	public SecurityIssues getAuthenticatedSecurityIssues();
 	
 	public void loginSuccess(String username) throws UnknownHostException;
 	
@@ -61,7 +64,7 @@ public interface SecurityDAO
 	
 	public void sendAgainEmailWithActivationCode(String email, String username);
 	
-	public void acceptActivationCodeAndEnableAccount(String username);
+	public void acceptActivationCodeAndEnableAccount(String username) throws CodeExpiredException;
 
 	
 	
@@ -69,13 +72,13 @@ public interface SecurityDAO
 	
 	public void sendEmailWithUnlockCodeAfterSecurityLockup(String email, String username);
 	
-	public void resetFailedLoginAttemptsAndUnlockAccount(String username);
+	public void resetFailedLoginAttemptsAndUnlockAccount(String username) throws CodeExpiredException;
 	
 	
 	
 	public void sendEmailWithPasswordResetCode(String email, String username);
 	
-	public void resetPassword(String password, String code);
+	public void resetPassword(String password, String code) throws CodeExpiredException;
 	
 	
 

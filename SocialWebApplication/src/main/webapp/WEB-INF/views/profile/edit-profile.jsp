@@ -27,6 +27,8 @@
         
         Allow messages from strangers : <form:checkbox path="allowEveryoneToSendMessage"/> </br>
         
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        
    <form:button name="save">Save</form:button>   
            
        </form:form>    

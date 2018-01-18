@@ -19,6 +19,8 @@
 	<form:input type="text" path="code" name="unlockCode" cssClass="inputData" 
 	placeholder="Unlock code" onfocus="this.placeholder=''" onblur="this.placeholder='Unlock code'"/>
 				
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				
 	<form:button id="unlock" cssClass="inputSubmit" name="unlock">Unlock account</form:button>
 			
     </form:form>

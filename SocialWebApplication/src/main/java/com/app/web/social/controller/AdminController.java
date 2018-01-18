@@ -2,7 +2,6 @@ package com.app.web.social.controller;
 
 import com.app.web.social.model.PrivateMessage;
 import com.app.web.social.model.UserAccount;
-import com.app.web.social.service.UserService;
 import com.app.web.social.service.MessagesService;
 import com.app.web.social.service.AdminService;
 import com.app.web.social.model.temp.LockAccount;
@@ -23,9 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class AdminController {
     
 	@Autowired
-    private UserService userService;
-	
-	@Autowired
     private AdminService adminService;
 	
 	@Autowired
@@ -40,7 +36,7 @@ public class AdminController {
 	@RequestMapping(value = " view-users", method = RequestMethod.GET)
 	public ModelAndView viewUsers()
 	{ 
-		List<UserAccount> usersList = userService.getUsersList();
+		List<UserAccount> usersList = adminService.getUsersList();
 	    return new ModelAndView("admin/view-users","listUser",usersList);  
 	}
 	

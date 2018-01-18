@@ -22,6 +22,8 @@ placeholder="Subject" onfocus="this.placeholder=''" onblur="this.placeholder='Su
 				
 <form:textarea rows="10" cols="30" path="messageText" name="messageText" id="text" cssClass="inputData" 
 placeholder="Text" onfocus="this.placeholder=''" onblur="this.placeholder='Text'" />
+
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				
 <form:button>Send</form:button>
 		

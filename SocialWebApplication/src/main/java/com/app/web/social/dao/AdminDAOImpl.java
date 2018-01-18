@@ -1,14 +1,12 @@
 package com.app.web.social.dao;
 
 import java.sql.Timestamp;
+import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.web.social.dao.SecurityDAO;
 import com.app.web.social.dao.UserDAO;
 import com.app.web.social.model.SecurityIssues;
 import com.app.web.social.model.UserAccount;
@@ -16,80 +14,68 @@ import com.app.web.social.model.temp.LockAccount;
 
 @Repository
 @Transactional
-public class AdminDAOImpl implements AdminDAO 
+public class AdminDAOImpl extends SuperDAO<Long, SecurityIssues > implements AdminDAO 
 {
-
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	@Autowired
-	private SecurityDAO securityDAO;
 	
 	@Autowired
 	private UserDAO userDAO;
 	
-	Session session = null;
+	public List<UserAccount> getUsersList() 
+	{		
+	   return getSession().createQuery("from UserAccount where role='ROLE USER'", UserAccount.class).list();
+	}
+	
 
 	public void accountSelfUnlockAfterLockTimeout(SecurityIssues issue)
 	{
-		session = this.sessionFactory.getCurrentSession();
-		
+	
 		issue.setUnlockDate(null);
 		issue.setLockReason(null);
 		issue.setNumberOfLoginFails((byte)0);
-		session.update(issue);
 		
 		UserAccount userAccount = userDAO.getUserAccount(issue.getUsername());
 		userAccount.setNotLocked(true);
-		session.update(userAccount);
+		update(issue);
 	}
 	
 	
 	public void lockUser(LockAccount lockAccount)
 	{
-		session = this.sessionFactory.getCurrentSession();
 		
-		UserAccount userAccount = (UserAccount) session.load(UserAccount.class, lockAccount.getId());
+		UserAccount userAccount = userDAO.getUserById(lockAccount.getId());
 		
 		if(userAccount.getRole().equals("ROLE USER"))
 		{
-		userAccount.setNotLocked(false);
-		session.update(userAccount);
+		  userAccount.setNotLocked(false);
 		
-		SecurityIssues issue = (SecurityIssues) session.load(SecurityIssues.class, lockAccount.getId());
-		issue.setLockReason(lockAccount.getLockReason());
+		  SecurityIssues issue = loadEntityByPrimaryKey(lockAccount.getId());
+		  issue.setLockReason(lockAccount.getLockReason());
 		
-		if(lockAccount.getLockTime()==0L) 
-		{
+		  if(lockAccount.getLockTime()==0L) 
+		  {
 			issue.setUnlockDate(null);
-		}
-		
-		else 
-		{
+		  }
+		  else 
+		  {
 		    issue.setUnlockDate( new Timestamp( System.currentTimeMillis() + 86400000L*lockAccount.getLockTime() ) );
-		}
-		
-
-		session.update(issue);
+		  }
+		  
+		update(issue);
 		}
 	}
 	
 	public void unlockUser(long id)
 	{ 
-	   session = this.sessionFactory.getCurrentSession();
-	   
-	   UserAccount userAccount = (UserAccount) session.load(UserAccount.class, id);
+	   UserAccount userAccount = userDAO.getUserById(id);
 	   
 	   if(userAccount.getRole().equals("ROLE USER"))
 	   {
 	   userAccount.setNotLocked(true);
-	   session.update(userAccount);
 	   
-	   SecurityIssues issue = (SecurityIssues) session.load(SecurityIssues.class, id);
+	   SecurityIssues issue = loadEntityByPrimaryKey(id);
 	   issue.setLockReason(null);
 	   issue.setUnlockDate(null);
-	   session.update(issue);
-	   
+       update(issue);
 	   }
 	}
 }

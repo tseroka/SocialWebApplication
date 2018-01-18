@@ -12,6 +12,7 @@ public interface ProfileDAO {
 	
 	public String getAuthenticatedUserNickname();
 	
+	public Profile getAuthenticatedProfile();
 	
 	public void editProfile(Profile profile);
 	

@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
+
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import org.springframework.util.FileCopyUtils;
 
 import com.app.web.social.model.PrivateMessage;
 import com.app.web.social.model.Attachment;
@@ -63,23 +68,39 @@ public class MessagesController {
 		    	
 			    if(message.getMessageSubject().equals("")) message.setMessageSubject("No subject");
 			   
-			    CommonsMultipartFile fileUpload = message.getFileUpload();
-	  		    if(fileUpload!=null)
-			    {
-	  		    message.setIsAnyAttachment(true);
-	  		    
-			    Attachment attachment = new Attachment();	    
-                attachment.setFileName(fileUpload.getOriginalFilename());          
-                attachment.setFileType(fileUpload.getContentType());
-                attachment.setFileContent(fileUpload.getBytes());
-                attachment.setMessage(message);
-                
-                Set<Attachment> attachments = new HashSet<>(); attachments.add(attachment);
-                message.setAttachments(attachments);
-			    } 
-			    messagesService.sendMessage(message); 
+			    List<CommonsMultipartFile> fileUpload = message.getFileUpload();
 			    
-			   
+			    System.out.println("Are attachments null: "+(fileUpload==null));
+			    System.out.println("Are attachments empty: "+(fileUpload.isEmpty()));
+			    
+	 		    if(!(fileUpload.isEmpty()))
+		        {
+	 		        if(message.validateFiles(fileUpload))
+	 		        {
+	  		          Set<Attachment> attachments = new HashSet<>();
+	  		          message.setIsAnyAttachment(true);
+	  		    
+	  		         for(CommonsMultipartFile file : fileUpload) 
+	  		         {
+			            Attachment attachment = new Attachment();	    
+                        attachment.setFileName(file.getOriginalFilename());          
+                        attachment.setFileType(file.getContentType());
+                        attachment.setFileContent(file.getBytes());
+                        attachment.setFileSize(file.getSize());
+                        attachment.setMessage(message);
+                        attachments.add(attachment);
+	  		         }
+	  		      
+                      message.setAttachments(attachments);
+			        }
+	 		        else
+	 		        {
+	 		        	return new ModelAndView("messages/sendMessage","sendingNotAllowed", "You can upload up to 5 files with 20MB total size, .exe extension is not allowed.");
+	 		        }
+		        }
+	 		    
+			    messagesService.sendMessage(message); 
+
 	            return new ModelAndView("redirect:outbox");
 		    }
 		   return new ModelAndView("messages/sendMessage","sendingNotAllowed", "Sending not allowed (recipient doesn't exist or doesn't permit to send message).");
@@ -87,22 +108,23 @@ public class MessagesController {
 	   }  
 	    
 	   @RequestMapping(value = "download", method = RequestMethod.GET)
-	   public String downloadAttachment(@RequestParam(name = "msg", required = true) Long messageId,
-	   @RequestParam(name = "att", required = true) Long attachmentId	)
+	   public void downloadAttachment(@RequestParam(name = "msg", required = true) Long messageId,
+	   @RequestParam(name = "att", required = true) Long attachmentId, HttpServletResponse response)
+	   throws IOException
 	   {
 		   Attachment attachment = messagesService.getAttachment(attachmentId);
-		   
 		   if(messagesService.isDownloadingAllowed(attachment, messageId))
 		   {
-			   messagesService.downloadAttachment(attachment);
-			   System.out.println("Downloading attachment...");
-		   }
-		   else
+			    response.setContentType(attachment.getFileType());
+		        response.setContentLength(attachment.getFileContent().length);
+		        response.setHeader("Content-Disposition","attachment; filename=\"" + attachment.getFileName() +"\"");
+		        FileCopyUtils.copy(attachment.getFileContent(), response.getOutputStream());
+		   }			
+		   else 
 		   {
 			   attachment = null;
-			   return "redirect:/403";
-		   }
-		   return "redirect:inbox/"+messageId;
+			   response.sendRedirect("/SocialWebApplication/403");
+		   }		   
 	   }
 	    
 	   @RequestMapping(value = "remove/{id}", method = RequestMethod.GET)

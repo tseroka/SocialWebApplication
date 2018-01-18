@@ -26,6 +26,8 @@
        <option value="badLanguage-time">Bad language, temporary </option>
 	</form:select>
 	
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	
 	<form:button id="lock" cssClass="inputSubmit" name="activate">Lock account</form:button>
 			
     </form:form>

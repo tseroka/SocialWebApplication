@@ -10,7 +10,8 @@ import javax.persistence.Converter;
 @Converter
 public class StringListConverter implements AttributeConverter<List<String>, String> {
 	
-  public String convertToDatabaseColumn(List<String> list) {
+  public String convertToDatabaseColumn(List<String> list) 
+  {
 	  String result;
 	  if(list==null) result="";
 	  else result= String.join(",", list);
@@ -18,7 +19,8 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
   }
 
 
-  public List<String> convertToEntityAttribute(String joined) {
+  public List<String> convertToEntityAttribute(String joined) 
+  {
 	  List<String> list = new ArrayList<String>();
 	  if(joined==null || joined.equals("")) return list;
 	  else  list = new ArrayList<String>( Arrays.asList(joined.split(",") ) ) ; 

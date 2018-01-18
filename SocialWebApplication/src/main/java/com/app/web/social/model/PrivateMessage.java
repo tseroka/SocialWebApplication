@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Transient;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -52,11 +53,11 @@ public class PrivateMessage {
 	@Column(name = "anyAttachment", nullable = false, unique = false)
 	private boolean anyAttachment=false;
 	
-	@OneToMany(mappedBy = "message", fetch = FetchType.EAGER)
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "message", fetch = FetchType.EAGER)
 	private Set<Attachment> attachments;
-	
+	 
 	@Transient
-	private CommonsMultipartFile fileUpload;
+	private List<CommonsMultipartFile> fileUpload;
 	
 	public PrivateMessage()
 	{
@@ -149,14 +150,28 @@ public class PrivateMessage {
 	public void removeAttachment(Attachment attachment)
 	{
 		this.attachments.remove(attachment);
-	}
+	} 
 
-	public CommonsMultipartFile getFileUpload() {
+	public List<CommonsMultipartFile> getFileUpload() {
 		return fileUpload;
 	}
 
-	public void setFileUpload(CommonsMultipartFile fileUpload) {
+	public void setFileUpload(List<CommonsMultipartFile> fileUpload) {
 		this.fileUpload = fileUpload;
+	}
+	
+	public boolean validateFiles(List<CommonsMultipartFile> fileUpload)
+	{
+		if(fileUpload.size()>5) return false;
+		long totalSize = 0L;
+		for(CommonsMultipartFile file : fileUpload)
+		{
+		  	totalSize+=file.getSize();
+		  	String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+		  	if(extension.equals("exe")) return false;
+		}
+		
+		return totalSize<=2000000L;
 	}
 	
 	

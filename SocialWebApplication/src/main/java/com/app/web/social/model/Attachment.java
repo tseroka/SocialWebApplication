@@ -32,7 +32,10 @@ public class Attachment
     @Column(name = "fileContent", nullable = false)
     private byte[] fileContent;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@Column(name = "fileSize", nullable = false)
+	private long fileSize;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "message_id", nullable = false)
 	private PrivateMessage message;
 
@@ -42,12 +45,13 @@ public class Attachment
 		
 	}
 	
-	public Attachment(Long attachmentId, String fileName, String fileType, byte[] fileContent, PrivateMessage message)
+	public Attachment(Long attachmentId, String fileName, String fileType, byte[] fileContent, long fileSize, PrivateMessage message)
 	{
 		this.attachmentId = attachmentId;
 		this.fileName = fileName;
 		this.fileType = fileType;
 		this.fileContent = fileContent;
+		this.fileSize = fileSize;
 		this.message = message;
 	}
 
@@ -83,6 +87,14 @@ public class Attachment
 		this.fileContent = fileContent;
 	}
 
+	public long getFileSize() {
+		return fileSize;
+	}
+
+	public void setFileSize(long fileSize) {
+		this.fileSize = fileSize;
+	}
+
 	public PrivateMessage getMessage() {
 		return message;
 	}
@@ -90,13 +102,5 @@ public class Attachment
 	public void setMessage(PrivateMessage message) {
 		this.message = message;
 	}
-	
-
-	/**public boolean isDownloadingAllowed(String nickname)
-	{
-		return ( this.message.getMessageRecipients().contains(nickname) || this.message.getMessageSender().equals(nickname) );
-	}
-*/
-	
 	
 }

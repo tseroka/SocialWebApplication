@@ -25,6 +25,8 @@
     <form:password path="newPasswordRepeat" name="newPasswordRepeat" id="newPasswordRepeat"  cssClass="inputData" 
     placeholder="Confirm" onfocus="this.placeholder=''" onblur="this.placeholder='Confirm Password'"/>
     
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    
 	<form:button id="resetPassword" cssClass="inputSubmit" name="resetPassword">Reset password</form:button>
 			
     </form:form>

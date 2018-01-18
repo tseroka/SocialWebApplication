@@ -2,6 +2,7 @@ package com.app.web.social.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Transient;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -49,6 +50,13 @@ public class SecurityIssues implements Serializable
 	@Basic(fetch = FetchType.LAZY)
 	private String resetPasswordCode;
 	
+	@Column(name="codeExpirationDate", nullable=true, unique=false)
+	@Basic(fetch = FetchType.LAZY)
+	private Timestamp codeExpirationDate;
+	
+	@Transient
+	private final long expirationTime = 300000L;
+	
 	@Column(name="lastIPAddress", nullable=false, unique=false, length=16 )
 	private String lastIPAddress;
 	
@@ -77,8 +85,8 @@ public class SecurityIssues implements Serializable
 		
 	}
 	
-	public SecurityIssues(String username, UserAccount userAccount, String activationCode, String unlockCode, String resetPasswordCode,
-			String lastIPAddress, HashSet<String> allIPAddresses, Timestamp lastLoginDate, 
+	public SecurityIssues(String username, UserAccount userAccount,String activationCode, String unlockCode, String resetPasswordCode,
+			Timestamp codeExpirationDate, String lastIPAddress, HashSet<String> allIPAddresses, Timestamp lastLoginDate, 
 			byte numberOfLoginFails, String lockReason, Timestamp unlockDate) 
 	{
 		this.username = username;
@@ -86,6 +94,7 @@ public class SecurityIssues implements Serializable
 		this.activationCode = activationCode;
 		this.unlockCode = unlockCode;
 		this.resetPasswordCode = resetPasswordCode;
+		this.codeExpirationDate = codeExpirationDate;
 		this.lastIPAddress = lastIPAddress;
 		this.allIPAddresses = allIPAddresses;
 		this.lastLoginDate = lastLoginDate;
@@ -101,7 +110,7 @@ public class SecurityIssues implements Serializable
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+	
 	public UserAccount getUserAccount(){
 	     return userAccount;
 	}
@@ -109,7 +118,7 @@ public class SecurityIssues implements Serializable
     public void setUserAccount(UserAccount userAccount) {
 	     this.userAccount = userAccount;
 	}
-
+    
 	public String getActivationCode() {
 		return activationCode;
 	}
@@ -133,6 +142,18 @@ public class SecurityIssues implements Serializable
 
 	public void setResetPasswordCode(String resetPasswordCode) {
 		this.resetPasswordCode = resetPasswordCode;
+	}
+
+	public Timestamp getCodeExpirationDate() {
+		return codeExpirationDate;
+	}
+
+	public void setCodeExpirationDate(Timestamp codeExpirationDate) {
+		this.codeExpirationDate = codeExpirationDate;
+	}
+	
+	public long getExpirationTime(){
+		return this.expirationTime;
 	}
 
 	public String getLastIPAddress() {
@@ -197,5 +218,13 @@ public class SecurityIssues implements Serializable
 		return ( this.unlockDate.getTime() - (System.currentTimeMillis()) ) < 0 ;
 	}
 	
-    
+	public boolean codeNotExpired()
+	{
+		return ( this.codeExpirationDate.getTime() - (System.currentTimeMillis()) ) > 0 ;
+	}
+	
+    public void setTimeToExpire()
+    {
+    	this.setCodeExpirationDate(new Timestamp(expirationTime+System.currentTimeMillis()));
+    }
 }

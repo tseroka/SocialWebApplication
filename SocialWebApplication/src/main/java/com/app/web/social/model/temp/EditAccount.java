@@ -1,6 +1,10 @@
 package com.app.web.social.model.temp;
 
-public class EditAccount 
+import java.util.regex.Pattern;
+
+import com.app.web.social.dao.validations.InputCorrectness;
+
+public class EditAccount implements InputCorrectness
 {
     private String username;
 	
@@ -78,6 +82,15 @@ public class EditAccount
 		this.country = country;
 	}
     
+	public boolean validateChanges()
+	 {
+		 return 
+	     (
+	    		 Pattern.matches(USERNAME_VALIDATION_REGEX, this.username) &&
+	    		 Pattern.matches(EMAIL_VALIDATION_REGEX, this.email) &&
+	    		 Pattern.matches(COUNTRY_VALIDATION_REGEX, this.country)
+	     );
+	 }
     
 	
 	

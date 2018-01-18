@@ -2,8 +2,6 @@ package com.app.web.social.dao;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,122 +10,106 @@ import com.app.web.social.model.Friends;
 
 @Repository
 @Transactional
-public class FriendsDAOImpl implements FriendsDAO
+public class FriendsDAOImpl extends SuperDAO<String, Friends> implements FriendsDAO
 {
 	@Autowired 
 	private ProfileDAO profileDAO;
 	
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	
-	public void addToFriendsList(String getterNickname)
+	public Friends getAuthenticatedFriendsProfile()
 	{
-		Session session = this.sessionFactory.getCurrentSession();
-		
-		String senderName = profileDAO.getAuthenticatedUserNickname();
-		
-		Friends getter = (Friends) session.load(Friends.class,getterNickname);
-		getter.getInvitationsReceived().add(senderName);
-		session.update(getter);
-		
-		Friends sender = (Friends) session.load(Friends.class,senderName);
-		sender.getInvitationsSent().add(getterNickname);
-		session.update(sender);
+		return loadEntityByPrimaryKey(profileDAO.getAuthenticatedUserNickname());
 	}
 	
+	public void addToFriendsList(String getterNickname)
+	{		
+		String senderName = profileDAO.getAuthenticatedUserNickname();
+		
+		Friends getter = loadEntityByPrimaryKey(getterNickname);
+		getter.getInvitationsReceived().add(senderName);
+		update(getter);
+		
+		Friends sender = loadEntityByPrimaryKey(senderName);
+		sender.getInvitationsSent().add(getterNickname);
+		update(sender);
+	}
 	
-	
+		
 	public void acceptInvitationToFriendsList(String nickname)
 	{
-		Session session = this.sessionFactory.getCurrentSession();
 		String acceptorName = profileDAO.getAuthenticatedUserNickname();
 		
-		Friends acceptor = (Friends) session.load(Friends.class,acceptorName);
+		Friends acceptor = loadEntityByPrimaryKey(acceptorName);
 		
 		if(acceptor.getInvitationsReceived().contains(nickname))
 		{
 		  acceptor.getFriends().add(nickname);
 		  acceptor.getInvitationsReceived().remove(nickname);
-		  session.update(acceptor);
+		  update(acceptor);
 		
-	      Friends sender = (Friends) session.load(Friends.class,nickname);
+	      Friends sender = loadEntityByPrimaryKey(nickname);
 		  sender.getInvitationsSent().remove(acceptorName);
 		  sender.getFriends().add(acceptorName);
-		  session.update(sender);
+		  update(sender);
 		}
 	}
 	
-	
-	
-	public void declineInvitationToFriendsList(String nickname)
+		
+    public void declineInvitationToFriendsList(String nickname)
 	{
 		String declinerName = profileDAO.getAuthenticatedUserNickname();
 		
-		Session session = this.sessionFactory.getCurrentSession();
-		
-		Friends decliner = (Friends) session.load(Friends.class,declinerName);
+		Friends decliner = loadEntityByPrimaryKey(declinerName);
 		decliner.getInvitationsReceived().remove(nickname);
-		session.update(decliner);
+		update(decliner);
 		
-		Friends rejected = (Friends) session.load(Friends.class,nickname);
+		Friends rejected = loadEntityByPrimaryKey(nickname);
 		rejected.getInvitationsSent().remove(declinerName);
-		session.update(rejected);
+		update(rejected);
 	}
-	
 	
 	
 	public void removeFromFriendsList(String nickname) 
 	{
-		Session session = this.sessionFactory.getCurrentSession();
-		
 		String removerName = profileDAO.getAuthenticatedUserNickname();
 		
-		Friends remover = (Friends) session.load(Friends.class,removerName);
+		Friends remover = loadEntityByPrimaryKey(removerName);
 		remover.getFriends().remove(nickname);
-		session.update(remover);
+		update(remover);
 		
-		Friends removed = (Friends) session.load(Friends.class,nickname);
+		Friends removed = loadEntityByPrimaryKey(nickname);
 		removed.getFriends().remove(removerName);
-	    session.update(removed);
+	    update(removed);
 	}
 	
 	
 	
 	public List<String> getReceivedInvitations()
 	{
-		Session session = this.sessionFactory.getCurrentSession();
-		return ((Friends) session.load(Friends.class,profileDAO.getAuthenticatedUserNickname())).getInvitationsReceived();
+		return getAuthenticatedFriendsProfile().getInvitationsReceived();
 	}
 	
-	
-	
+		
 	public List<String> getSentInvitations()
 	{
-		Session session = this.sessionFactory.getCurrentSession();
-		return ((Friends) session.load(Friends.class,profileDAO.getAuthenticatedUserNickname())).getInvitationsSent();
+		return getAuthenticatedFriendsProfile().getInvitationsSent();
 	}
-	
 	
 	
 	public List<String> getFriendsList()
 	{
-		Session session = this.sessionFactory.getCurrentSession();
-		return ((Friends) session.load(Friends.class,profileDAO.getAuthenticatedUserNickname())).getFriends();
+		return getAuthenticatedFriendsProfile().getFriends();
 	}
 	
 	
 	public boolean isFriend(String nickname)
 	{
-		Session session = this.sessionFactory.getCurrentSession();
-		return ((Friends)session.load(Friends.class,profileDAO.getAuthenticatedUserNickname())).getFriends().contains(nickname);
+		return getFriendsList().contains(nickname);
 	}
 	
 	
 	public boolean isInvited(String nickname)
 	{
-		Session session = this.sessionFactory.getCurrentSession();
-		return ((Friends)session.load(Friends.class,profileDAO.getAuthenticatedUserNickname())).getInvitationsSent().contains(nickname);
+		return getSentInvitations().contains(nickname);
 	}
 	
 }
