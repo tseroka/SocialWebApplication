@@ -1,14 +1,16 @@
-      <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
-   <html>
-   
-   <head>
-  <title>Friends</title>
-  </head>
-  
-  <body>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+<%@ page language="java"%>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Invitations</title>
+</head>
+ 
+<body>
 <c:if test="${not empty receivedInvitationsList}">
-<h1>Friends invitations </h1>  
-<table border="2" width="70%" cellpadding="2"> 
+<h1>Received invitations </h1>  
+<table> 
 
 <tr>
 <th>Nickname</th>
@@ -29,5 +31,7 @@
 <c:if test="${empty receivedInvitationsList}">
 You have no active invitations to friends list.
 </c:if>
+
 </body> 
+
 </html>

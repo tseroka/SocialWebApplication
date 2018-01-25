@@ -1,13 +1,19 @@
-   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
-   <html>
-   <head>
-  
-  </head>
-  <body>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+<%@ page language="java"%>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Messages</title>
+</head>
+
+<body>
+<div id="outboxContainer">
+
 <h1>Outbox</h1>  
 
 <c:if test="${not empty outboxMessages}">
-<table border="2" width="70%" cellpadding="2">  
+<table>  
 <tr>
 <th>Recipients</th><th>Subject</th> <th>Sent date</th> <th>Remove message</th>
 </tr>  
@@ -25,11 +31,19 @@
 <td><a href='/SocialWebApplication/profile/messages/remove/${message.messageId}'>Remove</a></td>  
 </tr>
 </c:forEach>
+
+<c:forEach begin="1" end="${endpage}" var="page">
+         <a href="/SocialWebApplication/profile/messages/outbox?page=${page}">${page}</a>
+</c:forEach>
+
 </table>
 </c:if>
 <c:if test="${empty outboxMessages}">
 No messages
 </c:if>
+
+</div>
+
 </body>
 
 </html>

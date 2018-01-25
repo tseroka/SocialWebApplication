@@ -1,9 +1,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1" session="false" %>
+<%@ page language="java"%>
+<!doctype html>
 <html>
 <head>
+<meta charset="utf-8">
 <title>Lock account</title>
 <style><%@include file="/css/login_style.css"%></style> 
 </head>
@@ -16,14 +16,20 @@
 	Account id: <form:input type="text" path="id" name="id" class="inputData" 
 	placeholder="Account Id" onfocus="this.placeholder=''" onblur="this.placeholder='Account Id'"/>
 	
-	</br>
-	Lock time in days (0 is permanent): <form:input type="text" path="lockTime" name="lockTime" class="inputData" 
-	placeholder="Lock time" onfocus="this.placeholder=''" onblur="this.placeholder='Lock time'"/>
+	<br>
 	
-	</br>
+	Lock time: <form:select path="lockTime" name="time" id="lockTime" cssClass="inputData">
+	   <option value="0">Permanent</option>
+       <option value="1">1 day</option>
+       <option value="7">7 days</option>
+       <option value="30">1 month</option>
+       <option value="90">3 months</option>
+       <option value="365">1 year</option>
+	</form:select>
+	
+	<br>
 	Lock reason: <form:select path="lockReason" name="reason" id="lockReason" class="inputData">
-	   <option value="badLanguage-perm">Bad language, permanent</option>
-       <option value="badLanguage-time">Bad language, temporary </option>
+	   <option value="badLanguage">Bad language</option>
 	</form:select>
 	
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

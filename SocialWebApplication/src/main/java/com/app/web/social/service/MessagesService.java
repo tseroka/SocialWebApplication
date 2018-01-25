@@ -15,14 +15,24 @@ public class MessagesService {
 	@Autowired
 	private MessagesDAO messagesDAO;
 	
-	public List<PrivateMessage> getInbox()
+	public List<PrivateMessage> getInbox(int pageNumber)
 	{
-		return this.messagesDAO.getInbox();
+		return this.messagesDAO.getInbox(pageNumber);
 	}
 	
-	public List<PrivateMessage> getOutbox()
+	public Long countInboxMessages()
 	{
-		return this.messagesDAO.getOutbox();
+		return this.messagesDAO.countInboxMessages();
+	}
+	
+	public List<PrivateMessage> getOutbox(int pageNumber)
+	{
+		return this.messagesDAO.getOutbox(pageNumber);
+	}
+	
+	public Long countOutboxMessages()
+	{
+		return this.messagesDAO.countOutboxMessages();
 	}
 	
 	public List<PrivateMessage> getGlobalMessages()

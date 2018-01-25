@@ -17,9 +17,20 @@ public class AdminService
 	@Autowired
 	private AdminDAO adminDAO;
 	
+	public List<UserAccount> getUsersList(int pageNumber)
+	{
+		return this.adminDAO.getUsersList(pageNumber);
+	}
+	
 	public List<UserAccount> getUsersList()
 	{
 		return this.adminDAO.getUsersList();
+	}
+	
+	
+	public Long countUsers()
+	{
+	   return this.adminDAO.countUsers();	
 	}
 	
 	public void accountSelfUnlockAfterLockTimeout(SecurityIssues issue)
@@ -35,6 +46,12 @@ public class AdminService
 	public void unlockUser(long id)
 	{
 		this.adminDAO.unlockUser(id);
+	}
+	
+	
+	public void deleteUser(long id) 
+	{
+		this.adminDAO.deleteUser(id);
 	}
 	
 }

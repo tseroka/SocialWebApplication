@@ -84,24 +84,6 @@ public class UserDAOImpl extends SuperDAO<Long, UserAccount> implements UserDAO
 	{
 		return getUserAccount(getAuthenticatedUserUsername());
 	}
-	
-	public void deleteUser(long id) 
-	{
-		Session session = getSession();
-		
-		UserAccount userAccount = loadEntityByPrimaryKey(id);
-		String nickname = userAccount.getNickname();
-		session.remove(userAccount);
-		
-		Friends friends = (Friends) session.load(Friends.class, nickname);
-		session.remove(friends);
-		
-		Profile profile = (Profile) session.load(Profile.class, nickname);
-		session.remove(profile);
-		
-		//TODO delete messages
-		
-	}
  
 
 	public UserAccount getUserById(long id) 
@@ -118,6 +100,7 @@ public class UserDAOImpl extends SuperDAO<Long, UserAccount> implements UserDAO
 	{
 	   return getSession().createQuery("from UserAccount U where U.email =:email",UserAccount.class).setParameter("email",email).list().get(0);
 	}
+	
 	
 
 	public void clearSession()

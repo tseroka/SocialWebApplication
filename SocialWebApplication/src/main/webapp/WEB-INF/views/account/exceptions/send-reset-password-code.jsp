@@ -1,16 +1,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1" session="false" %>
+<%@ page language="java" session="false" %>
+<!doctype html>
 <html>
 <head>
+<meta charset="utf-8">
 <title>Send reset password code</title>
 <style><%@include file="/css/login_style.css"%></style> 
 </head>
 
 	<div id="activate-box">
 
-	<table align="center"><tr><td style="font-style: bold; color: red;">${message}</td></tr></table>	
+	<table><tr><td style="font-style: bold; color: red;">${message}</td></tr></table>	
 	
 	Send reset password code
 	

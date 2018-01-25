@@ -1,15 +1,18 @@
-      <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
-   <html>
-   
-   <head>
-   <style><%@include file="/css/index_style.css"%></style>
-  <title>Friends</title>
-  </head>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+<%@ page language="java"%>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Friends</title>
+<style><%@include file="/css/index_style.css"%></style>
+</head>
   
-  <body>
+<body>
+
 <c:if test="${not empty friendsList}">
 <h1>Your Friends</h1>  
-<table border="2" width="70%" cellpadding="2"> 
+<table> 
 
 <tr>
 <th>Nickname</th>
@@ -30,4 +33,5 @@ You have no friends, try out <div class="link"> <a href="/SocialWebApplication/s
 </c:if>
 
 </body> 
+
 </html>

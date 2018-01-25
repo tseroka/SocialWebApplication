@@ -23,7 +23,7 @@ import com.app.web.social.dao.validations.InputCorrectness;
 @Valid
 public class UserAccount implements Serializable, InputCorrectness {
 	
-	private static final long serialVersionUID = -7400604230107519063L;
+	private static final long serialVersionUID = 7264035467573861733L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -49,7 +49,7 @@ public class UserAccount implements Serializable, InputCorrectness {
     private String email;
 	 
 	@Column(name="country", nullable=true, unique=false, length=40)
-	@Pattern(regexp=COUNTRY_VALIDATION_REGEX)
+    @Pattern(regexp=COUNTRY_VALIDATION_REGEX)
     private String country;
 	
 	@Column(name="creationDate", nullable=false, unique=false)

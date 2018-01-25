@@ -1,5 +1,6 @@
 package com.app.web.social.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +27,9 @@ import com.app.web.social.model.converter.StringListConverter;
 
 @Entity
 @Table(name = "privatemessages",  uniqueConstraints ={ @UniqueConstraint( columnNames = {"message_id"} ) }     )
-public class PrivateMessage {
+public class PrivateMessage implements Serializable 
+{
+	private static final long serialVersionUID = -8914840082826396792L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,13 +62,16 @@ public class PrivateMessage {
 	@Transient
 	private List<CommonsMultipartFile> fileUpload;
 	
-	public PrivateMessage()
+	@Column(name = "anyoneRemoved", nullable= false, unique = false)
+    private boolean anyoneRemoved;
+	
+    public PrivateMessage()
 	{
 		
 	}
 	
-	public PrivateMessage (Long messageId, String messageSender, List<String> messageRecipients,
-			String messageSubject,String messageText, Timestamp sentDate, boolean anyAttachment, Set<Attachment> attachments) 
+	public PrivateMessage (Long messageId, String messageSender, List<String> messageRecipients, String messageSubject,
+		String messageText, Timestamp sentDate, boolean anyAttachment, Set<Attachment> attachments, boolean anyoneRemoved) 
 	{
 		this.messageId = messageId;
 		this.messageSender = messageSender;
@@ -75,6 +81,7 @@ public class PrivateMessage {
 		this.sentDate = sentDate;
 		this.anyAttachment = anyAttachment;
 		this.attachments = attachments;
+		this.anyoneRemoved = anyoneRemoved;
 	}
 
 	public Long getMessageId() {
@@ -160,6 +167,15 @@ public class PrivateMessage {
 		this.fileUpload = fileUpload;
 	}
 	
+	
+	public boolean isAnyoneRemoved() {
+		return anyoneRemoved;
+	}
+
+	public void setAnyoneRemoved(boolean anyoneRemoved) {
+		this.anyoneRemoved = anyoneRemoved;
+	}
+
 	public boolean validateFiles(List<CommonsMultipartFile> fileUpload)
 	{
 		if(fileUpload.size()>5) return false;

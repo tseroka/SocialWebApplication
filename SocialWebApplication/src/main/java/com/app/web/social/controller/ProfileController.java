@@ -2,9 +2,6 @@ package com.app.web.social.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -44,7 +41,7 @@ public class ProfileController {
 		   return model;
 		   }
 		   
-		   return new ModelAndView("404","resourceNotFound","Profile You're trying to access does not exist.");
+		   return new ModelAndView("redirect:/404");
          }  
  
 	     @RequestMapping(value="/yourProfile", method=RequestMethod.GET )  

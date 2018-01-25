@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-     <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>    
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>    
+<!doctype html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta charset="utf-8">
 <style><%@include file="/css/register_style.css"%></style> 
-<title>Edit account</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<title>Change password</title>
 </head>
 <body>
 <div id="container">
@@ -14,12 +14,13 @@
 
 <form:form modelAttribute="editAccount" method="POST" action="/SocialWebApplication/user/edit/password/save">    
 
-<table align="center"><tr><td style="font-style: italic; color: red;">${invalidPasswordMessage}</td></tr></table>	
+<table><tr><td style="font-style: italic; color: red;">${invalidPasswordMessage}</td></tr></table>	
 <form:password path="currentPassword" name="Current password" id="currentPassword"  cssClass="inputData" 
 placeholder="Current password" onfocus="this.placeholder=''" onblur="this.placeholder='Current password'"/>
 
 <form:password path="newPassword" name="New password" id="newPassword"  cssClass="inputData" 
-placeholder="New password" onfocus="this.placeholder=''" onblur="this.placeholder='New password'"/>
+placeholder="New password" onfocus="this.placeholder=''" onblur="this.placeholder='New password'"
+pattern="((?=.*[a-z])(?=.*d)(?=.*[@#$%])(?=.*[A-Z]).{8,40})" title="Passowrd must be 8-40 characters long, and contain at least one lowercase, uppercase letter, digit and special character" required="true"/>
 			
 <form:password path="repeatPassword" name="Current password" id="repeatPassword"  cssClass="inputData" 
 placeholder="Repeat password" onfocus="this.placeholder=''" onblur="this.placeholder='Repeat password'"/>	
@@ -32,6 +33,19 @@ placeholder="Repeat password" onfocus="this.placeholder=''" onblur="this.placeho
 
 </div>
 
+<script> 
+$(function () {
+    $("#register").click(function () {
+        var password = $("#newPassword").val();
+        var confirmPassword = $("#repeatPassword").val();
+        if (password != confirmPassword) {
+            alert("Passwords do not match.");
+            return false;
+        }
+        return true;
+    });
+});
+</script>
 
 </body>
 </html>

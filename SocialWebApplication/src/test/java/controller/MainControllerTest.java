@@ -37,12 +37,11 @@ public class MainControllerTest {
 	    }
 	    
 	    @Test
-	    public void testMyMvcController() throws Exception {
+	    public void testMainController() throws Exception {
 	        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/");
 	        this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk())
 	        .andExpect(MockMvcResultMatchers.view().name("home"));
 	     }
 	 
-	      
 	    
 }

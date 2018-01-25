@@ -43,8 +43,8 @@ public class ProfileDAOTest {
 	     @Test
 	     public void getUserByUsernameTest() { 
        
-	        assertEquals("Invalid user loaded",7L, userService.getUserAccount("sebabanan").getId());
-	        assertNotSame("Invalid user loaded",8L, userService.getUserAccount("sebabanan").getId());
+	        assertEquals("Invalid user loaded",7L, userService.getUserAccount("sebabananek").getId());
+	        assertNotSame("Invalid user loaded",8L, userService.getUserAccount("sebabananek").getId());
 	     
 	    } 
 	

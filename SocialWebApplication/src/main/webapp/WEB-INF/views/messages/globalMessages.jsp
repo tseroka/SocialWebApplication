@@ -1,13 +1,18 @@
-   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
-   <html>
-   <head>
-  
-  </head>
-  <body>
-<h1>Global Messages</h1>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+<%@ page language="java"%>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Admin messages</title>
+</head>
+
+<body>
+
+<h1>Admin messages</h1>  
 
 <c:if test="${not empty globalMessages}">
-<table border="2" width="70%" cellpadding="2">  
+<table>  
 <tr>
 <th>Sender</th> <th>Subject</th> <th>Date</th>
 
@@ -26,6 +31,7 @@
 <c:if test="${empty globalMessages}">
 No messages
 </c:if>
+
 </body>
 
 </html>

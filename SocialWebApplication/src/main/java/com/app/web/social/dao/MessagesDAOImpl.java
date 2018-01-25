@@ -15,6 +15,7 @@ import com.app.web.social.model.PrivateMessage;
 import com.app.web.social.model.Attachment;
 import com.app.web.social.dao.validations.Uniqueness;
 import com.app.web.social.dao.validations.InputCorrectness;
+import com.app.web.social.dao.SuperDAO;
 
 @Repository
 @Transactional
@@ -31,25 +32,43 @@ public class MessagesDAOImpl extends SuperDAO<Long, PrivateMessage>  implements 
 	
 	
 	 
-	public List<PrivateMessage> getInbox() 
+	public List<PrivateMessage> getInbox(int pageNumber) 
 	{		
+		int pageSize = 10;
         List<String> oneRecipient = new ArrayList<String>(); oneRecipient.add(profileDAO.getAuthenticatedUserNickname());
 			
 		Query<PrivateMessage> query = getSession().createQuery("from PrivateMessage Pm WHERE  (:oneRecipient) in Pm.messageRecipients ORDER BY Pm.sentDate desc",PrivateMessage.class)
+				.setFirstResult((pageNumber - 1) * pageSize).setMaxResults(pageSize)
 				.setParameter("oneRecipient",oneRecipient);
 				
 		return removeSignOfRemovalFromSenderAndReturnMessagesList( query.list() );
 	 }
 	
+	 public Long countInboxMessages()
+	 {      
+	        List<String> oneRecipient = new ArrayList<String>(); oneRecipient.add(profileDAO.getAuthenticatedUserNickname());
+	    	return getSession().createQuery("select count(Pm.id) from PrivateMessage Pm WHERE  (:oneRecipient) in Pm.messageRecipients", Long.class)
+	    			.setParameter("oneRecipient",oneRecipient).uniqueResult();
+	 }
+	    
 	
-	public List<PrivateMessage> getOutbox() 
+	public List<PrivateMessage> getOutbox(int pageNumber) 
 	{
+		int pageSize = 10;
 		Query<PrivateMessage> query = getSession().createQuery("from PrivateMessage Pm WHERE Pm.messageSender =:msgSender ORDER BY Pm.sentDate desc ",PrivateMessage.class)
+				.setFirstResult((pageNumber - 1) * pageSize).setMaxResults(pageSize)
 				.setParameter("msgSender",profileDAO.getAuthenticatedUserNickname());
 	
 		return returnMessagesListWithRemovedSignOfRemovalFromRecipients( query.list() );
 	}
 	
+	 public Long countOutboxMessages()
+	 {      
+			return getSession().createQuery("select count(Pm.id) from PrivateMessage Pm WHERE Pm.messageSender =:msgSender ORDER BY Pm.sentDate desc ",Long.class)
+			.setParameter("msgSender",profileDAO.getAuthenticatedUserNickname()).uniqueResult();
+	 }
+	    
+	 
 	public List<PrivateMessage> getGlobalMessages() 
 	{		
 		List<String> all = new ArrayList<String>(); all.add("ALL");
@@ -65,10 +84,13 @@ public class MessagesDAOImpl extends SuperDAO<Long, PrivateMessage>  implements 
 	public PrivateMessage getMessage(Long messageId)
 	{	
 		PrivateMessage message = loadEntityByPrimaryKey(messageId);
-		String sender = message.getMessageSender();
-		List<String> recipients = message.getMessageRecipients();
-		message.setMessageSender(removeSignOfRemoval(sender));
-		message.setMessageRecipients(removeSignOfRemovalFromRecipients(recipients));
+		if(message.isAnyoneRemoved())
+		{
+		  String sender = message.getMessageSender();
+		  List<String> recipients = message.getMessageRecipients();
+		  message.setMessageSender(removeSignOfRemoval(sender));
+		  message.setMessageRecipients(removeSignOfRemovalFromRecipients(recipients));
+		}
 		return message;
 	}
 	
@@ -107,17 +129,74 @@ public class MessagesDAOImpl extends SuperDAO<Long, PrivateMessage>  implements 
 		else redirect="/403";
 		
 		if( checkIsRemoved(message.getMessageSender()) && checkAreRecipientsRemoved(message.getMessageRecipients()) )
-		remove(message);
+		   remove(message);
 		
-		else update(message);
+		else 
+		{   
+			message.setAnyoneRemoved(true);
+			update(message);
+		}
 		
 		return redirect;
 	}
 
+	public void removeAllMessages(String nickname)
+	{
+		List<String> oneRecipient = new ArrayList<String>(); oneRecipient.add(nickname);
+		Query<PrivateMessage> inboxQuery = getSession().createQuery("from PrivateMessage Pm WHERE  (:oneRecipient) in Pm.messageRecipients ORDER BY Pm.sentDate desc",PrivateMessage.class)
+				.setParameter("oneRecipient",oneRecipient);
+		
+		List<PrivateMessage> inbox = inboxQuery.list();
+		
+		Query<PrivateMessage> outboxQuery = getSession().createQuery("from PrivateMessage Pm WHERE Pm.messageSender =:msgSender ORDER BY Pm.sentDate desc ",PrivateMessage.class)
+				.setParameter("msgSender",nickname);
+		
+		List<PrivateMessage> outbox = outboxQuery.list();
+		
+		for(PrivateMessage message : inbox)
+		{
+			removeMessageWhenDeletingAccount(message, nickname);
+		}
+		
+		for(PrivateMessage message : outbox)
+		{
+			removeMessageWhenDeletingAccount(message, nickname);
+		}
+	}
 	
+	
+	private void removeMessageWhenDeletingAccount(PrivateMessage message, String nickname)
+	{	
+		String sender = message.getMessageSender(); 
+		List<String> recipients = message.getMessageRecipients();
+      	
+        if(sender.equals(nickname)) 
+		{
+		      sender = sender+REMOVAL_SIGN;
+		      message.setMessageSender(sender);
+	    }
+		
+		else if(recipients.contains(nickname))
+	    {
+			recipients.remove(nickname);
+			recipients.add(nickname+REMOVAL_SIGN);
+			message.setMessageRecipients(recipients); 		
+	    }		
+		
+		if( checkIsRemoved(message.getMessageSender()) && checkAreRecipientsRemoved(message.getMessageRecipients()) )
+		   remove(message);
+		
+		else 
+		{   
+			message.setAnyoneRemoved(true);
+			update(message);
+		}		
+	}
+
 	public void sendMessage(PrivateMessage message)
 	{
 		message.setSentDate(new Timestamp(System.currentTimeMillis()));
+		message.setAnyoneRemoved(false);
 		persist(message);	
 	}
  

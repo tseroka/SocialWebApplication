@@ -1,19 +1,19 @@
 package com.app.web.social.dao;
 
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder;
+/**import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Path; */
 
-import org.hibernate.Session;
+//import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -58,23 +58,34 @@ public class ProfileDAOImpl extends SuperDAO<String, Profile> implements Profile
     
 	
     public List<String> searchProfiles(String sex, String city, List<String> interests)
-    {   
-    	
-    	Session session = getSession();    	
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<String> criteriaQuery = builder.createQuery(String.class); 	    	
-        Root<Profile> root = criteriaQuery.from(Profile.class);  	
+    {      	
+      //  CriteriaBuilder builder = session.getCriteriaBuilder();
+      //  CriteriaQuery<String> criteriaQuery = builder.createQuery(String.class); 	    	
+     //   Root<Profile> root = criteriaQuery.from(Profile.class);  	
         
-      	List<Predicate> predicates = new ArrayList<>();
+      //	List<Predicate> predicates = new ArrayList<>();
+    	
+      	boolean skipSex = "".equals(sex);
+      	boolean skipCity = "".equals(city);
+      	boolean skipInterests = emptyInterests.equals(interests);
       	
+      	Query<String> query = getSession().createQuery("SELECT P.nickname FROM Profile P where "
+        + "(  ( P.sex=:sex OR (:skipSex) )   AND   ( P.city=:city OR (:skipCity) )   AND   ( ((:interests) in P.interests ) OR (:skipInterests) )  ) ORDER BY P.nickname", String.class).
+      	setParameter("sex",sex).setParameter("skipSex",skipSex).setParameter("city",city).setParameter("skipCity",skipCity)
+      	.setParameter("interests",interests).setParameter("skipInterests",skipInterests);
+      	
+      	return query.list();
+    }
+      	/**
       	if(!"".equals(sex) ) 
       	{
-      		 predicates.add(builder.equal(root.get("sex"), sex ));
+      		// predicates.add(builder.equal(root.get("sex"), sex ));
+      		
       	}
       	
       	if(!"".equals(city))
       	{
-      		predicates.add(builder.equal(root.get("city"), city ));      		
+      		//predicates.add(builder.equal(root.get("city"), city ));      		
       	}
       	
       	if(!emptyInterests.equals(interests))
@@ -105,11 +116,14 @@ public class ProfileDAOImpl extends SuperDAO<String, Profile> implements Profile
       	//	Expression<String> parentExpression = root.get("interests");
       	//	Predicate parentPredicate = parentExpression.in(interests);
       	//	predicates.add(parentPredicate);
-      		for(String interest : interests)
-      		{
-      		predicates.add(root.get("interests").in(interest));  
+      	//	for(String interest : interests)
+      	//	{
+      	//	predicates.add(root.get("interests").in(interest));  
+      		predicates.add(builder.isTrue(root.get("interests").in(interests)));
       		}
-      	}
+      		
+      		
+      	
       	 
       
       //	Predicate [] predicatesArr = predicates.toArray(new Predicate[predicates.size()]); 
@@ -117,7 +131,7 @@ public class ProfileDAOImpl extends SuperDAO<String, Profile> implements Profile
       	
       	criteriaQuery.select(root.<String>get("nickname")).where(predicates.toArray(new Predicate[]{}));
     //  	System.out.println(session.createQuery(criteriaQuery).getSingleResult());
-      	return session.createQuery(criteriaQuery).list();  //ClassCastException
-    }
+      	return session.createQuery(criteriaQuery).list();  //ClassCastException */
+    
     
 }

@@ -32,12 +32,6 @@ public class UserService {
 		this.userDAO.editUser(userAccount);
 	}
 	
-	public void deleteUser(long id) 
-	{
-		this.userDAO.deleteUser(id);
-	}
-	
-	
 	public UserAccount getUserById(long id)
 	{
 		return this.userDAO.getUserById(id);

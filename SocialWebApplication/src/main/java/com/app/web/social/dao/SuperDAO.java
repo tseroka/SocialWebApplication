@@ -3,7 +3,7 @@ package com.app.web.social.dao;
 import java.io.Serializable;
 
 import java.lang.reflect.ParameterizedType;
- 
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +55,5 @@ public abstract class SuperDAO<PrimaryKey extends Serializable, T> {
     {
         getSession().remove(entity);
     }
- 
-     
+  
 }

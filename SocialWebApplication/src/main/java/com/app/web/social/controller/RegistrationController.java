@@ -37,8 +37,12 @@ public class RegistrationController implements InputCorrectness {
  
   @RequestMapping(value = "/register", method = RequestMethod.GET)
   public ModelAndView getRegisterForm() 
-  {
+  { 
+	if(!userService.isAuthenticated())
+	{
     return new ModelAndView("register", "user", new UserAccount() ); 
+	}
+	else return new ModelAndView("redirect:/home");
   }
 
   @RequestMapping(value = "/registerProcess", method = RequestMethod.POST)

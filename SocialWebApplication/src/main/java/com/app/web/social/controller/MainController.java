@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.app.web.social.service.UserService;
@@ -20,23 +21,34 @@ public class MainController {
 	private UserService userService;
 	
 	
-	@RequestMapping(value = {"/home","/"} , method = RequestMethod.GET)
+	@GetMapping("/")
 	public String defaultPage() 
+	{
+	  return "static/home";
+	}
+	
+	@GetMapping("/home")
+	public String homePage() 
 	{
 	  return "home";
 	}
-	
 
-	@RequestMapping(value = "/about" , method = RequestMethod.GET)
+	@GetMapping("/about")
 	public String aboutPage() 
 	{
-		return "about";
+		return "static/about";
 	}
 	
-	@RequestMapping(value = "/403", method = RequestMethod.GET)
+	@GetMapping("/403")
 	public String accesssDenied() 
 	{
-	    return "403";
+	    return "static/403";
+    }
+	
+	@GetMapping("/404")
+	public String notFound() 
+	{
+	    return "static/404";
     }
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -47,7 +59,7 @@ public class MainController {
 	    	userService.clearSession();
 	        new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
 	    }
-	    return "redirect:/home";
+	    return "redirect:/";
 	}
 	
 }

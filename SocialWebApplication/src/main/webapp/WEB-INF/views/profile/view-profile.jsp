@@ -1,19 +1,24 @@
-   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
- <html>
-   <head>
-  
-  </head>
-  <body>
-  <h1>${profile.nickname} profile</h1> </br>
-  Sex: ${profile.sex} </br>
-  City: ${profile.city} </br>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+<%@ page language="java"%>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Profile</title>
+</head>
+
+<body>
+
+  <h1>${profile.nickname} profile</h1> <br>
+  Sex: ${profile.sex} <br>
+  City: ${profile.city} <br>
   Interests:
  <c:forEach items="${profile.interests}" var="interest">
     <tr>
         <td><c:out value="${interest}"/> ,</td>
     </tr>
 </c:forEach>
-</br>
+<br>
      
      <c:if test="${profile.allowEveryoneToSendMessage}">
      <a href='/SocialWebApplication/profile/messages/send/recipient=${profile.nickname}' >Send message</a> 
@@ -24,7 +29,7 @@
            <a href='/SocialWebApplication/profile/messages/send/recipient=${profile.nickname}' >Send message</a> 
         </c:if>
      </c:if>
-     </br>
+     <br>
      
      <c:if test = "${isFriend}">
      You are friends with ${profile.nickname}.
@@ -41,5 +46,6 @@
      </c:if>
  
  
-  </body>
-  </html>
+</body>
+  
+</html>

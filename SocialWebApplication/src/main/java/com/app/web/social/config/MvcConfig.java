@@ -25,7 +25,7 @@ import com.app.web.social.config.DatabaseConfig;
 @Import({ SecurityConfig.class, DatabaseConfig.class  })
 public class MvcConfig implements WebMvcConfigurer{
 
-	@Bean
+	@Bean("viewResolver")
 	public ViewResolver getViewResolver(){ 
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setViewClass(JstlView.class);
@@ -33,7 +33,7 @@ public class MvcConfig implements WebMvcConfigurer{
 		resolver.setSuffix(".jsp");
 		return resolver;
 	}
-	 
+	  
 	@Bean(name = "multipartResolver")
 	public CommonsMultipartResolver getCommonsMultipartResolver() {
 	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
@@ -43,7 +43,10 @@ public class MvcConfig implements WebMvcConfigurer{
 	}
 	
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+		registry.addResourceHandler("/resources/*").addResourceLocations("/resources/");
+		registry.addResourceHandler("/static/*").addResourceLocations("/static/");
 	}
+	
+	
 	
 }

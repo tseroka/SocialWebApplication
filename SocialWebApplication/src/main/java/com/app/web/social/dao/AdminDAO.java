@@ -9,11 +9,17 @@ import com.app.web.social.model.temp.LockAccount;
 public interface AdminDAO 
 {
 
-	public List<UserAccount> getUsersList();
+	public List<UserAccount> getUsersList(int pageNumber);
+	public Long countUsers();
 	
+	public List<UserAccount> getUsersList();
+		
 	public void accountSelfUnlockAfterLockTimeout(SecurityIssues issue);
 	
 	public void lockUser(LockAccount lockAccount);
 	
 	public void unlockUser(long id);
+	
+	public void deleteUser(long id); 
+	
 }

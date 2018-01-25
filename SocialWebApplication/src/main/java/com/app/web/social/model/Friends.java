@@ -1,5 +1,6 @@
 package com.app.web.social.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,8 +14,9 @@ import com.app.web.social.model.converter.StringListConverter;
 
 @Entity
 @Table(name="friends",  uniqueConstraints={ @UniqueConstraint( columnNames={"nickname"} ) }     )
-public class Friends 
+public class Friends implements Serializable
 {
+	private static final long serialVersionUID = 4655413959805669732L;
 
 	@Id
 	@Column(name="nickname", nullable=false, unique=true, length=25)

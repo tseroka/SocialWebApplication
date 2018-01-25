@@ -11,10 +11,12 @@ public interface MessagesDAO
 {
 	public final static String REMOVAL_SIGN="#";
 
-	public List<PrivateMessage> getInbox();
-	 
-	public List<PrivateMessage> getOutbox();
-
+	public List<PrivateMessage> getInbox(int pageNumber);
+	public Long countInboxMessages();
+	
+	public List<PrivateMessage> getOutbox(int pageNumber);
+	public Long countOutboxMessages();
+	
 	public List<PrivateMessage> getGlobalMessages();
 	
 	public PrivateMessage getMessage(Long messageId);
@@ -24,6 +26,8 @@ public interface MessagesDAO
 	public boolean isDownloadingAllowed(Attachment attachment, Long messageId);
 	 
 	public String removeMessage(Long messageId);
+	
+	public void removeAllMessages(String nickname);
 	
 	public void sendMessage(PrivateMessage message);
 

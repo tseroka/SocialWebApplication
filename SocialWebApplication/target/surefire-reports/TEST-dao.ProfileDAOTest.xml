@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="2" failures="0" name="dao.ProfileDAOTest" time="2.497" errors="0" skipped="0">
+<testsuite tests="2" failures="0" name="dao.ProfileDAOTest" time="2.4" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="9.0.1+11"/>
@@ -27,9 +27,9 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 8.1"/>
-    <property name="classworlds.conf" value="D:\Eclipse Java EE\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf3780499477785739644.tmp"/>
+    <property name="classworlds.conf" value="D:\Eclipse Java EE\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf8279279214288194654.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1250"/>
-    <property name="java.library.path" value="D:\Java9JDK\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_151/bin/server;C:/Program Files/Java/jre1.8.0_151/bin;C:/Program Files/Java/jre1.8.0_151/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files\MiKTeX 2.9\miktex\bin\x64\;C:\Users\DarthNihilus\AppData\Roaming\MiKTeX\2.9\miktex\bin\x64\;C:\Users\DarthNihilus\Desktop;;."/>
+    <property name="java.library.path" value="D:\Java9JDK\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_151/bin/server;C:/Program Files/Java/jre1.8.0_151/bin;C:/Program Files/Java/jre1.8.0_151/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\MiKTeX 2.9\miktex\bin\x64\;C:\Users\DarthNihilus\AppData\Roaming\MiKTeX\2.9\miktex\bin\x64\;C:\Users\DarthNihilus\Desktop;;."/>
     <property name="jdk.debug" value="release"/>
     <property name="java.class.version" value="53.0"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -38,13 +38,13 @@
     <property name="user.home" value="C:\Users\DarthNihilus"/>
     <property name="user.timezone" value="Europe/Belgrade"/>
     <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
-    <property name="file.encoding" value="Cp1250"/>
+    <property name="file.encoding" value="UTF-8"/>
     <property name="java.specification.version" value="9"/>
     <property name="user.name" value="DarthNihilus"/>
     <property name="java.class.path" value="C:\Users\DarthNihilus\.p2\pool\plugins\org.eclipse.m2e.maven.runtime_1.8.2.20171007-0216\jars\plexus-classworlds-2.5.2.jar"/>
     <property name="java.vm.specification.version" value="9"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B test"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B package"/>
     <property name="java.home" value="D:\Java9JDK"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -60,6 +60,6 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="dao.ProfileDAOTest" name="getProfileByNicknameTest" time="0.919"/>
-  <testcase classname="dao.ProfileDAOTest" name="getUserByUsernameTest" time="1.578"/>
+  <testcase classname="dao.ProfileDAOTest" name="getProfileByNicknameTest" time="1.193"/>
+  <testcase classname="dao.ProfileDAOTest" name="getUserByUsernameTest" time="1.207"/>
 </testsuite>

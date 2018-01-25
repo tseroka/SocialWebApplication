@@ -34,43 +34,49 @@ public class DatabaseConfig {
       return new HibernateTemplate(getSessionFactory());
       }   
 	  
-	    @Bean
-		public SessionFactory getSessionFactory() {
-		      LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
-		      lsfb.setDataSource(getDataSource());
-		      lsfb.setPackagesToScan("com.app.web.social.model");
-		      lsfb.setHibernateProperties(getHibernateProperties());
-		      try {
-			     lsfb.afterPropertiesSet();
-		      } 
-		      catch (IOException e) {
-			     e.printStackTrace();
-		      }
-		      return lsfb.getObject();
-		}
+	  @Bean
+      public SessionFactory getSessionFactory() 
+	  {
+		   LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
+		   lsfb.setDataSource(getDataSource());
+		   lsfb.setPackagesToScan("com.app.web.social.model");
+		   lsfb.setHibernateProperties(getHibernateProperties());
+		   try 
+		   {
+			 lsfb.afterPropertiesSet();
+		   } 
+		   catch (IOException e) 
+		   {
+			  e.printStackTrace();
+		   }
+		   return lsfb.getObject();
+	 }
 	  
-	    @Bean
-		public DataSource getDataSource() {
-		     BasicDataSource dataSource = new BasicDataSource();
-		     dataSource.setDriverClassName(environment.getProperty("database.driverClassName"));
-		     dataSource.setUrl(environment.getProperty("database.url"));
-		     dataSource.setUsername(environment.getProperty("database.username"));
-		     dataSource.setPassword(environment.getProperty("database.password"));
-		     return dataSource;
-		}
+	 @Bean
+     public DataSource getDataSource() 
+	 {
+		  BasicDataSource dataSource = new BasicDataSource();
+	      dataSource.setDriverClassName(environment.getProperty("database.driverClassName"));
+	      dataSource.setUrl(environment.getProperty("database.url"));
+ 	      dataSource.setUsername(environment.getProperty("database.username"));
+		  dataSource.setPassword(environment.getProperty("database.password"));
+		  return dataSource;
+     }
 	  
 		
-		 private Properties getHibernateProperties() {
-             Properties properties = new Properties();
-             properties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
-             properties.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
-             properties.put("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
-             return properties;        
-        }	
+	private Properties getHibernateProperties() 
+	{
+          Properties properties = new Properties();
+          properties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
+          properties.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
+          properties.put("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
+          return properties;        
+    }	
 		 
-		@Bean
-		public HibernateTransactionManager hibernateTransactionManager(){
-		     return new HibernateTransactionManager(getSessionFactory());
-		}
+	@Bean
+	public HibernateTransactionManager hibernateTransactionManager()
+	{
+		  return new HibernateTransactionManager(getSessionFactory());
+    }
 	  
 }

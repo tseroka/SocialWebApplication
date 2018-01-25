@@ -15,14 +15,9 @@ public interface UserDAO {
 	public void editUser(UserAccount userAccount, SecurityIssues issue);
 	
 	public void editUser(UserAccount userAccount);
-	
-	public void deleteUser(long id);
-	
 
 	
 	public UserAccount getUserById(long id);
-	
-
 	
 	public UserAccount getUserAccount(String username);
 	

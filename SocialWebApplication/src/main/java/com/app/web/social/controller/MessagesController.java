@@ -127,26 +127,26 @@ public class MessagesController {
 		   }		   
 	   }
 	    
-	   @RequestMapping(value = "remove/{id}", method = RequestMethod.GET)
+	   @RequestMapping(value = "remove/{id}", method = RequestMethod.DELETE)
 	   public ModelAndView removeMessage(@PathVariable Long id)
 	   {
 		   return new ModelAndView("redirect:"+messagesService.removeMessage(id));
 	   }
-	     
+	      
 	    @RequestMapping(value = "inbox", method = RequestMethod.GET)
-	    public ModelAndView getInbox()
+	    public ModelAndView getInbox(@RequestParam(name = "page", defaultValue = "1") String page)
 	    {
-	    	List<PrivateMessage> inbox = messagesService.getInbox();
-	    	return new ModelAndView("messages/inbox","inboxMessages",inbox);
+	    	List<PrivateMessage> inbox = messagesService.getInbox(Integer.parseInt(page));
+	    	return new ModelAndView("messages/inbox","inboxMessages",inbox).addObject("endpage",messagesService.countInboxMessages()/10+1);
 	    }
 	   
 	  
 	  
 	    @RequestMapping(value = "outbox", method = RequestMethod.GET)
-	    public ModelAndView getOutbox()
+	    public ModelAndView getOutbox(@RequestParam(name = "page", defaultValue = "1") String page)
 	    {
-	    	List<PrivateMessage> outbox = messagesService.getOutbox();
-	    	return new ModelAndView("messages/outbox","outboxMessages",outbox);
+	    	List<PrivateMessage> outbox = messagesService.getOutbox(Integer.parseInt(page));
+	    	return new ModelAndView("messages/outbox","outboxMessages",outbox).addObject("endpage",messagesService.countOutboxMessages()/10+1);
 	    }
 	    
 	    @RequestMapping(value = "globalMessages", method = RequestMethod.GET)

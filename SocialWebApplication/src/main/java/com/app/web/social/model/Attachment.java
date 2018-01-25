@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Lob;
 import javax.persistence.FetchType;
@@ -15,8 +18,11 @@ import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "Attachments", uniqueConstraints = { @UniqueConstraint( columnNames = {"attachment_id"} ) }     )
-public class Attachment 
+public class Attachment implements Serializable
 {
+
+	private static final long serialVersionUID = -9035598417433562863L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "attachment_id", nullable = false, unique = true, length = 22)

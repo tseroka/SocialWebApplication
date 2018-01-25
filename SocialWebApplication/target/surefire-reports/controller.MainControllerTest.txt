@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: controller.MainControllerTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 38.256 sec <<< FAILURE!
-testAccessDeniedRedirect(controller.MainControllerTest)  Time elapsed: 1.596 sec  <<< FAILURE!
-java.lang.AssertionError: View name expected:<login> but was:<admin>
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 34.974 sec <<< FAILURE!
+testMainController(controller.MainControllerTest)  Time elapsed: 0.571 sec  <<< FAILURE!
+java.lang.AssertionError: View name expected:<home> but was:<static/home>
 	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:55)
 	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:82)
 	at org.springframework.test.web.servlet.result.ViewResultMatchers.lambda$name$1(ViewResultMatchers.java:68)
 	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:179)
-	at controller.MainControllerTest.testAccessDeniedRedirect(MainControllerTest.java:53)
+	at controller.MainControllerTest.testMainController(MainControllerTest.java:47)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

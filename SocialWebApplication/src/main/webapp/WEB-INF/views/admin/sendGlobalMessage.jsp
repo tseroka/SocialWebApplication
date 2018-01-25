@@ -1,14 +1,13 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java"%>
+<!doctype html>
 <html>
 <head>
-
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta charset="utf-8">
+<title>Send global message</title>
 <style><%@include file="/css/register_style.css"%></style> 
-<title>Send Message</title>
 </head>
+
 <body>
 
 <h1>Send global message</h1>

@@ -1,13 +1,17 @@
 package com.app.web.social.dao;
 
 import java.sql.Timestamp;
+
 import java.util.List;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.web.social.dao.UserDAO;
+import com.app.web.social.model.Friends;
+import com.app.web.social.model.Profile;
 import com.app.web.social.model.SecurityIssues;
 import com.app.web.social.model.UserAccount;
 import com.app.web.social.model.temp.LockAccount;
@@ -17,15 +21,32 @@ import com.app.web.social.model.temp.LockAccount;
 public class AdminDAOImpl extends SuperDAO<Long, SecurityIssues > implements AdminDAO 
 {
 	
-	@Autowired
+	@Autowired  
 	private UserDAO userDAO;
 	
-	public List<UserAccount> getUsersList() 
+	@Autowired
+	private MessagesDAO messagesDAO;
+	
+	
+	public List<UserAccount> getUsersList(int pageNumber) 
+	{		
+	   int pageSize = 10; 
+	   return getSession().createQuery("from UserAccount where role='ROLE USER'", UserAccount.class)
+	   .setFirstResult((pageNumber - 1) * pageSize).setMaxResults(pageSize).list();
+	}
+	
+    public Long countUsers()
+    {
+    	return getSession().createQuery("select count(U.id) from UserAccount U where role='ROLE USER'", Long.class).uniqueResult();
+    }
+    
+    
+    public List<UserAccount> getUsersList() 
 	{		
 	   return getSession().createQuery("from UserAccount where role='ROLE USER'", UserAccount.class).list();
 	}
 	
-
+    
 	public void accountSelfUnlockAfterLockTimeout(SecurityIssues issue)
 	{
 	
@@ -36,8 +57,7 @@ public class AdminDAOImpl extends SuperDAO<Long, SecurityIssues > implements Adm
 		UserAccount userAccount = userDAO.getUserAccount(issue.getUsername());
 		userAccount.setNotLocked(true);
 		update(issue);
-	}
-	
+	} 
 	
 	public void lockUser(LockAccount lockAccount)
 	{
@@ -78,4 +98,31 @@ public class AdminDAOImpl extends SuperDAO<Long, SecurityIssues > implements Adm
        update(issue);
 	   }
 	}
+	
+	public void deleteUser(long id) 
+	{
+		Session session = getSession();
+	
+		UserAccount userAccount = session.load(UserAccount.class, id);
+		
+		if(userAccount.getRole().equals("ROLE USER"))
+		{
+		  String nickname = userAccount.getNickname();
+		
+		  session.evict(userAccount);
+		  
+		  messagesDAO.removeAllMessages(nickname);
+		  
+		  SecurityIssues issue = session.load(SecurityIssues.class, id);
+		  session.remove(issue);
+		  
+		  Friends friends = session.load(Friends.class, nickname);
+		  session.remove(friends);
+		
+		  Profile profile = session.load(Profile.class, nickname);
+		  session.remove(profile);
+		    
+	   }
+	}
+	
 }
