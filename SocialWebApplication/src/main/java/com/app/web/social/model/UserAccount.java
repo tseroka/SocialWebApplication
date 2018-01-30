@@ -48,8 +48,7 @@ public class UserAccount implements Serializable, InputCorrectness {
     @Pattern(regexp=EMAIL_VALIDATION_REGEX)
     private String email;
 	 
-	@Column(name="country", nullable=true, unique=false, length=40)
-    @Pattern(regexp=COUNTRY_VALIDATION_REGEX)
+	@Column(name="country", nullable=true, unique=false, length=3)
     private String country;
 	
 	@Column(name="creationDate", nullable=false, unique=false)
@@ -172,6 +171,82 @@ public class UserAccount implements Serializable, InputCorrectness {
 
 	public void setNotLocked(boolean notLocked) {
 		this.notLocked = notLocked;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((country == null) ? 0 : country.hashCode());
+		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + (enabled ? 1231 : 1237);
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
+		result = prime * result + (notLocked ? 1231 : 1237);
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((repeatPassword == null) ? 0 : repeatPassword.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserAccount other = (UserAccount) obj;
+		if (country == null) {
+			if (other.country != null)
+				return false;
+		} else if (!country.equals(other.country))
+			return false;
+		if (creationDate == null) {
+			if (other.creationDate != null)
+				return false;
+		} else if (!creationDate.equals(other.creationDate))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (enabled != other.enabled)
+			return false;
+		if (id != other.id)
+			return false;
+		if (nickname == null) {
+			if (other.nickname != null)
+				return false;
+		} else if (!nickname.equals(other.nickname))
+			return false;
+		if (notLocked != other.notLocked)
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (repeatPassword == null) {
+			if (other.repeatPassword != null)
+				return false;
+		} else if (!repeatPassword.equals(other.repeatPassword))
+			return false;
+		if (role == null) {
+			if (other.role != null)
+				return false;
+		} else if (!role.equals(other.role))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
 	}
 	
 	

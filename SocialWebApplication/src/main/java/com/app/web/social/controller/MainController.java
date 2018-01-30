@@ -24,7 +24,7 @@ public class MainController {
 	@GetMapping("/")
 	public String defaultPage() 
 	{
-	  return "static/home";
+	  return "redirect:login";
 	}
 	
 	@GetMapping("/home")

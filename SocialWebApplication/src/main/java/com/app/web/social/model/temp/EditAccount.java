@@ -87,8 +87,7 @@ public class EditAccount implements InputCorrectness
 		 return 
 	     (
 	    		 Pattern.matches(USERNAME_VALIDATION_REGEX, this.username) &&
-	    		 Pattern.matches(EMAIL_VALIDATION_REGEX, this.email) &&
-	    		 Pattern.matches(COUNTRY_VALIDATION_REGEX, this.country)
+	    		 Pattern.matches(EMAIL_VALIDATION_REGEX, this.email) 
 	     );
 	 }
     

@@ -40,7 +40,7 @@ public class MainControllerTest {
 	    public void testMainController() throws Exception {
 	        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/");
 	        this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk())
-	        .andExpect(MockMvcResultMatchers.view().name("home"));
+	        .andExpect(MockMvcResultMatchers.view().name("static/home"));
 	     }
 	 
 	    

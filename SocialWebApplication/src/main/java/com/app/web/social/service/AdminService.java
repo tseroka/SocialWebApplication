@@ -22,15 +22,15 @@ public class AdminService
 		return this.adminDAO.getUsersList(pageNumber);
 	}
 	
-	public List<UserAccount> getUsersList()
-	{
-		return this.adminDAO.getUsersList();
-	}
-	
-	
 	public Long countUsers()
 	{
 	   return this.adminDAO.countUsers();	
+	}
+	
+	
+	public List<UserAccount> getUsersList()
+	{
+		return this.adminDAO.getUsersList();
 	}
 	
 	public void accountSelfUnlockAfterLockTimeout(SecurityIssues issue)

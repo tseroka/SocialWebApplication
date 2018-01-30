@@ -1,5 +1,6 @@
 package com.app.web.social.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,9 +46,11 @@ public class ProfileSearchController {
 	    		@RequestParam(name = "city", defaultValue = "") String city,
 	    		@RequestParam(name = "interests", defaultValue = "") String interestsInput)
 	    {   
-	    	List<String> interests =  Arrays.asList((interestsInput).split(","));
-	   
+	    	List<String> interests = new ArrayList<String>( Arrays.asList(interestsInput.split(",") ) );
+	    	
 	    	List<String> findedProfiles = profileService.searchProfiles(sex, city, interests);
+	    	
+	    	interests.forEach(System.out::println);
 	    	
 	    	if(findedProfiles.isEmpty()) 
 	    	{

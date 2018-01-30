@@ -5,7 +5,12 @@
 <head>
 <meta charset="utf-8">
 <title>Lock account</title>
-<style><%@include file="/css/login_style.css"%></style> 
+
+<style><%@include file="/css/form_style.css"%></style> 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
 </head>
 
 	<div id="activate-box">

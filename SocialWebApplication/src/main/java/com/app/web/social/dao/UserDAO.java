@@ -15,20 +15,21 @@ public interface UserDAO {
 	public void editUser(UserAccount userAccount, SecurityIssues issue);
 	
 	public void editUser(UserAccount userAccount);
-
+	
+	public boolean checkPassword(String rawPassword, String encodedPassword);
 	
 	public UserAccount getUserById(long id);
-	
+
 	public UserAccount getUserAccount(String username);
 	
 	public UserAccount getAuthenticatedUserAccount();
 	
 	public UserAccount getUserByNickname(String nickname);
-	
-	public UserAccount getUserByEmail(String email);
-    
-	public void clearSession();
 
+	public UserAccount getUserByEmail(String email);	
+	
+	public void clearSession();
+	
 	
 	
 //---------------------------------- D E F A U L T     M E T H O D S ----------------------------------------------------------

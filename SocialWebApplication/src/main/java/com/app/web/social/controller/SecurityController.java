@@ -39,9 +39,9 @@ public class SecurityController implements InputCorrectness
 			{
 			  try 
 			  {  
-		      securityService.sendEmailWithPasswordResetCode(email, username);
-		      attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to reset password will be send on this email address");
-		      return new ModelAndView("redirect:resetPassword/set");
+		         securityService.sendEmailWithPasswordResetCode(email, username);
+		         attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to reset password will be send on this email address");
+		         return new ModelAndView("redirect:resetPassword/set");
 			  }
 			  catch(IndexOutOfBoundsException ex)
 			  {
@@ -66,7 +66,8 @@ public class SecurityController implements InputCorrectness
 	   {
            String password = resetPassword.getNewPassword();
 		   try
-		   {   if( Pattern.matches(PASSWORD_VALIDATION_REGEX, password ) && password.equals(resetPassword.getNewPasswordRepeat()))
+		   {   
+			   if( Pattern.matches(PASSWORD_VALIDATION_REGEX, password ) && password.equals(resetPassword.getNewPasswordRepeat()))
 		       {		       
 			     securityService.resetPassword(password, resetPassword.getCode());
 		       }

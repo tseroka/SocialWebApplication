@@ -32,9 +32,35 @@ public class UserService {
 		this.userDAO.editUser(userAccount);
 	}
 	
+	public boolean checkPassword(String rawPassword, String encodedPassword)
+	{
+		return this.userDAO.checkPassword(rawPassword, encodedPassword);
+	}
+	
 	public UserAccount getUserById(long id)
 	{
 		return this.userDAO.getUserById(id);
+	}
+	
+	public UserAccount getUserAccount(String username)
+	{
+		return this.userDAO.getUserAccount(username);
+    }
+	
+	public UserAccount getUserByNickname(String nickname)
+	{
+		return this.userDAO.getUserByNickname(nickname);
+	}
+	
+	public UserAccount getUserByEmail(String email) 
+	{
+	    return this.userDAO.getUserByEmail(email);
+	}
+	
+	
+	public UserAccount getAuthenticatedUserAccount() 
+	{
+	    return this.userDAO.getAuthenticatedUserAccount();	
 	}
 	
 	public String getAuthenticatedUserUsername()
@@ -52,24 +78,7 @@ public class UserService {
 		return this.userDAO.getAuthenticatedUserId();
 	}	
 	
-	public UserAccount getUserByNickname(String nickname)
-	{
-		return this.userDAO.getUserByNickname(nickname);
-	}
-	
-	public UserAccount getUserByEmail(String email) 
-	{
-	    return this.userDAO.getUserByEmail(email);
-	}
-	public UserAccount getUserAccount(String username)
-	{
-		return this.userDAO.getUserAccount(username);
-    }
-	
-	public UserAccount getAuthenticatedUserAccount() 
-	{
-	    return this.userDAO.getAuthenticatedUserAccount();	
-	}
+
 
 	
 	public void clearSession()

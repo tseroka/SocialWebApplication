@@ -5,23 +5,35 @@
 <head>
 <meta charset="utf-8">
 <title>Private message</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style><%@include file="/css/index_style.css"%></style>
+<style><%@include file="/css/navigation_bar.css"%></style>
+<style><%@include file="/css/table_style.css"%></style>
+
+<jsp:include page="/WEB-INF/views/static/navbar.jsp" />
+
 </head>
 
 <body>
 
-<table>
+<table class="table">
 <tr>
 <th>Sender</th><th>Subject</th>
-<th>Text</th> <th>Sent date</th> <th>Remove message</th>
+<th>Sent date</th> <th>Remove message</th>
 </tr>  
 <tr>
 <td><a href='/SocialWebApplication/profile/view/${message.messageSender}' target="_blank"> ${message.messageSender} </a> </td>  
-<td>${message.messageSubject}</td>  
-<td>${message.messageText}</td>  
+<td>${message.messageSubject}</td>   
 <td>${message.sentDate} </td>
 <td><a href='/SocialWebApplication/profile/messages/remove/${message.messageId}'>Remove</a></td>  
 </tr>
 </table>
+
+<div class="messageText">
+ ${message.messageText}
+</div>
 
 <c:if test="${message.anyAttachment}">
 <table>

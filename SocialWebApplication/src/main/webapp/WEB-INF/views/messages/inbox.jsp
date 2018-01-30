@@ -5,17 +5,26 @@
 <head>
 <meta charset="utf-8">
 <title>Messages</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style><%@include file="/css/index_style.css"%></style>
+<style><%@include file="/css/navigation_bar.css"%></style>
+<style><%@include file="/css/table_style.css"%></style>
+
+<jsp:include page="/WEB-INF/views/static/navbar.jsp" />
+
 </head>
 
 <body>
 
 <div id="inboxContainer">
 
-<h1>Inbox</h1>  
-<a href="globalMessages" >Global messages</a>
+<h1> Inbox</h1>  
+
 
 <c:if test="${not empty inboxMessages}">
-<table>  
+<table class="table">  
 <tr>
 <th>Sender</th> <th>Subject</th> <th>Sent date</th> <th>Remove message</th>
 </tr>  
@@ -36,7 +45,7 @@
 </c:if>
 
 <c:if test="${empty inboxMessages}">
-No messages
+<h1>No messages</h1>
 </c:if>
 
 </div>

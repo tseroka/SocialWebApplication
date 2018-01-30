@@ -1,19 +1,8 @@
 package com.app.web.social.dao;
 
-
-//import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Path; */
-
-//import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -58,80 +47,21 @@ public class ProfileDAOImpl extends SuperDAO<String, Profile> implements Profile
     
 	
     public List<String> searchProfiles(String sex, String city, List<String> interests)
-    {      	
-      //  CriteriaBuilder builder = session.getCriteriaBuilder();
-      //  CriteriaQuery<String> criteriaQuery = builder.createQuery(String.class); 	    	
-     //   Root<Profile> root = criteriaQuery.from(Profile.class);  	
-        
-      //	List<Predicate> predicates = new ArrayList<>();
-    	
-      	boolean skipSex = "".equals(sex);
-      	boolean skipCity = "".equals(city);
-      	boolean skipInterests = emptyInterests.equals(interests);
+    {      	 	
+      	int skipSex = "".equals(sex) ? 1 : 0;
+      	int skipCity = "".equals(city) ? 1 : 0;
+      	int skipInterests = emptyInterests.equals(interests) ? 1 : 0;
+      	
+      	System.out.println("skipSex= "+skipSex+", sex= "+sex);
+      	System.out.println("skipCity= "+skipCity+", city= "+city);
+      	System.out.println("skipInterests= "+skipInterests+", first interests = "+interests.get(0));
       	
       	Query<String> query = getSession().createQuery("SELECT P.nickname FROM Profile P where "
-        + "(  ( P.sex=:sex OR (:skipSex) )   AND   ( P.city=:city OR (:skipCity) )   AND   ( ((:interests) in P.interests ) OR (:skipInterests) )  ) ORDER BY P.nickname", String.class).
+        + "(  ( P.sex=:sex OR (:skipSex=1 ) )   AND   ( P.city=:city OR (:skipCity=1) )   AND   ( (:interests in P.interests) OR (:skipInterests=1) )  ) ORDER BY P.nickname", String.class).
       	setParameter("sex",sex).setParameter("skipSex",skipSex).setParameter("city",city).setParameter("skipCity",skipCity)
       	.setParameter("interests",interests).setParameter("skipInterests",skipInterests);
       	
       	return query.list();
     }
-      	/**
-      	if(!"".equals(sex) ) 
-      	{
-      		// predicates.add(builder.equal(root.get("sex"), sex ));
-      		
-      	}
-      	
-      	if(!"".equals(city))
-      	{
-      		//predicates.add(builder.equal(root.get("city"), city ));      		
-      	}
-      	
-      	if(!emptyInterests.equals(interests))
-      	{
-      	//	Expression<String> interestsExpression = root.as(interests);
-      		//Expression<String> interestsExpression = root.get("interests");
-      	//	Predicate predicate = ((CriteriaBuilder) interests).in(root.get("interests"));
-    //  		predicates.add(predicate);
-      
-
-      	//	Expression<Boolean> interestsExpression = root.get("interests").in(interests);
-      		//Predicate interestsPredicate = interestsExpression.in(interests);
-      //		predicates.add(interestsExpression);
-      		//predicates.add(builder.in(root.get("interests"), interests ));  
-      		// Expression<String> exp2 = root.get("interests");
-      	  //  Predicate p2 = exp2.in(interests);
-      	  //  predicates.add(p2);
-      //	Expression<List<String> interestsExpression = builder.parameter(String.class);
-      	
-       		// Expression<List<String>> profileInterests = root.get("interests");
-      //	Predicate i1 = interestsExpression.in(profileInterests);
-      	
-      //	Path<String> profileInterests = root.<List<String>> get("interests");
-      //   interests.in(profileInterests);
-      		
-      	//	interests;//List<String> parentList = Arrays.asList(new String[]{"John", "Raj"}); 
-
-      	//	Expression<String> parentExpression = root.get("interests");
-      	//	Predicate parentPredicate = parentExpression.in(interests);
-      	//	predicates.add(parentPredicate);
-      	//	for(String interest : interests)
-      	//	{
-      	//	predicates.add(root.get("interests").in(interest));  
-      		predicates.add(builder.isTrue(root.get("interests").in(interests)));
-      		}
-      		
-      		
-      	
-      	 
-      
-      //	Predicate [] predicatesArr = predicates.toArray(new Predicate[predicates.size()]); 
-      	//root.get("interests").in(interests);
-      	
-      	criteriaQuery.select(root.<String>get("nickname")).where(predicates.toArray(new Predicate[]{}));
-    //  	System.out.println(session.createQuery(criteriaQuery).getSingleResult());
-      	return session.createQuery(criteriaQuery).list();  //ClassCastException */
-    
     
 }

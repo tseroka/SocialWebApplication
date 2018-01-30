@@ -5,12 +5,18 @@
 <head>
 <meta charset="utf-8">
 <title>Reset password</title>
-<style><%@include file="/css/login_style.css"%></style> 
+
+<style><%@include file="/css/form_style.css"%></style> 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style><%@include file="/css/index_style.css"%></style>
+
 </head>
 
 	<div id="activate-box">
 
-	<table><tr><td style="font-style: bold; color: red;">${message}</td></tr></table>	
+	<p class="error">${message}</p>
 	
 	Reset password
 	
@@ -20,7 +26,8 @@
 	placeholder="Unlock code" onfocus="this.placeholder=''" onblur="this.placeholder='Unlock code'"/>
 				
 	<form:password path="newPassword" name="newPassword" id="newPassword"  cssClass="inputData" 
-    placeholder="New Password" onfocus="this.placeholder=''" onblur="this.placeholder='New Password'"/>
+    placeholder="New Password" onfocus="this.placeholder=''" onblur="this.placeholder='New Password'"
+    pattern="((?=.*[a-z])(?=.*d)(?=.*[@#$%])(?=.*[A-Z]).{8,40})" title="Passowrd must be 8-40 characters long, and contain at least one lowercase, uppercase letter, digit and special character" required="true"/>
 
     <form:password path="newPasswordRepeat" name="newPasswordRepeat" id="newPasswordRepeat"  cssClass="inputData" 
     placeholder="Confirm" onfocus="this.placeholder=''" onblur="this.placeholder='Confirm Password'"/>

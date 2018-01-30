@@ -7,21 +7,31 @@
 <title>Profile</title>
 </head>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style><%@include file="/css/index_style.css"%></style>
+<style><%@include file="/css/navigation_bar.css"%></style>
+
+<jsp:include page="/WEB-INF/views/static/navbar.jsp" />
+
 <body>
 
-  <h1>${profile.nickname} profile</h1> <br>
-  Sex: ${profile.sex} <br>
-  City: ${profile.city} <br>
-  Interests:
- <c:forEach items="${profile.interests}" var="interest">
+  <h1>${profile.nickname} </h1> <br>
+
+
+  <h2> City: ${profile.city} </h2> <br>
+  <h2> Sex: ${profile.sex} </h2> <br>
+  <h2> Interests: 
+  
+  <c:forEach items="${profile.interests}" var="interest">
     <tr>
         <td><c:out value="${interest}"/> ,</td>
     </tr>
-</c:forEach>
-<br>
-     
+</c:forEach> </h2> <br> 
+  
+  
      <c:if test="${profile.allowEveryoneToSendMessage}">
-     <a href='/SocialWebApplication/profile/messages/send/recipient=${profile.nickname}' >Send message</a> 
+    <a href='/SocialWebApplication/profile/messages/send/recipient=${profile.nickname}' >Send message</a> 
      </c:if>
      
      <c:if test="${!profile.allowEveryoneToSendMessage}">
@@ -32,7 +42,7 @@
      <br>
      
      <c:if test = "${isFriend}">
-     You are friends with ${profile.nickname}.
+     <h2> You are friends with ${profile.nickname}.</h2>
      </c:if>
      
      <c:if test = "${!isFriend}">
@@ -42,7 +52,7 @@
      </c:if>
  
      <c:if test = "${isInvited}">
-     You have invited ${profile.nickname} to Your friends list.
+     <h2> You have invited ${profile.nickname} to Your friends list. </h2>
      </c:if>
  
  

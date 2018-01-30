@@ -5,12 +5,21 @@
 <head>
 <meta charset="utf-8">
 <title>Manage users</title>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style><%@include file="/css/index_style.css"%></style>
+<style><%@include file="/css/navigation_bar.css"%></style>
+<style><%@include file="/css/table_style.css"%></style>
+
+<jsp:include page="/WEB-INF/views/static/navbar.jsp" />
+
 </head>
 
 <body>
-<h1>Users List</h1>  
-<table>  
+<h1>Manage users</h1>  
+
+<table class="table">  
 <tr>
 <th>Id</th><th>Username</th>
 <th>Nickname</th><th>Email</th>
@@ -37,14 +46,14 @@
    <td>
    
     <c:if test = "${User.notLocked}">
-        <a href='lockUser/${User.id}'>Lock Account</a>
+        <a class="tableLink" href='lockUser/${User.id}'>Lock Account</a>
     </c:if>
     
    <c:if test = "${!User.notLocked}">   
      
        <c:url var="unlockURL" value='unlockUser/${User.id}'/>
        <form action="${unlockURL}" method="post" class="confirm">
-       <input type="submit" value="Unlock account" />
+       <input class="tableButton" type="submit" value="Unlock account" />
        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
        </form>
    
@@ -54,7 +63,7 @@
    
    <td> <c:url var="deleteURL" value='deleteUser/${User.id}'/>
    <form action="${deleteURL}" method="post" class="confirm">
-   <input type="submit" value="Delete account" />
+   <input class="tableButton" type="submit" value="Delete account" />
    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
    </form> </td>
    </tr>  
@@ -63,7 +72,7 @@
 </table>  
  
     <c:forEach begin="1" end="${endpage}" var="page">
-         <a href="/SocialWebApplication/admin/view-users?page=${page}">${page}</a>
+        <a class="page" href="/SocialWebApplication/admin/view-users?page=${page}">${page}</a> 
     </c:forEach>
     
     <script>  

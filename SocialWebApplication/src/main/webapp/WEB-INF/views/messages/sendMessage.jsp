@@ -5,7 +5,15 @@
 <head>
 <meta charset="utf-8">
 <title>Send message</title>
-<style><%@include file="/css/register_style.css"%></style> 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style><%@include file="/css/index_style.css"%></style>
+<style><%@include file="/css/navigation_bar.css"%></style>
+<style><%@include file="/css/form_style.css"%></style>
+
+<jsp:include page="/WEB-INF/views/static/navbar.jsp" />
+
 </head>
 
 <body>
@@ -24,7 +32,8 @@ placeholder="Subject" onfocus="this.placeholder=''" onblur="this.placeholder='Su
 <form:textarea rows="10" cols="30" path="messageText" name="messageText" id="text" cssClass="inputData" 
       placeholder="Text" onfocus="this.placeholder=''" onblur="this.placeholder='Text'" /> <br>
 
-You can upload up to 5 files with 20 MB total size <br>
+  <p> You can upload up to 5 files with 20 MB total size </p> 
+  
 <form:input id="fileUpload" type="file" path="fileUpload" multiple="multiple" name="fileUpload" size="50" /> <br>	
 	
 <form:hidden path="fileUpload" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -34,7 +43,7 @@ You can upload up to 5 files with 20 MB total size <br>
         </form:form>
 
   
-  <a href="home.jsp">Home</a>
+
 	</div>
 	
 </body>

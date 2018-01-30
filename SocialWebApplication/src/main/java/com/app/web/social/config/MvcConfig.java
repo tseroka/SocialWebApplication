@@ -33,7 +33,7 @@ public class MvcConfig implements WebMvcConfigurer{
 		resolver.setSuffix(".jsp");
 		return resolver;
 	}
-	  
+	   
 	@Bean(name = "multipartResolver")
 	public CommonsMultipartResolver getCommonsMultipartResolver() {
 	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
@@ -45,6 +45,8 @@ public class MvcConfig implements WebMvcConfigurer{
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/*").addResourceLocations("/resources/");
 		registry.addResourceHandler("/static/*").addResourceLocations("/static/");
+		registry.addResourceHandler("/css/**").addResourceLocations("/css/");
+		registry.addResourceHandler("/scripts/**").addResourceLocations("/scripts/");
 	}
 	
 	

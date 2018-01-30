@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -60,15 +61,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		  successHandler(customSuccessHandler).failureHandler(customFailureHandler)
 		  .usernameParameter("username").passwordParameter("password")
 		.and()
-		  .logout().logoutUrl("/logout").logoutSuccessUrl("/home")
+		  .logout().logoutUrl("/logout").logoutSuccessUrl("/")
 		.and()
 		  .exceptionHandling().accessDeniedPage("/403")
 		.and()
 		  .csrf();
 	  
 	  http.sessionManagement().maximumSessions(1).expiredUrl("/login?error=expired").maxSessionsPreventsLogin(true).
-	  and().invalidSessionUrl("/login?error=expired");
-		
+	  and().invalidSessionUrl("/login?error=expired").sessionCreationPolicy(SessionCreationPolicy.NEVER);
+		 
 	}
 	
  

@@ -5,12 +5,18 @@
 <head>
 <meta charset="utf-8">
 <title>Activate account</title>
-<style><%@include file="/css/login_style.css"%></style> 
+
+<style><%@include file="/css/form_style.css"%></style> 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style><%@include file="/css/index_style.css"%></style>
+
 </head>
 
 	<div id="activate-box">
 
-	<table><tr><td style="font-style: bold; color: red;">${message}</td></tr></table>	
+	<p class="error">${message}</p>
 	
     <form:form name='activationForm' modelAttribute="send-activation-code-again" action="/SocialWebApplication/sendActivationCodeAgainProcessing" method="POST">
 

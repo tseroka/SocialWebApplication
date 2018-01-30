@@ -6,19 +6,31 @@
 <meta charset="utf-8">
 <title>Login</title>
 
-<style><%@include file="/css/login_style.css"%></style> 
+<style><%@include file="/css/form_style.css"%></style> 
+
+<style><%@include file="/css/index_style.css"%></style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 
 </head>
 
 <body onload='document.loginForm.username.focus();'>
 
+     <header>
+	
+		<h2 class="logo">Social Website</h2>
+
+	</header>
+	
 	<div id="login-box">
 
 	<table><tr><td style="font-style: bold; color: green;">${registered}</td></tr></table>
 		
-	<table><tr><td style="font-style: bold; color: red;">${message}</td></tr></table>	
+	<p class="error">${message}</p>
 	
 	<table><tr><td style="font-style: bold; color: green;">${ok}</td></tr></table>	
+	
 	
 	
 <form name='loginForm' action="<c:url value='/loginProcess' />" method='POST'>
@@ -39,6 +51,8 @@
       <c:if test="${loginActionRedirect}">
       <a href='/SocialWebApplication/exceptions/${linkToAction}' >${linkToAction}</a>
       </c:if>
+      
+      <p>Don't have account? <a href='/SocialWebApplication/register'>Create account</a> </p>
       
 	</div>
 

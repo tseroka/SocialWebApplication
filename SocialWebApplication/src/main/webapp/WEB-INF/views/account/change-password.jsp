@@ -5,8 +5,18 @@
 <head>
 <meta charset="utf-8">
 <style><%@include file="/css/register_style.css"%></style> 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <title>Change password</title>
+
+<style><%@include file="/css/form_style.css"%></style> 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style><%@include file="/css/navigation_bar.css"%></style>
+<style><%@include file="/css/index_style.css"%></style>
+
+<jsp:include page="/WEB-INF/views/static/navbar.jsp" />
+
 </head>
 <body>
 <div id="container">
@@ -14,7 +24,7 @@
 
 <form:form modelAttribute="editAccount" method="POST" action="/SocialWebApplication/user/edit/password/save">    
 
-<table><tr><td style="font-style: italic; color: red;">${invalidPasswordMessage}</td></tr></table>	
+<p class="error">${invalidPasswordMessage}</p>	
 <form:password path="currentPassword" name="Current password" id="currentPassword"  cssClass="inputData" 
 placeholder="Current password" onfocus="this.placeholder=''" onblur="this.placeholder='Current password'"/>
 

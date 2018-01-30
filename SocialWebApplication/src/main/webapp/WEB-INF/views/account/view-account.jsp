@@ -4,19 +4,27 @@
 <head>
 <meta charset="utf-8">
 <title>View account</title>
-</head>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style><%@include file="/css/index_style.css"%></style>
+<style><%@include file="/css/navigation_bar.css"%></style>
+<script src="/scripts/navigation_bar.js"></script>
+
+<jsp:include page="/WEB-INF/views/static/navbar.jsp" />
+
+</head>
+ 
 <body>
 
+  <h2> Username : ${user.username}  </h2>  <br>
+  <h2> Nickname: ${user.nickname}</h2>  <br>
+  <h2> Email: ${user.email} </h2> <br>
+  <h2> Country: ${user.country} </h2> <br> 
 
-  <h1>${user.username} account</h1> <br>
-  Nickname: ${user.nickname} <br>
-  Email: ${user.email} <br>
-  Country: ${user.country} <br> 
-
-<table><tr><td style="font-style: italic; color: green;">${message}</td></tr></table>	
+<p class="ok">${message}</p>
 <a href="/SocialWebApplication/user/edit" >Edit account</a> <br>
-<a href="/SocialWebApplication/user/edit/password/" >Change password</a>
+<a href="/SocialWebApplication/user/edit/password" >Change password</a>
+
 
 </body>
 

@@ -127,7 +127,7 @@ public class MessagesController {
 		   }		   
 	   }
 	    
-	   @RequestMapping(value = "remove/{id}", method = RequestMethod.DELETE)
+	   @RequestMapping(value = "remove/{id}", method = RequestMethod.GET)
 	   public ModelAndView removeMessage(@PathVariable Long id)
 	   {
 		   return new ModelAndView("redirect:"+messagesService.removeMessage(id));

@@ -66,7 +66,16 @@ public class UserDAOImpl extends SuperDAO<Long, UserAccount> implements UserDAO
 		update(userAccount);	
 	}
 
+	public boolean checkPassword(String rawPassword, String encodedPassword)
+	{
+		return passwordEncoder.matches(rawPassword, encodedPassword);
+	}
 	
+	public UserAccount getUserById(long id) 
+	{
+		return loadEntityByPrimaryKey(id);
+	}
+
 	public UserAccount getUserAccount(String username) 
 	{
 		UserAccount userAccount = new UserAccount();
@@ -84,13 +93,7 @@ public class UserDAOImpl extends SuperDAO<Long, UserAccount> implements UserDAO
 	{
 		return getUserAccount(getAuthenticatedUserUsername());
 	}
- 
-
-	public UserAccount getUserById(long id) 
-	{
-		return loadEntityByPrimaryKey(id);
-	}
-
+	
 	public UserAccount getUserByNickname(String nickname) 
 	{
 	   return getSession().createQuery("from UserAccount U where U.nickname =:nickname",UserAccount.class).setParameter("nickname",nickname).list().get(0);

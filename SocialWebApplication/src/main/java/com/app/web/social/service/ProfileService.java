@@ -14,11 +14,7 @@ public class ProfileService {
 	@Autowired
 	private ProfileDAO profileDAO;
 	
-	    public List<Profile> getProfilesList()
-	    {
-		    return this.profileDAO.getProfilesList();
-        }
-		
+	    
 		public Profile getProfileByNickname(String nickname)
 		{
 			return this.profileDAO.getProfileByNickname(nickname);
@@ -34,11 +30,18 @@ public class ProfileService {
 			return this.profileDAO.getAuthenticatedUserNickname();
 		}
 		
+		
 		public void editProfile(Profile profile)
 		{
 		    this.profileDAO.editProfile(profile);
 		}
 		
+		
+		public List<Profile> getProfilesList()
+	    {
+		    return this.profileDAO.getProfilesList();
+	    }
+	
 		public List<String> searchProfiles(String sex, String city, List<String> intersests)
 		{
 			return this.profileDAO.searchProfiles(sex, city, intersests);

@@ -189,6 +189,80 @@ public class PrivateMessage implements Serializable
 		
 		return totalSize<=2000000L;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (anyAttachment ? 1231 : 1237);
+		result = prime * result + (anyoneRemoved ? 1231 : 1237);
+		result = prime * result + ((attachments == null) ? 0 : attachments.hashCode());
+		result = prime * result + ((fileUpload == null) ? 0 : fileUpload.hashCode());
+		result = prime * result + ((messageId == null) ? 0 : messageId.hashCode());
+		result = prime * result + ((messageRecipients == null) ? 0 : messageRecipients.hashCode());
+		result = prime * result + ((messageSender == null) ? 0 : messageSender.hashCode());
+		result = prime * result + ((messageSubject == null) ? 0 : messageSubject.hashCode());
+		result = prime * result + ((messageText == null) ? 0 : messageText.hashCode());
+		result = prime * result + ((sentDate == null) ? 0 : sentDate.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PrivateMessage other = (PrivateMessage) obj;
+		if (anyAttachment != other.anyAttachment)
+			return false;
+		if (anyoneRemoved != other.anyoneRemoved)
+			return false;
+		if (attachments == null) {
+			if (other.attachments != null)
+				return false;
+		} else if (!attachments.equals(other.attachments))
+			return false;
+		if (fileUpload == null) {
+			if (other.fileUpload != null)
+				return false;
+		} else if (!fileUpload.equals(other.fileUpload))
+			return false;
+		if (messageId == null) {
+			if (other.messageId != null)
+				return false;
+		} else if (!messageId.equals(other.messageId))
+			return false;
+		if (messageRecipients == null) {
+			if (other.messageRecipients != null)
+				return false;
+		} else if (!messageRecipients.equals(other.messageRecipients))
+			return false;
+		if (messageSender == null) {
+			if (other.messageSender != null)
+				return false;
+		} else if (!messageSender.equals(other.messageSender))
+			return false;
+		if (messageSubject == null) {
+			if (other.messageSubject != null)
+				return false;
+		} else if (!messageSubject.equals(other.messageSubject))
+			return false;
+		if (messageText == null) {
+			if (other.messageText != null)
+				return false;
+		} else if (!messageText.equals(other.messageText))
+			return false;
+		if (sentDate == null) {
+			if (other.sentDate != null)
+				return false;
+		} else if (!sentDate.equals(other.sentDate))
+			return false;
+		return true;
+	}
+	
 	
 	
 } 

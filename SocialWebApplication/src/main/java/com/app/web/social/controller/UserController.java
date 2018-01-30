@@ -65,7 +65,7 @@ public class UserController implements InputCorrectness
 	          
 	  		    if
 	  		    (   
-	  		       userAccount.getPassword().equals( editAccount.getCurrentPassword() )&&
+	  		       userService.checkPassword(editAccount.getCurrentPassword(), userAccount.getPassword())&&
 	  		       editAccount.validateChanges() &&
 	  		       !username.equals(email.split("@")[0]) &&
 	  		       (uniquenessService.isUsernameNotBusy(username) || username.equals(userAccount.getUsername()))  &&
@@ -115,15 +115,15 @@ public class UserController implements InputCorrectness
 	 @RequestMapping(value="edit/password/save", method = RequestMethod.POST)  
 	 public ModelAndView changePasswordProcessing(@ModelAttribute("editAccount") EditAccount editAccount,  RedirectAttributes attributes)
 	 {
-		  ModelAndView model = new ModelAndView("account/edit-account");
+		  ModelAndView model = new ModelAndView("account/change-password");
 		  System.out.println("editAccount.getCurrentPassword()" + editAccount.getCurrentPassword() );
 		  System.out.println("editAccount.getRepeatPassword()" + editAccount.getRepeatPassword() );
 		   
 
 		   UserAccount userAccount = userService.getAuthenticatedUserAccount();
 		   if
-		   ( 
-			 userAccount.getPassword().equals(editAccount.getCurrentPassword()) &&
+		   (  
+			 userService.checkPassword(editAccount.getCurrentPassword(), userAccount.getPassword()) &&
 		     Pattern.matches(PASSWORD_VALIDATION_REGEX, editAccount.getNewPassword() ) &&
 		     editAccount.getNewPassword().equals(editAccount.getRepeatPassword())
 		   ) 
@@ -136,7 +136,7 @@ public class UserController implements InputCorrectness
 			   attributes.addFlashAttribute("message","Password successfuly changed.");
 		       return new ModelAndView("redirect:/user/view");
 		   }
-		   else model.addObject("message","Current password is not correct"); //because for honest user javascript allerts is enough
+		   else model.addObject("invalidPasswordMessage","Current password is not correct"); //because for honest user javascript allerts is enough
 		   
 	     return model;
 	 }

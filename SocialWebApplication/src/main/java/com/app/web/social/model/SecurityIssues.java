@@ -227,4 +227,97 @@ public class SecurityIssues implements Serializable
     {
     	this.setCodeExpirationDate(new Timestamp(expirationTime+System.currentTimeMillis()));
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((activationCode == null) ? 0 : activationCode.hashCode());
+		result = prime * result + ((allIPAddresses == null) ? 0 : allIPAddresses.hashCode());
+		result = prime * result + ((codeExpirationDate == null) ? 0 : codeExpirationDate.hashCode());
+		result = prime * result + (int) (expirationTime ^ (expirationTime >>> 32));
+		result = prime * result + ((lastIPAddress == null) ? 0 : lastIPAddress.hashCode());
+		result = prime * result + ((lastLoginDate == null) ? 0 : lastLoginDate.hashCode());
+		result = prime * result + ((lockReason == null) ? 0 : lockReason.hashCode());
+		result = prime * result + numberOfLoginFails;
+		result = prime * result + ((resetPasswordCode == null) ? 0 : resetPasswordCode.hashCode());
+		result = prime * result + ((unlockCode == null) ? 0 : unlockCode.hashCode());
+		result = prime * result + ((unlockDate == null) ? 0 : unlockDate.hashCode());
+		result = prime * result + ((userAccount == null) ? 0 : userAccount.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SecurityIssues other = (SecurityIssues) obj;
+		if (activationCode == null) {
+			if (other.activationCode != null)
+				return false;
+		} else if (!activationCode.equals(other.activationCode))
+			return false;
+		if (allIPAddresses == null) {
+			if (other.allIPAddresses != null)
+				return false;
+		} else if (!allIPAddresses.equals(other.allIPAddresses))
+			return false;
+		if (codeExpirationDate == null) {
+			if (other.codeExpirationDate != null)
+				return false;
+		} else if (!codeExpirationDate.equals(other.codeExpirationDate))
+			return false;
+		if (expirationTime != other.expirationTime)
+			return false;
+		if (lastIPAddress == null) {
+			if (other.lastIPAddress != null)
+				return false;
+		} else if (!lastIPAddress.equals(other.lastIPAddress))
+			return false;
+		if (lastLoginDate == null) {
+			if (other.lastLoginDate != null)
+				return false;
+		} else if (!lastLoginDate.equals(other.lastLoginDate))
+			return false;
+		if (lockReason == null) {
+			if (other.lockReason != null)
+				return false;
+		} else if (!lockReason.equals(other.lockReason))
+			return false;
+		if (numberOfLoginFails != other.numberOfLoginFails)
+			return false;
+		if (resetPasswordCode == null) {
+			if (other.resetPasswordCode != null)
+				return false;
+		} else if (!resetPasswordCode.equals(other.resetPasswordCode))
+			return false;
+		if (unlockCode == null) {
+			if (other.unlockCode != null)
+				return false;
+		} else if (!unlockCode.equals(other.unlockCode))
+			return false;
+		if (unlockDate == null) {
+			if (other.unlockDate != null)
+				return false;
+		} else if (!unlockDate.equals(other.unlockDate))
+			return false;
+		if (userAccount == null) {
+			if (other.userAccount != null)
+				return false;
+		} else if (!userAccount.equals(other.userAccount))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
+    
+    
 }

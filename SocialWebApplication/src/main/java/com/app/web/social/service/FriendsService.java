@@ -6,12 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.web.social.dao.FriendsDAO;
+import com.app.web.social.model.Friends;
 
 @Service
 public class FriendsService 
 {
 	@Autowired
 	private FriendsDAO friendsDAO;
+	
+	public Friends getAuthenticatedFriendsProfile()
+	{
+		return this.friendsDAO.getAuthenticatedFriendsProfile();
+	}
 	
 	public void addToFriendsList(String nickname)
 	{

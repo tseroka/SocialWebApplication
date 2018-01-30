@@ -4,15 +4,14 @@ import java.util.List;
 
 import com.app.web.social.model.Profile;
 
-public interface ProfileDAO {
-	
-	
-	
+public interface ProfileDAO 
+{	
 	public Profile getProfileByNickname(String nickname);
 	
-	public String getAuthenticatedUserNickname();
-	
 	public Profile getAuthenticatedProfile();
+	
+	public String getAuthenticatedUserNickname();
+
 	
 	public void editProfile(Profile profile);
 	
@@ -20,6 +19,5 @@ public interface ProfileDAO {
 	public List<Profile> getProfilesList();
 	
 	public List<String> searchProfiles(String sex, String city, List<String> intersests);
-	
 	
 }
