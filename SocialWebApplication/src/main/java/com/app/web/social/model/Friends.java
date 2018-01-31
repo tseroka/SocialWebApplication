@@ -26,11 +26,11 @@ public class Friends implements Serializable
 	@Convert(converter = StringListConverter.class)
 	private List<String> friends;
 	
-	@Column(name="invitationsSent", nullable=true, unique=false, length=4000)
+	@Column(name="invitationsSent", nullable=false, unique=false, length=4000)
 	@Convert(converter = StringListConverter.class)
 	private List<String> invitationsSent;
 	
-	@Column(name="invitationsReceived", nullable=true, unique=false, length=4000)
+	@Column(name="invitationsReceived", nullable=false, unique=false, length=4000)
 	@Convert(converter = StringListConverter.class)
 	private List<String> invitationsReceived;
 

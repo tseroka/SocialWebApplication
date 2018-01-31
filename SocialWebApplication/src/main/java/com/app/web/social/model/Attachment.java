@@ -39,7 +39,7 @@ public class Attachment implements Serializable
     @Column(name = "fileContent", nullable = false)
     private byte[] fileContent;
 	
-	@Column(name = "fileSize", nullable = false)
+	@Column(name = "fileSize", nullable = false, length=15)
 	private long fileSize;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -24,14 +24,14 @@ public class Profile implements Serializable {
 	@Column(name="nickname", nullable=false, unique=true, length=25)
 	private String nickname;
 	
-	@Column(name="sex", nullable=true, unique=false, length=1)
+	@Column(name="sex", nullable=false, unique=false, length=1)
 	private String sex;
 		
-	@Column(name="interests", nullable=true, unique=false, length=200)
+	@Column(name="interests", nullable=false, unique=false, length=200)
 	@Convert(converter = StringListConverter.class)
 	private List<String> interests;
 	
-	@Column(name="city", nullable=true, unique=false, length=50)
+	@Column(name="city", nullable=false, unique=false, length=50)
 	private String city;
 
 	@Column(name="allowSearching", nullable=false, unique=false, length=1)

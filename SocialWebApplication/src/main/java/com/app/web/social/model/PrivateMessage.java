@@ -46,7 +46,7 @@ public class PrivateMessage implements Serializable
 	@Column(name = "subject", nullable = false, unique = false, length = 100)
 	private String messageSubject;
 	
-	@Column(name="text", nullable=true, unique=false, length=2000)
+	@Column(name="text", nullable=false, unique=false, length=2000)
 	@Basic(fetch = FetchType.LAZY)
 	private String messageText;
 
