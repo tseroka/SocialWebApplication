@@ -17,6 +17,11 @@ public class AdminService
 	@Autowired
 	private AdminDAO adminDAO;
 	
+	public List<String> getActiveUsersFromSessionRegistry()
+	{
+		return this.adminDAO.getActiveUsersFromSessionRegistry();
+	}
+	
 	public List<UserAccount> getUsersList(int pageNumber)
 	{
 		return this.adminDAO.getUsersList(pageNumber);

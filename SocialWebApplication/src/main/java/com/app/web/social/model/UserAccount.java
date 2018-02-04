@@ -16,6 +16,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import com.app.web.social.dao.validations.InputCorrectness;
 
 @Entity
@@ -26,7 +28,8 @@ public class UserAccount implements Serializable, InputCorrectness {
 	private static final long serialVersionUID = 7264035467573861733L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
 	@Column(name="user_id", nullable=false, unique=true, length=12)
 	private long id;
    

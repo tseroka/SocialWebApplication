@@ -1,5 +1,7 @@
 package com.app.web.social.config;
 
+import java.util.Properties;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +14,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -42,6 +47,25 @@ public class MvcConfig implements WebMvcConfigurer{
 	    return multipartResolver;
 	}
 	
+	@Bean
+    public JavaMailSender getMailSender(){
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+         
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("socialwebapplication");
+        mailSender.setPassword("daqezv2135%&@Z");
+         
+        Properties javaMailProperties = new Properties();
+        javaMailProperties.put("mail.smtp.starttls.enable", "true");
+        javaMailProperties.put("mail.smtp.auth", "true");
+        javaMailProperties.put("mail.transport.protocol", "smtp");
+        javaMailProperties.put("mail.debug", "true");
+         
+        mailSender.setJavaMailProperties(javaMailProperties);
+        return mailSender;
+    }
+	 
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/*").addResourceLocations("/resources/");
 		registry.addResourceHandler("/static/*").addResourceLocations("/static/");

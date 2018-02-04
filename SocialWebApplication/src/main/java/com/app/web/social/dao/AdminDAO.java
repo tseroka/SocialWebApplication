@@ -8,7 +8,8 @@ import com.app.web.social.model.temp.LockAccount;
 
 public interface AdminDAO 
 {
-
+	public List<String> getActiveUsersFromSessionRegistry();
+	
 	public List<UserAccount> getUsersList(int pageNumber);
 	public Long countUsers();
 	

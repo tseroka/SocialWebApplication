@@ -1,10 +1,16 @@
 package com.app.web.social.controller;
 
 import java.util.List;
+import java.io.IOException;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.app.web.social.model.Profile;
 import com.app.web.social.service.ProfileService;
 import com.app.web.social.service.FriendsService;
+import com.app.web.social.utilities.CookiesService;
 
 @Controller
 @RequestMapping(value="/profile/")
@@ -30,7 +37,8 @@ public class ProfileController {
 	/**  --------------------------------VIEW------------------------------------------------------ */
 	 
 	     @RequestMapping(value="view/{nickname}", method=RequestMethod.GET )  
-         public ModelAndView viewProfile(@PathVariable String nickname)
+         public ModelAndView viewProfile(@PathVariable String nickname, HttpServletResponse response,
+         @CookieValue(value = "visitedProfiles", defaultValue = "") String cookieValue) throws IOException
 	     { 
 		   Profile profile = profileService.getProfileByNickname(nickname);
 		   if( profile!=null ) 
@@ -38,6 +46,9 @@ public class ProfileController {
 		   ModelAndView model = new ModelAndView("profile/view-profile","profile",profile);
 		   model.addObject("isFriend",friendsService.isFriend(nickname));
 		   model.addObject("isInvited",friendsService.isInvited(nickname));
+		
+		   CookiesService.addCookie(response, "visitedProfiles", cookieValue+","+nickname, 3600);
+		   
 		   return model;
 		   }
 		   

@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.OneToMany;
@@ -32,7 +33,8 @@ public class PrivateMessage implements Serializable
 	private static final long serialVersionUID = -8914840082826396792L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
 	@Column(name = "message_id", nullable = false, unique = true, length = 22)
 	private Long messageId;
    

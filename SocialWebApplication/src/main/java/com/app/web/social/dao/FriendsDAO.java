@@ -1,6 +1,7 @@
 package com.app.web.social.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import com.app.web.social.model.Friends;
 
@@ -9,6 +10,8 @@ public interface FriendsDAO
 
 	public Friends getAuthenticatedFriendsProfile();
 	
+	public Friends getFriendsProfileByNickname(String nickname);
+
 	public void addToFriendsList(String nickname);
 		
 	public void acceptInvitationToFriendsList(String nickname);
@@ -26,4 +29,6 @@ public interface FriendsDAO
 	public boolean isFriend(String nickname);
 	 
 	public boolean isInvited(String nickname);
+	
+	public Set<String> suggestFriends(String cookieValue);
 }

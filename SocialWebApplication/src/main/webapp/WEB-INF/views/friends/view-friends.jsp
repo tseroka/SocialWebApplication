@@ -40,6 +40,23 @@
 You have no friends, try out <div class="link"> <a href="/SocialWebApplication/search">Search profiles</a> </div> feature to find someone You would like to know.
 </c:if>
 
+
+<c:if test="${suggest}">
+<h1>Suggested friends</h1>  
+<table> 
+
+<tr>
+<th>Nickname</th>
+</tr>
+
+<c:forEach var="nickname" items="${suggestedFriends}">
+<tr>
+<td><a href='/SocialWebApplication/profile/view/${nickname}'>${nickname}</a> </td>  
+</tr>
+</c:forEach>
+
+</table>
+</c:if>
 </body> 
 
 </html>

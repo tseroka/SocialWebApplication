@@ -73,7 +73,7 @@ public class MessagesController {
 			    System.out.println("Are attachments null: "+(fileUpload==null));
 			    System.out.println("Are attachments empty: "+(fileUpload.isEmpty()));
 			    
-	 		    if(!(fileUpload.isEmpty()))
+	 		    if((fileUpload.get(0).getSize()>0))
 		        {
 	 		        if(message.validateFiles(fileUpload))
 	 		        {

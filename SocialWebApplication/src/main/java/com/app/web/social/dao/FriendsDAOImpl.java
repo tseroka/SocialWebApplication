@@ -1,6 +1,10 @@
 package com.app.web.social.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,6 +23,12 @@ public class FriendsDAOImpl extends SuperDAO<String, Friends> implements Friends
 	{
 		return loadEntityByPrimaryKey(profileDAO.getAuthenticatedUserNickname());
 	}
+	
+	public Friends getFriendsProfileByNickname(String nickname)
+	{
+		return loadEntityByPrimaryKey(nickname);
+	}
+	
 	
 	public void addToFriendsList(String getterNickname)
 	{		
@@ -110,6 +120,30 @@ public class FriendsDAOImpl extends SuperDAO<String, Friends> implements Friends
 	public boolean isInvited(String nickname)
 	{
 		return getSentInvitations().contains(nickname);
+	}
+	
+	public Set<String> suggestFriends(String cookieValue)
+	{
+		 Random rand = new Random();
+		 String[] visitedProfiles = cookieValue.split(",");
+		 int length = visitedProfiles.length;
+		 Set<String> randomProfiles = new HashSet<>();
+		 
+		 for(int i=0; i <= (length/2+1) || i <4; i++)
+		 {
+			 String randomProfile = visitedProfiles[rand.nextInt(length)];
+			 if(!"".equals(randomProfile)) randomProfiles.add(randomProfile);
+		 }
+		 
+		 Set<String> suggestions = new HashSet<>();
+		 
+		 for(String profile : randomProfiles)
+		 {
+			 List<String> friends = getFriendsProfileByNickname(profile).getFriends();
+			 if(!friends.isEmpty() && !isFriend(profile)) suggestions.add(friends.get(rand.nextInt(friends.size())));
+		 }
+		 
+		 return suggestions;
 	}
 	
 }

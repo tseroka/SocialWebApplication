@@ -13,7 +13,6 @@ D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\jav
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\model\Profile.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\dao\SuperDAO.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\model\temp\LockAccount.java
-D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\utilities\EmailUtility.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\service\UserService.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\config\Initializer.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\model\temp\EditAccount.java
@@ -26,6 +25,7 @@ D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\jav
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\controller\LoginController.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\controller\ProfileController.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\dao\FriendsDAOImpl.java
+D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\dao\validations\ValidationsRegex.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\model\PrivateMessage.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\controller\MainController.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\service\ProfileService.java
@@ -36,10 +36,12 @@ D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\jav
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\security\SessionListener.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\model\temp\SecurityIssuesFormHandler.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\dao\FriendsDAO.java
+D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\model\temp\EmailMessage.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\utilities\CodeExpiredException.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\model\temp\SearchProfile.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\dao\UserDAOImpl.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\dao\AdminDAO.java
+D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\security\MetricRegistrySingleton.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\config\DatabaseConfig.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\dao\UserDAO.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\service\SecurityService.java
@@ -53,5 +55,7 @@ D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\jav
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\controller\FriendsController.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\service\SocialWebAppUserDetailsService.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\model\SecurityIssues.java
+D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\security\handlers\CustomLogoutSuccessHandler.java
+D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\utilities\EmailService.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\controller\MessagesController.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\security\handlers\CustomAuthenticationFailureHandler.java

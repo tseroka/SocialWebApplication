@@ -40,6 +40,7 @@ public class ProfileDAOImpl extends SuperDAO<String, Profile> implements Profile
 		update(profile);
 	}
 	
+
 	public List<Profile> getProfilesList()
     {
 		return getSession().createQuery("from Profile p where p.allowSearching=true",Profile.class).list();     

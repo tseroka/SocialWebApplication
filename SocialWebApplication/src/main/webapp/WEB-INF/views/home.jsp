@@ -35,9 +35,7 @@
 
 	</header>
     
-   <% SessionListener counter = (SessionListener) session.getAttribute("counter"); %>
-
-   Number of online user(s): <%= counter.getNumberOfActiveSessions() %>
+   Users online: ${usersOnline}
 
 	 
 

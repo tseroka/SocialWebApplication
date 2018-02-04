@@ -11,8 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.web.social.model.SecurityIssues;
 import com.app.web.social.model.UserAccount;
+import com.app.web.social.model.temp.EmailMessage;
 import com.app.web.social.utilities.CodeExpiredException;
-//import com.app.web.social.utilities.EmailUtility;
+import com.app.web.social.utilities.EmailService;
 
 @Repository
 @Transactional
@@ -21,8 +22,8 @@ public class SecurityDAOImpl extends SuperDAO<Long, SecurityIssues> implements S
 	@Autowired
 	private UserDAO userDAO;
 	
-//	@Autowired 
-//	private EmailUtility mail;
+    @Autowired 
+	private EmailService emailService;
 		
 	public SecurityIssues getSecurityIssuesAccountByUsername(String username)
 	{	 
@@ -76,12 +77,12 @@ public class SecurityDAOImpl extends SuperDAO<Long, SecurityIssues> implements S
 	
 	public void sendEmailWithActivationCode(String email, String username)
 	{
-		SecurityIssues issues = getSecurityIssuesAccountByUsername(username);
-		String emailTextContent = "Activate Your account by typing this code into activation window:  "+issues.getActivationCode();
+		String code = getSecurityIssuesAccountByUsername(username).getActivationCode();
+		String emailTextContent = "Welcome, "+username+". Activate Your account by typing this code into activation window:  "+code;
 		
-		//send email
-	//	mail.send(email, "Activate Your Account", emailTextContent);
-		System.out.println(emailTextContent);
+		EmailMessage message = new EmailMessage(email, "Account activation", emailTextContent);
+		
+		emailService.sendEmail(message);
 	}
 	
 	
@@ -154,11 +155,11 @@ public class SecurityDAOImpl extends SuperDAO<Long, SecurityIssues> implements S
 		String unlockCode = getSecurityIssuesAccountByUsername(username).getUnlockCode();
 		if(unlockCode!=null && isEmailAndUsernameMatching(email,username) )
 		{
-			String emailTextContent = "Your account has been locked due to maximum login attempts. "
+			String emailTextContent = username+", Your account has been locked due to maximum login attempts. "
 			+ "Type this code to proper field to unlock Your account:  "+unlockCode;
-			//send email
-		//	mail.send(email, "Unlock Your Account", emailTextContent);
-			System.out.println(emailTextContent);
+		
+			EmailMessage message = new EmailMessage(email, "Unlock account", emailTextContent);	
+			emailService.sendEmail(message);
 		}
 		
     }
@@ -213,10 +214,11 @@ public class SecurityDAOImpl extends SuperDAO<Long, SecurityIssues> implements S
 		resetPasswordResetCode(username);
 		if(isEmailAndUsernameMatching(email,username))
 			{
-				String emailTextContent = "Type this code to proper field to reset Your password:  "+getSecurityIssuesAccountByUsername(username).getResetPasswordCode();
-				//send email
-			//	mail.send(email, "Unlock Your Account", emailTextContent);
-				System.out.println(emailTextContent);
+				String emailTextContent = username+ ", type this code to proper field to reset Your password:  "+getSecurityIssuesAccountByUsername(username).getResetPasswordCode();	
+				
+				EmailMessage message = new EmailMessage(email, "Password reset", emailTextContent);
+				
+				emailService.sendEmail(message);
 			}
     }
 	

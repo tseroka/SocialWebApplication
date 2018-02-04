@@ -4,6 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -23,6 +24,7 @@ public class Initializer implements WebApplicationInitializer {
         
         container.addListener(new ContextLoaderListener(ctx));
         container.addListener(new SessionListener());
+        container.addListener(HttpSessionEventPublisher.class);
         
         ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(ctx));
  
@@ -31,4 +33,4 @@ public class Initializer implements WebApplicationInitializer {
         
     }
     
-}
+} 

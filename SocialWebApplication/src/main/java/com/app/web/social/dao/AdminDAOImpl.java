@@ -3,9 +3,11 @@ package com.app.web.social.dao;
 import java.sql.Timestamp;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,16 @@ public class AdminDAOImpl extends SuperDAO<Long, SecurityIssues > implements Adm
 	@Autowired
 	private MessagesDAO messagesDAO;
 	
+	@Autowired
+	private SessionRegistry sessionRegistry;
+	 
+	public List<String> getActiveUsersFromSessionRegistry() 
+	{
+	    return sessionRegistry.getAllPrincipals().stream()
+	      .filter(u -> !sessionRegistry.getAllSessions(u, false).isEmpty())
+	      .map(Object::toString)
+	      .collect(Collectors.toList());
+	}
 	
 	public List<UserAccount> getUsersList(int pageNumber) 
 	{		
@@ -36,8 +48,8 @@ public class AdminDAOImpl extends SuperDAO<Long, SecurityIssues > implements Adm
 	}
 	
     public Long countUsers()
-    {
-    	return getSession().createQuery("select count(U.id) from UserAccount U where role='ROLE USER'", Long.class).uniqueResult();
+    {     
+      return getSession().createQuery("select count(U.id) from UserAccount U where role='ROLE USER'", Long.class).uniqueResult();
     }
     
     

@@ -1,6 +1,7 @@
 package com.app.web.social.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,11 @@ public class FriendsService
 	{
 		return this.friendsDAO.getAuthenticatedFriendsProfile();
 	}
+	
+	public Friends getFriendsProfileByNickname(String nickname)
+	{
+		return this.friendsDAO.getFriendsProfileByNickname(nickname);
+	}	
 	
 	public void addToFriendsList(String nickname)
 	{
@@ -62,5 +68,10 @@ public class FriendsService
 	public boolean isInvited(String nickname)
 	{
 		return this.friendsDAO.isInvited(nickname);
+	}
+	
+	public Set<String> suggestFriends(String cookieValue)
+	{
+		return this.friendsDAO.suggestFriends(cookieValue);
 	}
 }

@@ -29,11 +29,15 @@ public class AdminController {
 	@Autowired
 	private MessagesService messagesService;
 	 
-	@GetMapping
-	public String adminPage() 
-	{
-       return "admin/admin";
+
+	@GetMapping("view-active-users")
+	public ModelAndView viewUsers()
+	{ 		
+		List<String> activeUsers = adminService.getActiveUsersFromSessionRegistry();
+		activeUsers.forEach(System.out::println);
+	    return new ModelAndView("admin/active-users","activeUsers", activeUsers);  
 	}
+	
 	
 	@GetMapping("view-users")
 	public ModelAndView viewUsers(@RequestParam(name = "page", defaultValue = "1") String page)

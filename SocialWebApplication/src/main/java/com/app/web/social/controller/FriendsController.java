@@ -1,9 +1,12 @@
 package com.app.web.social.controller;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,10 +23,22 @@ public class FriendsController
 	private FriendsService friendsService;
 	
 	@RequestMapping(value = "viewFriends", method = RequestMethod.GET)
-	public ModelAndView viewFriends()
+	public ModelAndView viewFriends(@CookieValue(value = "visitedProfiles", defaultValue = "") String cookieValue) throws IOException
 	{
+		
 		List<String> friendsList = friendsService.getFriendsList();
-		return new ModelAndView("friends/view-friends","friendsList",friendsList);
+		ModelAndView model = new ModelAndView("friends/view-friends","friendsList",friendsList);
+		System.out.println(cookieValue);
+		boolean suggest = false;
+		if(!cookieValue.equals(",") && !cookieValue.equals(""))
+		{
+			Set<String> suggestedFriends = friendsService.suggestFriends(cookieValue);
+			suggest = true;
+			model.addObject("suggestedFriends", suggestedFriends);
+		}
+		model.addObject("suggest", suggest);
+		
+		return model;
 	}
 	
 	
