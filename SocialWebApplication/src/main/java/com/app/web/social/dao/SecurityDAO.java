@@ -38,7 +38,7 @@ public interface SecurityDAO
 		return generateRandomCode(30);
 	}
 	
-	private String generateRandomCode(int length)
+	public default String generateRandomCode(int length)
 	{
 		StringBuilder builder = new StringBuilder();
 		Random rand = new Random();

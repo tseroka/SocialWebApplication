@@ -31,6 +31,7 @@ com\app\web\social\security\handlers\CustomAuthenticationSuccessHandler.class
 com\app\web\social\dao\validations\ValidationsRegex.class
 com\app\web\social\utilities\EmailService$1.class
 com\app\web\social\dao\MessagesDAOImpl.class
+com\app\web\social\utilities\CookiesService.class
 com\app\web\social\dao\SecurityDAOImpl.class
 com\app\web\social\model\PrivateMessage.class
 com\app\web\social\model\UserAccount.class

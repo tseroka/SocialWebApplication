@@ -49,6 +49,7 @@ D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\jav
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\security\SpringSecurityInitializer.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\dao\SecurityDAOImpl.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\service\UniquenessService.java
+D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\utilities\CookiesService.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\dao\MessagesDAOImpl.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\security\Encode.java
 D:\Repositories\SocialWebApplicationRepository\SocialWebApplication\src\main\java\com\app\web\social\model\Attachment.java

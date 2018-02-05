@@ -1,0 +1,19 @@
+body
+{
+	margin: 20px 50px 75px 100px;
+	background-color:#565659;
+	color: #efefef;
+    font-size: 17px;
+}
+
+h1
+{
+	font-size: 30px;
+	font-weight: 700;
+	color: black;
+	text-align: center;
+	text-transform: uppercase;
+	letter-spacing: 5px;
+	margin-top: 150px;
+	margin-bottom: 40px;
+}
