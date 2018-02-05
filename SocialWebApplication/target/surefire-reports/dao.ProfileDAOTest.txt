@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: dao.ProfileDAOTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 83.884 sec
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.222 sec
