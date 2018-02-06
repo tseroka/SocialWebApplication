@@ -52,7 +52,7 @@
       <a href='/SocialWebApplication/exceptions/${linkToAction}' >${linkToAction}</a>
       </c:if>
       
-      <p>Don't have account? <a href='/SocialWebApplication/register'>Create account</a> </p>
+      <p>Don't have account? <a href='/register'>Create account</a> </p>
       
 	</div>
 

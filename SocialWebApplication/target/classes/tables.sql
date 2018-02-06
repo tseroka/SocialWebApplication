@@ -22,7 +22,7 @@ CREATE TABLE users
   role varchar(25) NOT NULL DEFAULT 'ROLE USER' ,
   enabled tinyint(1) NOT NULL DEFAULT 0,
   notLocked tinyint(1) NOT NULL DEFAULT 1,
-  creationDate NOT NULL timestamp,
+  creationDate timestamp NOT NULL,
   PRIMARY KEY (user_id),
    FOREIGN KEY (nickname)
         REFERENCES profiles(nickname) ON DELETE CASCADE
@@ -51,15 +51,15 @@ fileContent LONGBLOB NOT NULL,
 fileSize bigint(15) NOT NULL,
 message_id bigint(22) NOT NULL,
 FOREIGN KEY (message_id)
-REFERENCES privatemessages(message_id));
+REFERENCES privateMessages(message_id));
 
 
 CREATE TABLE friends
 (
 nickname varchar(25) UNIQUE NOT NULL PRIMARY KEY,
 friends varchar(4000) NOT NULL DEFAULT '',
-invitationsSent varchar(4000) NOT NULL DEFAULT '',,
-invitationsReceived varchar(4000) NOT NULL DEFAULT '',,
+invitationsSent varchar(4000) NOT NULL DEFAULT '',
+invitationsReceived varchar(4000) NOT NULL DEFAULT '',
 FOREIGN KEY (nickname)
 REFERENCES profiles(nickname)
 );
@@ -70,7 +70,7 @@ CREATE TABLE securityIssues
 (
  user_id int(12) NOT NULL auto_increment,
  username varchar(25) UNIQUE NOT NULL,
- activationCode varchar UNIQUE (20) NULL,
+ activationCode varchar(20) UNIQUE  NULL,
  unlockCode varchar(20) UNIQUE NULL DEFAULT NULL,
  resetPasswordCode varchar(30) UNIQUE NULL DEFAULT NULL,
  codeExpirationDate timestamp NULL DEFAULT NULL,
@@ -83,3 +83,4 @@ CREATE TABLE securityIssues
  PRIMARY KEY(user_id),
  FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
+
