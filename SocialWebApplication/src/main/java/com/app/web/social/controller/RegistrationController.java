@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -35,7 +35,7 @@ public class RegistrationController implements InputCorrectness {
   private UniquenessService uniquenessService;
   
  
-  @RequestMapping(value = "/register", method = RequestMethod.GET)
+  @GetMapping("/register")
   public ModelAndView getRegisterForm() 
   { 
 	if(!userService.isAuthenticated())
@@ -45,7 +45,7 @@ public class RegistrationController implements InputCorrectness {
 	else return new ModelAndView("redirect:/home");
   }
 
-  @RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
+  @PostMapping("/registerProcess")
   public ModelAndView registerUser(@ModelAttribute("user") @Valid UserAccount userAccount, BindingResult results) 
 		  throws UnknownHostException
   {
@@ -88,13 +88,13 @@ public class RegistrationController implements InputCorrectness {
   
   
   
-   @RequestMapping(value="/exceptions/Activate account", method=RequestMethod.GET)
+   @GetMapping("/exceptions/Activate account")
    public ModelAndView getActivateForm()
    {
 	   return new ModelAndView("account/activate","activate", new SecurityIssuesFormHandler ());
    }
    
-   @RequestMapping(value="/activateProcessing", method=RequestMethod.POST)
+   @PostMapping("/activateProcessing")
    public ModelAndView activationProcessiong(@ModelAttribute("activate") SecurityIssuesFormHandler  activate )
    {
 	   try
@@ -112,13 +112,13 @@ public class RegistrationController implements InputCorrectness {
    
    
    //-----------------------------S E N D    C O D E    A G A I N --------------------------------------
-   @RequestMapping(value="/sendActivationCodeAgain", method=RequestMethod.GET)
+   @GetMapping("/sendActivationCodeAgain")
    public ModelAndView getSendActivationAgainForm()
    {
 	   return new ModelAndView("account/activate-send-again","send-activation-code-again", new SecurityIssuesFormHandler ());
    }
    
-   @RequestMapping(value="/sendActivationCodeAgainProcessing", method=RequestMethod.POST)
+   @PostMapping("/sendActivationCodeAgainProcessing")
    public ModelAndView sendAgain(@ModelAttribute("send-activation-code-again") SecurityIssuesFormHandler sendAgain, RedirectAttributes attributes )
    {
 	   String email = sendAgain.getEmail(); String username = sendAgain.getUsername();
@@ -133,7 +133,6 @@ public class RegistrationController implements InputCorrectness {
 	      }
 	      catch(IndexOutOfBoundsException ex)
 	      {
-	    	  System.out.println("Unexisting account: "+username);
 	      }
 	   }
 	   

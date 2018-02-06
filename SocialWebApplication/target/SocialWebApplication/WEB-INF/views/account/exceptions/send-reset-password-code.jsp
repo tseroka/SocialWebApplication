@@ -21,7 +21,7 @@
 	
 	Send reset password code
 	
-    <form:form name='sendResetPasswordCodeForm' modelAttribute="sendResetPasswordCode" action="/SocialWebApplication/exceptions/sendResetPasswordCodeProcessing" method="POST">
+    <form:form name='sendResetPasswordCodeForm' modelAttribute="sendResetPasswordCode" action="/exceptions/sendResetPasswordCodeProcessing" method="POST">
 
 	<form:input type="text" path="email" name="Email" cssClass="inputData" 
 	placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"/>

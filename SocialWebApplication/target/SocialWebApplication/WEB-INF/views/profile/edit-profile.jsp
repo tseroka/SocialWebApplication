@@ -20,7 +20,7 @@
 
 <div id="container">
 
-<form:form modelAttribute="profile" method="POST" action="/SocialWebApplication/profile/edit/save">    
+<form:form modelAttribute="profile" method="POST" action="/profile/edit/save">    
 
  
    <p>Sex</p>

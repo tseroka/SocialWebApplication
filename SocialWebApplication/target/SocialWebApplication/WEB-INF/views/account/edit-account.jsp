@@ -23,7 +23,7 @@
 <p class="error">${noChanges}</p>
 
 
-<form:form modelAttribute="editAccount" method="POST" action="/SocialWebApplication/user/edit/save">    
+<form:form modelAttribute="editAccount" method="POST" action="/user/edit/save">    
 
 <table><tr><td style="font-style: italic; color: red;">${usernameExistsMessage}</td></tr></table>
 <form:input path="username" name="username" id="username" cssClass="inputData" 

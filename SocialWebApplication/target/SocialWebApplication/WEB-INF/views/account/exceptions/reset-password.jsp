@@ -20,7 +20,7 @@
 	
 	Reset password
 	
-    <form:form name="resetPassword" modelAttribute="resetPassword" action="/SocialWebApplication/exceptions/resetPasswordProcessing" method="POST">
+    <form:form name="resetPassword" modelAttribute="resetPassword" action="/exceptions/resetPasswordProcessing" method="POST">
 
 	<form:input type="text" path="code" name="unlockCode" cssClass="inputData" 
 	placeholder="Unlock code" onfocus="this.placeholder=''" onblur="this.placeholder='Unlock code'"/>
@@ -38,7 +38,7 @@
 			
     </form:form>
     
-    <a href="/SocialWebApplication/exceptions/Reset password">Send reset password code again</a>
+    <a href="/exceptions/Reset password">Send reset password code again</a>
 	</div>
 
 </body>

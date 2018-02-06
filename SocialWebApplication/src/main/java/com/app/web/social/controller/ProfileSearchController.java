@@ -5,15 +5,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.web.social.model.temp.SearchProfile;
@@ -29,7 +30,7 @@ public class ProfileSearchController {
 	
 	
 	
-	    @RequestMapping(method = RequestMethod.GET)
+	    @GetMapping
 	    public ModelAndView search()
 	    {
 	    	 return new ModelAndView("profileSearching/search-profiles","command", new SearchProfile() );    	
@@ -37,7 +38,7 @@ public class ProfileSearchController {
 	    
 	    
 	
-	    @RequestMapping(value = "/goSearch", method = RequestMethod.POST)
+	    @PostMapping("/goSearch")
 	    public ModelAndView goSearch(@ModelAttribute("profile") SearchProfile searchProfile)
 	    {  	
 	    	return new ModelAndView("redirect:/search/query?sex="+searchProfile.getSearchSex()+"&city="+searchProfile.getSearchCity()+"&interests="+searchProfile.getSearchInterests() );
@@ -46,7 +47,7 @@ public class ProfileSearchController {
 	    
 	    
 
-	    @RequestMapping(value = "/query")
+	    @GetMapping("/query")
 	    public ModelAndView searchProfiles(@RequestParam(name = "sex", defaultValue = "") String sex,
 	    		@RequestParam(name = "city", defaultValue = "") String city,
 	    		@RequestParam(name = "interests", defaultValue = "") String interestsInput, HttpServletResponse response) throws IOException
@@ -55,7 +56,6 @@ public class ProfileSearchController {
 	    	
 	    	List<String> findedProfiles = profileService.searchProfiles(sex, city, interests);
 	    	
-	    	interests.forEach(System.out::println);
 	    	 
 	    	if(!city.equals("")) CookiesService.addCookie(response, "searchedCity", city, 3600);
 	    	CookiesService.addCookie(response, "searchedInterests", interestsInput, 3600);

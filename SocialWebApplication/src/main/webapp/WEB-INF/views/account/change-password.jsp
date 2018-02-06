@@ -22,7 +22,7 @@
 <div id="container">
 
 
-<form:form modelAttribute="editAccount" method="POST" action="/SocialWebApplication/user/edit/password/save">    
+<form:form modelAttribute="editAccount" method="POST" action="/user/edit/password/save">    
 
 <p class="error">${invalidPasswordMessage}</p>	
 <form:password path="currentPassword" name="Current password" id="currentPassword"  cssClass="inputData" 

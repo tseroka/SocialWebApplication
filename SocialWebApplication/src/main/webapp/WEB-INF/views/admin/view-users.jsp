@@ -72,7 +72,7 @@
 </table>  
  
     <c:forEach begin="1" end="${endpage}" var="page">
-        <a class="page" href="/SocialWebApplication/admin/view-users?page=${page}">${page}</a> 
+        <a class="page" href="/admin/view-users?page=${page}">${page}</a> 
     </c:forEach>
     
     <script>  

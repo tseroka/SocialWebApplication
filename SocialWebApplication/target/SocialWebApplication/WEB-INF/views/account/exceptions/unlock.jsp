@@ -20,7 +20,7 @@
     
 	Unlock account 
 	                                                                                                           
-    <form:form name='unlockAccountForm' modelAttribute="unlockAccount" action="/SocialWebApplication/exceptions/unlockProcessing" method="POST">
+    <form:form name='unlockAccountForm' modelAttribute="unlockAccount" action="/exceptions/unlockProcessing" method="POST">
 
 	<form:input type="text" path="code" name="unlockCode" cssClass="inputData" 
 	placeholder="Unlock code" onfocus="this.placeholder=''" onblur="this.placeholder='Unlock code'"/>
@@ -31,7 +31,7 @@
 			
     </form:form>
     
-    <a href="/SocialWebApplication/exceptions/Unlock account">Send unlock code again</a>
+    <a href="/exceptions/Unlock account">Send unlock code again</a>
     
 	</div>
 

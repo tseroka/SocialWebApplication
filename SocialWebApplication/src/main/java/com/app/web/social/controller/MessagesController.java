@@ -15,8 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -40,7 +41,7 @@ public class MessagesController {
 	  private ProfileService profileService;
 	  
 	 
-	   @RequestMapping(value="send/recipient={recipient}", method = RequestMethod.GET)
+	   @GetMapping("send/recipient={recipient}")
 	   public ModelAndView sendMessageFromProfileViewButton(@PathVariable String recipient)
 	   {   
 		   PrivateMessage message = new PrivateMessage();
@@ -55,7 +56,7 @@ public class MessagesController {
 	   }
 	    
 	   
-	   @RequestMapping(value="sendProcessing", method = RequestMethod.POST)
+	   @PostMapping("sendProcessing")
 	   public ModelAndView sendingMessageProcessing(@ModelAttribute("message") PrivateMessage message)
 	   throws IOException
 	   {    
@@ -107,7 +108,7 @@ public class MessagesController {
 		 
 	   }  
 	    
-	   @RequestMapping(value = "download", method = RequestMethod.GET)
+	   @GetMapping("download")
 	   public void downloadAttachment(@RequestParam(name = "msg", required = true) Long messageId,
 	   @RequestParam(name = "att", required = true) Long attachmentId, HttpServletResponse response)
 	   throws IOException
@@ -123,17 +124,17 @@ public class MessagesController {
 		   else 
 		   {
 			   attachment = null;
-			   response.sendRedirect("/SocialWebApplication/403");
+			   response.sendRedirect("/403");
 		   }		   
 	   }
 	    
-	   @RequestMapping(value = "remove/{id}", method = RequestMethod.GET)
+	   @GetMapping("remove/{id}")
 	   public ModelAndView removeMessage(@PathVariable Long id)
 	   {
 		   return new ModelAndView("redirect:"+messagesService.removeMessage(id));
 	   }
 	      
-	    @RequestMapping(value = "inbox", method = RequestMethod.GET)
+	    @GetMapping("inbox")
 	    public ModelAndView getInbox(@RequestParam(name = "page", defaultValue = "1") String page)
 	    {
 	    	List<PrivateMessage> inbox = messagesService.getInbox(Integer.parseInt(page));
@@ -142,14 +143,14 @@ public class MessagesController {
 	   
 	  
 	  
-	    @RequestMapping(value = "outbox", method = RequestMethod.GET)
+	    @GetMapping("outbox")
 	    public ModelAndView getOutbox(@RequestParam(name = "page", defaultValue = "1") String page)
 	    {
 	    	List<PrivateMessage> outbox = messagesService.getOutbox(Integer.parseInt(page));
 	    	return new ModelAndView("messages/outbox","outboxMessages",outbox).addObject("endpage",messagesService.countOutboxMessages()/10+1);
 	    }
 	    
-	    @RequestMapping(value = "globalMessages", method = RequestMethod.GET)
+	    @GetMapping("globalMessages")
 	    public ModelAndView getGlobalMessages()
 	    {
 	    	List<PrivateMessage> globalMessages = messagesService.getGlobalMessages();
@@ -160,7 +161,7 @@ public class MessagesController {
 	   
 	    
 	    
-	    @RequestMapping(value="inbox/{id}", method = RequestMethod.GET)
+	    @GetMapping("inbox/{id}")
 	    public ModelAndView getInMessage(@PathVariable Long id )
 	    {
 	    	
@@ -173,12 +174,12 @@ public class MessagesController {
 	    	
 	    	else { message=null; }
 	    	
-	    	return new ModelAndView("403");
+	    	return new ModelAndView("redirect:/403");
 	    }
 	    
 	    
 	    
-	    @RequestMapping(value="outbox/{id}", method = RequestMethod.GET)
+	    @GetMapping("outbox/{id}")
 	    public ModelAndView getOutMessage(@PathVariable Long id )
 	    {
 	    	String nickname = profileService.getAuthenticatedUserNickname();
@@ -189,7 +190,7 @@ public class MessagesController {
 	    	}
 	    	
 	    	else { message=null; }
-	    	return new ModelAndView("403");
+	    	return new ModelAndView("redirect:/403");
 	    }
 	       
 }

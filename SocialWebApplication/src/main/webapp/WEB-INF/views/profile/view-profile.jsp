@@ -31,12 +31,12 @@
   
   
      <c:if test="${profile.allowEveryoneToSendMessage}">
-    <a href='/SocialWebApplication/profile/messages/send/recipient=${profile.nickname}' >Send message</a> 
+    <a href='/profile/messages/send/recipient=${profile.nickname}' >Send message</a> 
      </c:if>
      
      <c:if test="${!profile.allowEveryoneToSendMessage}">
         <c:if test="${isFriend}">
-           <a href='/SocialWebApplication/profile/messages/send/recipient=${profile.nickname}' >Send message</a> 
+           <a href='/profile/messages/send/recipient=${profile.nickname}' >Send message</a> 
         </c:if>
      </c:if>
      <br>
@@ -47,7 +47,7 @@
      
      <c:if test = "${!isFriend}">
         <c:if test = "${!isInvited}">
-            <a href='/SocialWebApplication/profile/friends/invite=${profile.nickname}'>Invite to friends</a>
+            <a href='/profile/friends/invite=${profile.nickname}'>Invite to friends</a>
         </c:if>
      </c:if>
  

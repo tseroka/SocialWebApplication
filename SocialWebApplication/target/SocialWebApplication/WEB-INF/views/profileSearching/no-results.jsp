@@ -14,6 +14,6 @@
 </head>
 <body>
 <h1>No matching results!</h1>
-<h2><a href="/SocialWebApplication/search">Go back to searching</a></h2>
+<h2><a href="/search">Go back to searching</a></h2>
 </body>
 </html>

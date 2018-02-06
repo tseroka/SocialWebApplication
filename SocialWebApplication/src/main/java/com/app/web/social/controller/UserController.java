@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,7 +35,7 @@ public class UserController implements InputCorrectness
 
     
     
-	@RequestMapping(value="view", method=RequestMethod.GET )  
+	@GetMapping(value="view")  
     public ModelAndView viewAccount()
 	{   
 		UserAccount userAccount = userService.getAuthenticatedUserAccount();
@@ -42,16 +43,16 @@ public class UserController implements InputCorrectness
     }  
 	
 	//--------------------------------------------EDIT ACCOUNT (BUT NOT PASSWORD)-----------------------------------------
-	 @RequestMapping(value="edit" , method = RequestMethod.GET)  
+	 @GetMapping("edit")  
 	 public ModelAndView edit()
 	 {  
 	   return new ModelAndView("account/edit-account","editAccount", new EditAccount() );
 	 }  
 	  
 	    
-	 @RequestMapping(value="edit/save", method = RequestMethod.POST)  
+	 @PostMapping("edit/save")  
 	 public ModelAndView editSave(@ModelAttribute("editAccount") EditAccount editAccount, RedirectAttributes attributes)
-	    {   
+	 {   
 		    ModelAndView model = new ModelAndView("account/edit-account");
 	        if(!editAccount.getUsername().equals("") || !editAccount.getEmail().equals("") || !editAccount.getCountry().equals("") )
 	        {
@@ -98,28 +99,25 @@ public class UserController implements InputCorrectness
 	    }  
 	        
 	      return model.addObject("noChanges","You didn't type any changes");
-	    }	
+	  }	
 	 
 	 
 
 	 
 	 
 	 //-------------------------------------------CHANGE PASSWORD----------------------------------------------------
-	 @RequestMapping(value="edit/password" , method = RequestMethod.GET)  
+	 @GetMapping("edit/password")  
 	 public ModelAndView changePassword()
 	 {  
-	   return new ModelAndView("account/change-password","editAccount",new EditAccount() );
+	   return new ModelAndView("account/change-password","editAccount", new EditAccount() );
 	 }  
 	 
 	 
-	 @RequestMapping(value="edit/password/save", method = RequestMethod.POST)  
+	 @PostMapping(value="edit/password/save")  
 	 public ModelAndView changePasswordProcessing(@ModelAttribute("editAccount") EditAccount editAccount,  RedirectAttributes attributes)
 	 {
 		  ModelAndView model = new ModelAndView("account/change-password");
-		  System.out.println("editAccount.getCurrentPassword()" + editAccount.getCurrentPassword() );
-		  System.out.println("editAccount.getRepeatPassword()" + editAccount.getRepeatPassword() );
 		   
-
 		   UserAccount userAccount = userService.getAuthenticatedUserAccount();
 		   if
 		   (  
@@ -128,8 +126,6 @@ public class UserController implements InputCorrectness
 		     editAccount.getNewPassword().equals(editAccount.getRepeatPassword())
 		   ) 
 		   {
-			   System.out.println("password:" + userAccount.getPassword() );
-			   System.out.println("new password:" + editAccount.getNewPassword() );
 		   	   userAccount.setPassword(editAccount.getNewPassword());
 			   userService.editUser(userAccount);
 			   

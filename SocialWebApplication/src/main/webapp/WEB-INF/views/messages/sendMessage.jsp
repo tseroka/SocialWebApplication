@@ -20,7 +20,7 @@
 
       <div id="container">                                   
 
-<form:form modelAttribute = "message" method="POST" action="/SocialWebApplication/profile/messages/sendProcessing?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data">
+<form:form modelAttribute = "message" method="POST" action="/profile/messages/sendProcessing?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data">
          
 
  <form:input  path="messageRecipients" name="messageRecipients" id="recipients" cssClass="inputData" 

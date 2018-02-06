@@ -7,11 +7,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import com.app.web.social.service.SecurityService;
 import com.app.web.social.service.UserService;
 
@@ -24,7 +22,7 @@ public class LoginController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="/login", method = RequestMethod.GET)                                                //username
+	@GetMapping("/login")                                                //username
 	public ModelAndView login(@RequestParam(name="error", required = false) String error, @RequestParam(name="kjhubvJHbt", required=false) String username, HttpServletRequest request, HttpServletResponse response, HttpSession session )
 	{   
         

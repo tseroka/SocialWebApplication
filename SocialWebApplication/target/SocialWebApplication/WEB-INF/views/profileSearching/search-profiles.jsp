@@ -19,7 +19,7 @@
 <body>
     <div id="container">
 
-<form:form method="POST" action="/SocialWebApplication/search/goSearch">    
+<form:form method="POST" action="/search/goSearch">    
 
   
          

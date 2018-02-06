@@ -21,7 +21,7 @@
 	
 	Send account unlock code
 	
-    <form:form name='sendUnlockCodeForm' modelAttribute="sendUnlockCode" action="/SocialWebApplication/exceptions/sendUnlockCodeProcessing" method="POST">
+    <form:form name='sendUnlockCodeForm' modelAttribute="sendUnlockCode" action="/exceptions/sendUnlockCodeProcessing" method="POST">
 
 	<form:input type="text" path="email" name="Email" cssClass="inputData" 
 	placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"/>

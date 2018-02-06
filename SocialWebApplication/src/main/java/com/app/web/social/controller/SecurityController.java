@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,13 +25,13 @@ public class SecurityController implements InputCorrectness
 	private SecurityService securityService;
 
 	
-	@RequestMapping(value = "Reset password", method = RequestMethod.GET)
+	@GetMapping("Reset password")
 	public ModelAndView getSendResetPasswordCodeForm()
 	{		
 		return new ModelAndView("account/exceptions/send-reset-password-code","sendResetPasswordCode", new SecurityIssuesFormHandler());		
 	}
 	
-	 @RequestMapping(value = "sendResetPasswordCodeProcessing", method = RequestMethod.POST)
+	 @PostMapping("sendResetPasswordCodeProcessing")
 	 public ModelAndView sendPasswordResetCodeProcessiong(@ModelAttribute("sendResetPasswordCode") SecurityIssuesFormHandler  sendResetPasswordCode, RedirectAttributes attributes )
 	   {
 			String email = sendResetPasswordCode.getEmail(); String username = sendResetPasswordCode.getUsername();
@@ -45,7 +46,6 @@ public class SecurityController implements InputCorrectness
 			  }
 			  catch(IndexOutOfBoundsException ex)
 			  {
-			    	  System.out.println("Unexisting account: "+username);
 			  }
 		   }	   
 		   return new ModelAndView("redirect:Reset password");
@@ -54,14 +54,14 @@ public class SecurityController implements InputCorrectness
 	 
 	
 	
-	@RequestMapping(value = "resetPassword/set", method = RequestMethod.GET)
+	@GetMapping("resetPassword/set")
 	public ModelAndView getResetPasswordForm()
 	{
 		return new ModelAndView("account/exceptions/reset-password", "resetPassword", new SecurityIssuesFormHandler() );
 	}
 	
 	
-	 @RequestMapping(value = "resetPasswordProcessing", method = RequestMethod.POST)
+	 @PostMapping("resetPasswordProcessing")
 	 public ModelAndView passwordResetProcessiong(@ModelAttribute("resetPassword") SecurityIssuesFormHandler  resetPassword )
 	   {
            String password = resetPassword.getNewPassword();
@@ -86,13 +86,13 @@ public class SecurityController implements InputCorrectness
 	 
 //----------------------------------------- U N L O C K --------------------------------------------------
 	
-	@RequestMapping(value = "Unlock account", method=RequestMethod.GET)
+	@GetMapping("Unlock account")
 	public ModelAndView getSendUnlockCodeForm()
 	{
 		return new ModelAndView("account/exceptions/send-unlock-code","sendUnlockCode", new SecurityIssuesFormHandler());
 	}
 
-    @RequestMapping(value = "sendUnlockCodeProcessing", method=RequestMethod.POST)
+    @PostMapping("sendUnlockCodeProcessing")
 	public ModelAndView sendUnlockCodeProcessiong(@ModelAttribute("sendUnlockCode") SecurityIssuesFormHandler  sendUnlockCode, RedirectAttributes attributes )
 	{
 		String email = sendUnlockCode.getEmail(); String username = sendUnlockCode.getUsername();
@@ -108,7 +108,6 @@ public class SecurityController implements InputCorrectness
 		   }
 		   catch(IndexOutOfBoundsException ex)
 		   {
-			   System.out.println("Unexisting account: "+username);
 		   }
 		}
 		
@@ -118,14 +117,14 @@ public class SecurityController implements InputCorrectness
 	 
 	
 	
-	@RequestMapping(value="unlock", method=RequestMethod.GET)
+	@GetMapping("unlock")
 	public ModelAndView getAccountUnlockForm()
 	{
 		return new ModelAndView("account/exceptions/unlock", "unlockAccount", new SecurityIssuesFormHandler() );
 	}
 	
 	
-	 @RequestMapping(value="unlockProcessing", method=RequestMethod.POST)
+	 @PostMapping("unlockProcessing")
 	 public ModelAndView accountUnlockProcessiong(@ModelAttribute("unlockAccount") SecurityIssuesFormHandler  unlockAccount )
 	   {
            

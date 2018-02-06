@@ -32,17 +32,17 @@
 <tr>
 <td>
 <c:forEach var="recipient" items="${message.messageRecipients}"> 
-<a href='/SocialWebApplication/profile/view/${recipient}' target="_blank"> ${recipient}</a> 
+<a href='/profile/view/${recipient}' target="_blank"> ${recipient}</a> 
 </c:forEach>
 </td>  
 <td> <a href='outbox/${message.messageId}'> ${message.messageSubject} </a></td>  
 <td>${message.sentDate} </td>
-<td><a href='/SocialWebApplication/profile/messages/remove/${message.messageId}'>Remove</a></td>  
+<td><a href='/profile/messages/remove/${message.messageId}'>Remove</a></td>  
 </tr>
 </c:forEach>
 
 <c:forEach begin="1" end="${endpage}" var="page">
-         <a href="/SocialWebApplication/profile/messages/outbox?page=${page}">${page}</a>
+         <a href="/profile/messages/outbox?page=${page}">${page}</a>
 </c:forEach>
 
 </table>

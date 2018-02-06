@@ -24,10 +24,10 @@
 <th>Sent date</th> <th>Remove message</th>
 </tr>  
 <tr>
-<td><a href='/SocialWebApplication/profile/view/${message.messageSender}' target="_blank"> ${message.messageSender} </a> </td>  
+<td><a href='/profile/view/${message.messageSender}' target="_blank"> ${message.messageSender} </a> </td>  
 <td>${message.messageSubject}</td>   
 <td>${message.sentDate} </td>
-<td><a href='/SocialWebApplication/profile/messages/remove/${message.messageId}'>Remove</a></td>  
+<td><a href='/profile/messages/remove/${message.messageId}'>Remove</a></td>  
 </tr>
 </table>
 
@@ -44,7 +44,7 @@
 <c:forEach var="attachment" items="${message.attachments}">  
 <tr>
 <td>${attachment.fileName}</td>
-<td> <a href='/SocialWebApplication/profile/messages/download?msg=${message.messageId}&att=${attachment.attachmentId}' >Download</a> </td>
+<td> <a href='/profile/messages/download?msg=${message.messageId}&att=${attachment.attachmentId}' >Download</a> </td>
 </tr>
 </c:forEach>
 </table>

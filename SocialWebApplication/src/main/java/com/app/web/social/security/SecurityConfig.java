@@ -19,7 +19,7 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import com.app.web.social.service.SocialWebAppUserDetailsService;
 import com.app.web.social.security.handlers.CustomAuthenticationFailureHandler;
 import com.app.web.social.security.handlers.CustomAuthenticationSuccessHandler;
-import com.app.web.social.security.handlers.CustomLogoutSuccessHandler;
+//import com.app.web.social.security.handlers.CustomLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -33,8 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	@Autowired
 	private CustomAuthenticationSuccessHandler customSuccessHandler;
 	
-	@Autowired
-	private CustomLogoutSuccessHandler customLogoutHandler;
+	//@Autowired
+	//private CustomLogoutSuccessHandler customLogoutHandler;
 	
 	@Autowired
 	private SocialWebAppUserDetailsService socialWebAppUserDetailsService;

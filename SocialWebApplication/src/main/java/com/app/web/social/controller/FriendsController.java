@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.app.web.social.service.FriendsService;
 
@@ -22,7 +22,7 @@ public class FriendsController
 	@Autowired
 	private FriendsService friendsService;
 	
-	@RequestMapping(value = "viewFriends", method = RequestMethod.GET)
+	@GetMapping("viewFriends")
 	public ModelAndView viewFriends(@CookieValue(value = "visitedProfiles", defaultValue = "") String cookieValue) throws IOException
 	{
 		
@@ -42,7 +42,7 @@ public class FriendsController
 	}
 	
 	
-	@RequestMapping(value = "viewSentInvitations", method = RequestMethod.GET)
+	@GetMapping("viewSentInvitations")
 	public ModelAndView viewSentInvitations()
 	{
 		List<String> sentInvitations = friendsService.getSentInvitations();
@@ -50,15 +50,14 @@ public class FriendsController
 	}
 	
 	
-	@RequestMapping(value = "viewReceivedInvitations", method = RequestMethod.GET)
+	@GetMapping("viewReceivedInvitations")
 	public ModelAndView viewReceivedInvitations()
 	{
 	    List<String> receivedInvitations = 	friendsService.getReceivedInvitations();
 		return new ModelAndView("friends/view-receivedInvitations","receivedInvitationsList",receivedInvitations);
 	}
 	
-	
-	@RequestMapping(value = "invitation/accept={accepted}", method = RequestMethod.GET)
+	@GetMapping("invitation/accept={accepted}")
 	public String acceptInvitation(@PathVariable String accepted)
 	{
 		friendsService.acceptInvitationToFriendsList(accepted);
@@ -66,7 +65,7 @@ public class FriendsController
 	}
 	 
 	
-	@RequestMapping(value =" invitation/decline={declined}", method = RequestMethod.GET)
+	@GetMapping("invitation/decline={declined}")
 	public String declineInvitation(@PathVariable String declined)
 	{
 		friendsService.declineInvitationToFriendsList(declined);
@@ -74,14 +73,14 @@ public class FriendsController
 	}
 	
 	
-	@RequestMapping(value = "invite={invited}", method = RequestMethod.GET)
+	@GetMapping("invite={invited}")
 	public String inviteToFriends(@PathVariable String invited)
 	{
 		friendsService.addToFriendsList(invited);
 		return "redirect:/profile/view/"+invited;
 	}	
 	
-	@RequestMapping(value = "remove={removed}", method = RequestMethod.GET)
+	@GetMapping("remove={removed}")
 	public ModelAndView removeFromFriendsList(@PathVariable String removed)
 	{
 		friendsService.removeFromFriendsList(removed);		

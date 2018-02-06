@@ -3,18 +3,16 @@ package com.app.web.social.controller;
 import java.util.List;
 import java.io.IOException;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.web.social.model.Profile;
@@ -36,7 +34,7 @@ public class ProfileController {
 	
 	/**  --------------------------------VIEW------------------------------------------------------ */
 	 
-	     @RequestMapping(value="view/{nickname}", method=RequestMethod.GET )  
+	     @GetMapping("view/{nickname}")  
          public ModelAndView viewProfile(@PathVariable String nickname, HttpServletResponse response,
          @CookieValue(value = "visitedProfiles", defaultValue = "") String cookieValue) throws IOException
 	     { 
@@ -55,14 +53,14 @@ public class ProfileController {
 		   return new ModelAndView("redirect:/404");
          }  
  
-	     @RequestMapping(value="/yourProfile", method=RequestMethod.GET )  
+	     @GetMapping("/yourProfile")  
          public ModelAndView viewProfile()
 	     { 
 		   Profile profile = profileService.getAuthenticatedProfile();
 		   return new ModelAndView("profile/view-profile","profile",profile);
          }  
 	
-	    @RequestMapping(value="view/all/", method=RequestMethod.GET)
+	    @GetMapping("view/all/")
 	    public ModelAndView viewProfiles()
 	    {
 	    	List<Profile> profiles = profileService.getProfilesList();
@@ -72,7 +70,7 @@ public class ProfileController {
 	  
 	 //--------------------------------EDIT------------------------------------------------------ 
 	
-	    @RequestMapping(value="edit" , method = RequestMethod.GET)  
+	    @GetMapping("edit")  
 	    public ModelAndView edit()
 	    {  
 		  Profile profile = profileService.getAuthenticatedProfile();
@@ -80,7 +78,7 @@ public class ProfileController {
 	    }  
 	  
 	    
-	    @RequestMapping(value="edit/save", method = RequestMethod.POST)  
+	    @PostMapping(value="edit/save")  
 	    public ModelAndView editSave(@ModelAttribute("profile") Profile profile)
 	    {  
 	    	profile.setNickname(profileService.getAuthenticatedUserNickname());

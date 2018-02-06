@@ -20,7 +20,7 @@
 	<p class="error">${message}</p>
 	<p class="ok">${registered}</p>
 	
-    <form:form name='activationForm' modelAttribute="activate" action="/SocialWebApplication/activateProcessing" method="POST">
+    <form:form name='activationForm' modelAttribute="activate" action="/activateProcessing" method="POST">
 
 	<form:input type="text" path="code" name="activationCode" cssClass="inputData" 
 	placeholder="Activation code" onfocus="this.placeholder=''" onblur="this.placeholder='Activation code'"/>
@@ -31,7 +31,7 @@
 			
     </form:form>
     
-    <a href="/SocialWebApplication/sendActivationCodeAgain">Send activation code again</a>
+    <a href="/sendActivationCodeAgain">Send activation code again</a>
 	</div>
 
 </body>

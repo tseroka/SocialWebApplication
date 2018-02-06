@@ -31,16 +31,16 @@
 
 <c:forEach var="message" items="${inboxMessages}">  
 <tr>
-<td><a href='/SocialWebApplication/profile/view/${message.messageSender}' target="_blank"> ${message.messageSender}</a> </td>  
+<td><a href='/profile/view/${message.messageSender}' target="_blank"> ${message.messageSender}</a> </td>  
 <td><a href='inbox/${message.messageId}'> ${message.messageSubject} </a> </td>
 <td>${message.sentDate} </td>
-<td><a href='/SocialWebApplication/profile/messages/remove/${message.messageId}'>Remove</a></td>  
+<td><a href='/profile/messages/remove/${message.messageId}'>Remove</a></td>  
 </tr>
 </c:forEach>
 </table>
 
 <c:forEach begin="1" end="${endpage}" var="page">
-         <a href="/SocialWebApplication/profile/messages/inbox?page=${page}">${page}</a>
+         <a href="/profile/messages/inbox?page=${page}">${page}</a>
 </c:forEach>
 </c:if>
 

@@ -16,7 +16,7 @@
 	<div id="activate-box">
 
 	
-    <form:form name='lockForm' modelAttribute="lockAccount" action="/SocialWebApplication/admin/lockProcessing" method="POST">
+    <form:form name='lockForm' modelAttribute="lockAccount" action="/admin/lockProcessing" method="POST">
 
 	Account id: <form:input type="text" path="id" name="id" class="inputData" 
 	placeholder="Account Id" onfocus="this.placeholder=''" onblur="this.placeholder='Account Id'"/>

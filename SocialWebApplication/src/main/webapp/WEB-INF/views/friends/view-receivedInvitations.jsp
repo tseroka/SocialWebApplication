@@ -29,9 +29,9 @@
 
 <c:forEach var="nickname" items="${receivedInvitationsList}">
 <tr>
-<td><a href='/SocialWebApplication/profile/view/${nickname}'>${nickname}</a></td>  
-<td><a href='/SocialWebApplication/profile/friends/invitation/accept=${nickname}'>Accept</a></td>  
-<td><a href='/SocialWebApplication/profile/friends/invitation/decline=${nickname}'>Decline</a></td>  
+<td><a href='/profile/view/${nickname}'>${nickname}</a></td>  
+<td><a href='/profile/friends/invitation/accept=${nickname}'>Accept</a></td>  
+<td><a href='/profile/friends/invitation/decline=${nickname}'>Decline</a></td>  
 </tr>
 </c:forEach>
 </table>

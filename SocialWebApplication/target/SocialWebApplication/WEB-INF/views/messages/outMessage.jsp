@@ -27,12 +27,12 @@
 <tr>
 <td> 
 <c:forEach var="recipient" items="${message.messageRecipients}"> 
-<a href='/SocialWebApplication/profile/view/${recipient}' target="_blank"> ${recipient}</a> 
+<a href='/profile/view/${recipient}' target="_blank"> ${recipient}</a> 
 </c:forEach>
 </td>  
 <td>${message.messageSubject}</td>  
 <td>${message.sentDate} </td>
-<td><a href='/SocialWebApplication/profile/messages/remove/${message.messageId}'>Remove</a></td>  
+<td><a href='/profile/messages/remove/${message.messageId}'>Remove</a></td>  
 </tr>
 
 </table>

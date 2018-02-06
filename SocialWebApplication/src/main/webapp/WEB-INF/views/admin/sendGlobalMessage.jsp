@@ -19,7 +19,7 @@
 <h1>Send global message</h1>
       <div id="container">
  
-<form:form id="sendGlobalMessageForm" modelAttribute="message" action="/SocialWebApplication/admin/sendProcessing" method="POST">
+<form:form id="sendGlobalMessageForm" modelAttribute="message" action="/admin/sendProcessing" method="POST">
 			
 <form:input path="messageSubject" name="messageSubject" id="subject"  cssClass="inputData" 
 placeholder="Subject" onfocus="this.placeholder=''" onblur="this.placeholder='Subject'"/>

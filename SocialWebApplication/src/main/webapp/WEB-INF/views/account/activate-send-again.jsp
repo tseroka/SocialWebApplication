@@ -18,7 +18,7 @@
 
 	<p class="error">${message}</p>
 	
-    <form:form name='activationForm' modelAttribute="send-activation-code-again" action="/SocialWebApplication/sendActivationCodeAgainProcessing" method="POST">
+    <form:form name='activationForm' modelAttribute="send-activation-code-again" action="/sendActivationCodeAgainProcessing" method="POST">
 
 	<form:input type="text" path="email" name="Email" cssClass="inputData" 
 	placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"/>

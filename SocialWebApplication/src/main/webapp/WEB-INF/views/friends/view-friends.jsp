@@ -29,15 +29,15 @@
 
 <c:forEach var="nickname" items="${friendsList}">
 <tr>
-<td><a href='/SocialWebApplication/profile/view/${nickname}'>${nickname}</a> </td>  
-<td><a href='/SocialWebApplication/profile/friends/remove=${nickname}'>Remove ${nickname} from friends list</a></td>
+<td><a href='/profile/view/${nickname}'>${nickname}</a> </td>  
+<td><a href='/profile/friends/remove=${nickname}'>Remove ${nickname} from friends list</a></td>
 </tr>
 </c:forEach>
 </table>
 </c:if>
 
 <c:if test="${empty friendsList}">
-You have no friends, try out <div class="link"> <a href="/SocialWebApplication/search">Search profiles</a> </div> feature to find someone You would like to know.
+You have no friends, try out <div class="link"> <a href="/search">Search profiles</a> </div> feature to find someone You would like to know.
 </c:if>
 
 
@@ -51,7 +51,7 @@ You have no friends, try out <div class="link"> <a href="/SocialWebApplication/s
 
 <c:forEach var="nickname" items="${suggestedFriends}">
 <tr>
-<td><a href='/SocialWebApplication/profile/view/${nickname}'>${nickname}</a> </td>  
+<td><a href='/profile/view/${nickname}'>${nickname}</a> </td>  
 </tr>
 </c:forEach>
 

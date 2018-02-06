@@ -28,7 +28,7 @@
 
 <c:forEach var="nickname" items="${sentInvitationsList}">
 <tr>
-<td><a href='/SocialWebApplication/profile/view/${nickname}'>${nickname}</a></td>  
+<td><a href='/profile/view/${nickname}'>${nickname}</a></td>  
 </tr>
 </c:forEach>
 </table>

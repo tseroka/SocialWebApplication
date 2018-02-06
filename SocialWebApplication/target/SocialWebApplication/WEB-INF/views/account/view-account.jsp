@@ -22,8 +22,8 @@
   <h2> Country: ${user.country} </h2> <br> 
 
 <p class="ok">${message}</p>
-<a href="/SocialWebApplication/user/edit" >Edit account</a> <br>
-<a href="/SocialWebApplication/user/edit/password" >Change password</a>
+<a href="/user/edit" >Edit account</a> <br>
+<a href="/user/edit/password" >Change password</a>
 
 
 </body>
