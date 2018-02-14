@@ -14,25 +14,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.app.web.social.dao.validations.InputCorrectness;
+import com.app.web.social.service.InputCorrectness;
 import com.app.web.social.model.UserAccount;
 import com.app.web.social.model.temp.SecurityIssuesFormHandler ;
-import com.app.web.social.service.UserService;
-import com.app.web.social.service.SecurityService;
-import com.app.web.social.service.UniquenessService;
-import com.app.web.social.utilities.CodeExpiredException;
+import com.app.web.social.service.IUserService;
+import com.app.web.social.service.ISecurityService;
+import com.app.web.social.service.IUniquenessService;
 
 @Controller
 public class RegistrationController implements InputCorrectness {
 	
   @Autowired
-  private UserService userService;
+  private IUserService userService;
   
   @Autowired
-  private SecurityService securityService;
+  private ISecurityService securityService;
   
   @Autowired
-  private UniquenessService uniquenessService;
+  private IUniquenessService uniquenessService;
   
  
   @GetMapping("/register")
@@ -97,16 +96,11 @@ public class RegistrationController implements InputCorrectness {
    @PostMapping("/activateProcessing")
    public ModelAndView activationProcessiong(@ModelAttribute("activate") SecurityIssuesFormHandler  activate )
    {
-	   try
+	   if(securityService.acceptActivationCodeAndEnableAccount(activate.getCode()))
 	   {
-	   securityService.acceptActivationCodeAndEnableAccount(activate.getCode());
+		   return new ModelAndView("/login","ok","Account activated. You can now log in.");   
 	   }
-	   catch(IndexOutOfBoundsException | CodeExpiredException ex)
-	   {
-		   return new ModelAndView("account/activate","message","Wrong or expired activation code");
-	   }
-	   
-	   return new ModelAndView("/login","ok","Account activated. You can now log in.");
+	   return new ModelAndView("account/activate","message","Wrong or expired activation code");
    }
    
    
@@ -131,7 +125,7 @@ public class RegistrationController implements InputCorrectness {
 		   attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to activate account will be send on this email address");
 		   return new ModelAndView("redirect:/exceptions/Activate account");
 	      }
-	      catch(IndexOutOfBoundsException ex)
+	      catch(IndexOutOfBoundsException ex) //TO CHANGE
 	      {
 	      }
 	   }

@@ -2,7 +2,7 @@ package com.app.web.social.model.temp;
 
 import java.util.regex.Pattern;
 
-import com.app.web.social.dao.validations.InputCorrectness;
+import com.app.web.social.service.InputCorrectness;
 
 public class EditAccount implements InputCorrectness
 {

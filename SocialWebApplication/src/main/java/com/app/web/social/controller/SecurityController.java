@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.app.web.social.dao.validations.InputCorrectness;
+import com.app.web.social.service.InputCorrectness;
 import com.app.web.social.model.temp.SecurityIssuesFormHandler;
-import com.app.web.social.service.SecurityService;
-import com.app.web.social.utilities.CodeExpiredException;
+import com.app.web.social.service.ISecurityService;
 
 @Controller
 @RequestMapping(value = "/exceptions/")
@@ -22,7 +21,7 @@ public class SecurityController implements InputCorrectness
 {
 
 	@Autowired
-	private SecurityService securityService;
+	private ISecurityService securityService;
 
 	
 	@GetMapping("Reset password")
@@ -44,7 +43,7 @@ public class SecurityController implements InputCorrectness
 		         attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to reset password will be send on this email address");
 		         return new ModelAndView("redirect:resetPassword/set");
 			  }
-			  catch(IndexOutOfBoundsException ex)
+			  catch(IndexOutOfBoundsException ex) //TO CHANGE
 			  {
 			  }
 		   }	   
@@ -64,20 +63,14 @@ public class SecurityController implements InputCorrectness
 	 @PostMapping("resetPasswordProcessing")
 	 public ModelAndView passwordResetProcessiong(@ModelAttribute("resetPassword") SecurityIssuesFormHandler  resetPassword )
 	   {
-           String password = resetPassword.getNewPassword();
-		   try
-		   {   
-			   if( Pattern.matches(PASSWORD_VALIDATION_REGEX, password ) && password.equals(resetPassword.getNewPasswordRepeat()))
-		       {		       
-			     securityService.resetPassword(password, resetPassword.getCode());
-		       }
+		   String password = resetPassword.getNewPassword();
+		   if(
+				   Pattern.matches(PASSWORD_VALIDATION_REGEX, password ) && password.equals(resetPassword.getNewPasswordRepeat()) &&
+				   securityService.resetPassword(password, resetPassword.getCode()) ) 
+		   {		 
+		  	    return new ModelAndView("login","ok","Password changed. You can now log in"); 		     
 		   }
-		   catch(IndexOutOfBoundsException | CodeExpiredException ex)
-		   {
-			   return new ModelAndView("account/exceptions/reset-password","message","Wrong or expired reset password code");
-		   }
-		
-		   return new ModelAndView("login","ok","Password changed. You can now log in");
+		   return new ModelAndView("account/exceptions/reset-password","message","Wrong or expired reset password code");
 		   
 	   }
 	
@@ -106,7 +99,7 @@ public class SecurityController implements InputCorrectness
 		   attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to unlock account will be send on this email address");
 		   return new ModelAndView("redirect:unlock") ;	 
 		   }
-		   catch(IndexOutOfBoundsException ex)
+		   catch(IndexOutOfBoundsException ex) //TO CHANGE
 		   {
 		   }
 		}
@@ -125,19 +118,15 @@ public class SecurityController implements InputCorrectness
 	
 	
 	 @PostMapping("unlockProcessing")
-	 public ModelAndView accountUnlockProcessiong(@ModelAttribute("unlockAccount") SecurityIssuesFormHandler  unlockAccount )
+	 public ModelAndView accountUnlockProcessiong(@ModelAttribute("unlockAccount") SecurityIssuesFormHandler  unlockAccount, RedirectAttributes attributes )
 	   {
            
-		   try
-		   {   	       		       
-			     securityService.resetFailedLoginAttemptsAndUnlockAccount(unlockAccount.getCode());	      
-		   }
-		   catch(IndexOutOfBoundsException | CodeExpiredException ex)
+		 if(securityService.resetFailedLoginAttemptsAndUnlockAccount(unlockAccount.getCode()))
 		   {
-			   return new ModelAndView("account/exceptions/unlock","message","Wrong or expired unlock code");
+			   attributes.addFlashAttribute("ok","Account unlocked. You can now log in");
+			   return new ModelAndView("redirect:/login"); 
 		   }
-		
-		   return new ModelAndView("login","ok","Account unlocked. You can now log in");
+		   return new ModelAndView("account/exceptions/unlock","message","Wrong or expired unlock code");
 		   
 	   }
 	

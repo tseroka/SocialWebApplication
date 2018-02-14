@@ -15,15 +15,23 @@
 </head>
  
 <body>
+    <header>
+	
+		<h2 class="logo">Social Website</h2>
 
+	</header>
+	
+	<p class="ok">${message}</p>
+	
   <h2> Username : ${user.username}  </h2>  <br>
   <h2> Nickname: ${user.nickname}</h2>  <br>
   <h2> Email: ${user.email} </h2> <br>
   <h2> Country: ${user.country} </h2> <br> 
 
-<p class="ok">${message}</p>
-<a href="/user/edit" >Edit account</a> <br>
-<a href="/user/edit/password" >Change password</a>
+
+
+<h2><a href="/user/edit" >Edit account</a></h2> <br>
+<h2><a href="/user/edit/password" >Change password</a></h2>
 
 
 </body>

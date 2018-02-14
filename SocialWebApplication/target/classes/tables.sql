@@ -81,6 +81,6 @@ CREATE TABLE securityIssues
  lockReason varchar(300) NULL DEFAULT NULL,
  unlockDate timestamp NULL DEFAULT NULL,
  PRIMARY KEY(user_id),
- FOREIGN KEY(user_id) REFERENCES users(user_id)
+ FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 

@@ -18,7 +18,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.app.web.social.dao.validations.InputCorrectness;
+import com.app.web.social.service.InputCorrectness;
 
 @Entity
 @Table(name="users",  uniqueConstraints={ @UniqueConstraint( columnNames={"user_id", "username", "nickname", "email"} ) }     )

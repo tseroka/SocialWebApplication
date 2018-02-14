@@ -58,7 +58,7 @@
    
    <li><a href='<c:url value="/logout" />' ><span>Logout</span></a></li>
    
-   <li><a href='about'><span>About</span></a></li>
+   <li><a href='/about'><span>About</span></a></li>
                 
    </ul>
 

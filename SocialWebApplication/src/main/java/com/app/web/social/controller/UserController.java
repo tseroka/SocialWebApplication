@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.app.web.social.dao.validations.InputCorrectness;
+import com.app.web.social.service.InputCorrectness;
 import com.app.web.social.model.temp.EditAccount;
 import com.app.web.social.model.UserAccount;
 import com.app.web.social.model.SecurityIssues;
-import com.app.web.social.service.UserService;
-import com.app.web.social.service.SecurityService;
-import com.app.web.social.service.UniquenessService;
+import com.app.web.social.service.IUserService;
+import com.app.web.social.service.ISecurityService;
+import com.app.web.social.service.IUniquenessService;
 
 @Controller
 @RequestMapping(value="/user/")
@@ -25,13 +25,13 @@ public class UserController implements InputCorrectness
 {
 	
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 	
     @Autowired
-    private SecurityService securityService;
+    private ISecurityService securityService;
     
     @Autowired
-    private UniquenessService uniquenessService;
+    private IUniquenessService uniquenessService;
 
     
     
@@ -85,7 +85,7 @@ public class UserController implements InputCorrectness
 	  		 
 	  		  else 
 	  		  { 
-	  			if( !userAccount.getPassword().equals( editAccount.getCurrentPassword() ) ) model.addObject("invalidPasswordMessage","Please type Your correct current password.");  
+	  			if( !userService.checkPassword(editAccount.getCurrentPassword(), userAccount.getPassword()) ) model.addObject("invalidPasswordMessage","Please type Your correct current password.");  
 	  			
 	  			if( username.equals(email.split("@")[0]) ) model.addObject("sameInputsMessage","Username and email must be different");
 	  			
@@ -126,8 +126,7 @@ public class UserController implements InputCorrectness
 		     editAccount.getNewPassword().equals(editAccount.getRepeatPassword())
 		   ) 
 		   {
-		   	   userAccount.setPassword(editAccount.getNewPassword());
-			   userService.editUser(userAccount);
+			   userService.changePassword(userAccount, editAccount.getNewPassword());
 			   
 			   attributes.addFlashAttribute("message","Password successfuly changed.");
 		       return new ModelAndView("redirect:/user/view");

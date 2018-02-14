@@ -14,6 +14,7 @@
 	<li class='active has-sub'><a href='#'><span>Admin</span></a> 
        <ul>
          <li class='last'><a href='/admin/view-users'><span>Manage users</span></a></li>
+         <li class='last'><a href='/admin/view-active-users'><span>View online users</span></a></li>
          <li class='last'><a href='/admin/sendGlobalMessage'><span>Send global message</span></a></li>
        </ul> 
     </li>
@@ -58,7 +59,7 @@
    
    <li><a href='<c:url value="/logout" />' ><span>Logout</span></a></li>
    
-   <li><a href='about'><span>About</span></a></li>
+   <li><a href='/about'><span>About</span></a></li>
                 
    </ul>
 

@@ -1,8 +1,5 @@
 package com.app.web.social.controller;
 
-import java.util.Arrays;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,18 +10,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.app.web.social.service.UserService;
-import com.app.web.social.service.AdminService;
+import com.app.web.social.service.IUserService;
+import com.app.web.social.service.IAdminService;
 
 @Controller
 public class MainController {
 
 	
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	
 	@Autowired
-	private AdminService adminService;
+	private IAdminService adminService;
 	
 	@GetMapping("/")
 	public String defaultPage() 
@@ -33,16 +30,8 @@ public class MainController {
 	}
 	
 	@GetMapping("/home")
-	public ModelAndView homePage(HttpServletRequest request) 
-	{
-		 Cookie[] cookies = request.getCookies();
-		// System.out.println("Are cookies null? "+(cookies.length));
-	       
-		// System.out.println(cookies[0].getName()+ "value: "+cookies[0].getValue());
-	            Arrays.stream(cookies)
-	                  .forEach(c -> System.out.println(c.getName() + "=" + c.getValue()));
-	        
-	        
+	public ModelAndView homePage() 
+	{       
 	  return new ModelAndView("home","usersOnline",adminService.getActiveUsersFromSessionRegistry().size());
 	}
 
@@ -69,7 +58,6 @@ public class MainController {
 	{
 	    if (userService.isAuthenticated())
 	    {   
-	      userService.clearSession();
 	      SecurityContextLogoutHandler logout = new SecurityContextLogoutHandler();
 	      logout.setInvalidateHttpSession(false);
 	      logout.logout(request, response, SecurityContextHolder.getContext().getAuthentication());

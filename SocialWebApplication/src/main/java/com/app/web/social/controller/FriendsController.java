@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.app.web.social.service.FriendsService;
+import com.app.web.social.service.IFriendsService;
 
 @RequestMapping(value="/profile/friends/")
 @Controller
@@ -20,7 +20,7 @@ public class FriendsController
 {
     
 	@Autowired
-	private FriendsService friendsService;
+	private IFriendsService friendsService;
 	
 	@GetMapping("viewFriends")
 	public ModelAndView viewFriends(@CookieValue(value = "visitedProfiles", defaultValue = "") String cookieValue) throws IOException

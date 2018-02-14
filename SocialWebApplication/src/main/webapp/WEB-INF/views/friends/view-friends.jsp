@@ -20,7 +20,7 @@
 
 <c:if test="${not empty friendsList}">
 <h1>Your Friends</h1>  
-<table> 
+<table class="table"> 
 
 <tr>
 <th>Nickname</th>

@@ -27,7 +27,7 @@ import com.app.web.social.model.Attachment;
 import com.app.web.social.model.converter.StringListConverter;
 
 @Entity
-@Table(name = "privatemessages",  uniqueConstraints ={ @UniqueConstraint( columnNames = {"message_id"} ) }     )
+@Table(name = "privateMessages",  uniqueConstraints ={ @UniqueConstraint( columnNames = {"message_id"} ) }     )
 public class PrivateMessage implements Serializable 
 {
 	private static final long serialVersionUID = -8914840082826396792L;

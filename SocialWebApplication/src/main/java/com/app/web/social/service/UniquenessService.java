@@ -2,34 +2,46 @@ package com.app.web.social.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.app.web.social.repository.UserRepository;
 import com.app.web.social.model.UserAccount;
-import com.app.web.social.dao.validations.Uniqueness;
 
 @Service
-public class UniquenessService 
+@Transactional
+public class UniquenessService implements IUniquenessService
 {
 	@Autowired
-	private Uniqueness uniqueness;
+	private UserRepository userRepository;
 	
 	public boolean isUsernameNotBusy(String username)
 	{
-		return this.uniqueness.isUsernameNotBusy(username);
+		return !userRepository.existsByUsername(username);
 	}
 	
 	public boolean isNicknameNotBusy(String nickname) 
 	{
-		return this.uniqueness.isNicknameNotBusy(nickname);
+		return !userRepository.existsByNickname(nickname);
 	}
 	
 	public boolean isEmailNotBusy(String email) 
 	{
-		return this.uniqueness.isEmailNotBusy(email);
+		return !userRepository.existsByEmail(email);
 	}
 	
 	public boolean isPasswordUsernameEmailNicknameAreNotTheSame(UserAccount userAccount)
 	{
-		return this.uniqueness.isPasswordUsernameEmailNicknameAreNotTheSame(userAccount);
+		String password = userAccount.getPassword();    String username = userAccount.getUsername();
+        String email = userAccount.getEmail().split("@")[0];     String nickname = userAccount.getNickname();
+    	return 
+    	        (
+    			!(username.equals(password)) && 
+    			!(email.equals(password)) &&
+    			!(nickname.equals(password))  &&
+    			!(username.equals(nickname)) &&
+    			!(username.equals(email)) &&
+    			!(nickname.equals(email))
+    			);
 	}
 
 }

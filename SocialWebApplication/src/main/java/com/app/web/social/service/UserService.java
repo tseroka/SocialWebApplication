@@ -1,88 +1,114 @@
 package com.app.web.social.service;
 
+import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.app.web.social.dao.UserDAO;
+import com.app.web.social.repository.*;
 import com.app.web.social.model.UserAccount;
+import com.app.web.social.model.Friends;
+import com.app.web.social.model.Profile;
 import com.app.web.social.model.SecurityIssues;
 
 @Service
-public class UserService {
+@Transactional
+public class UserService implements IUserService {
 	
 	@Autowired
-	private UserDAO userDAO;
+	private UserRepository userRepository;
+	
+	@Autowired
+	private ProfileRepository profileRepository;
+	
+	@Autowired
+	private FriendsRepository friendsRepository;
+	
+	@Autowired
+	private ISecurityService securityService;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	
 	public void registerUser(UserAccount userAccount) throws UnknownHostException 
 	{
-		this.userDAO.registerUser(userAccount);
+
+		List<String> empty = new ArrayList<String>();
+		
+		String ip = InetAddress.getLocalHost().toString();
+		HashSet<String> ipSet = new HashSet<String>(); ipSet.add(ip);
+				
+		profileRepository.save( new Profile(userAccount.getNickname(), "", empty, "", false, false));
+		
+		friendsRepository.save( new Friends(userAccount.getNickname(), empty, empty , empty));
+		
+		userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
+		userAccount.setCreationDate(new Timestamp(System.currentTimeMillis()));
+		
+		userRepository.saveAndFlush(userAccount);
+		securityService.saveSecurityIssuesAccount(new SecurityIssues(userAccount.getId(),userAccount.getUsername(), userAccount, securityService.generateActivationAndUnlockCode(), null, null, new Timestamp(System.currentTimeMillis()+300000L), ip , ipSet,new Timestamp(System.currentTimeMillis()),(byte) 0, null, null));
+			
+		securityService.sendEmailWithActivationCode(userAccount.getEmail(), userAccount.getUsername());
 	}
 
 	
 	public void editUser(UserAccount userAccount, SecurityIssues issue)
 	{
-		this.userDAO.editUser(userAccount, issue);
+		userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));	
+		securityService.saveSecurityIssuesAccount(issue);
+		userRepository.save(userAccount);
 	}
 	
 	public void editUser(UserAccount userAccount)
 	{
-		this.userDAO.editUser(userAccount);
+		userRepository.save(userAccount);
+	}
+	
+	public void changePassword(UserAccount userAccount, String rawPassword)
+	{
+		userAccount.setPassword(passwordEncoder.encode(rawPassword));
+		editUser(userAccount);
 	}
 	
 	public boolean checkPassword(String rawPassword, String encodedPassword)
 	{
-		return this.userDAO.checkPassword(rawPassword, encodedPassword);
+		return passwordEncoder.matches(rawPassword, encodedPassword);
 	}
 	
 	public UserAccount getUserById(long id)
 	{
-		return this.userDAO.getUserById(id);
+		return userRepository.findById(id).get();
 	}
 	
 	public UserAccount getUserAccount(String username)
 	{
-		return this.userDAO.getUserAccount(username);
+		if(userRepository.existsByUsername(username)) return userRepository.findByUsername(username);
+				
+		else return null;
     }
 	
 	public UserAccount getUserByNickname(String nickname)
 	{
-		return this.userDAO.getUserByNickname(nickname);
+		return userRepository.findByNickname(nickname);
 	}
 	
 	public UserAccount getUserByEmail(String email) 
 	{
-	    return this.userDAO.getUserByEmail(email);
+	    return userRepository.findByEmail(email);
 	}
 	
 	
 	public UserAccount getAuthenticatedUserAccount() 
 	{
-	    return this.userDAO.getAuthenticatedUserAccount();	
+	    return getUserAccount(getAuthenticatedUserUsername());	
 	}
-	
-	public String getAuthenticatedUserUsername()
-	{
-		return this.userDAO.getAuthenticatedUserUsername();
-	}
-	
-	public boolean isAuthenticated()
-	{
-		return this.userDAO.isAuthenticated();
-	}
-	
-	public long getAuthenticatedUserId()
-	{
-		return this.userDAO.getAuthenticatedUserId();
-	}	
-	
-
-
-	
-	public void clearSession()
-	{
-		this.userDAO.clearSession();
-	}
+		
 }

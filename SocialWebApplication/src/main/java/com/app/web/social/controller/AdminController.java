@@ -2,8 +2,8 @@ package com.app.web.social.controller;
 
 import com.app.web.social.model.PrivateMessage;
 import com.app.web.social.model.UserAccount;
-import com.app.web.social.service.MessagesService;
-import com.app.web.social.service.AdminService;
+import com.app.web.social.service.IMessagesService;
+import com.app.web.social.service.IAdminService;
 import com.app.web.social.model.temp.LockAccount;
 
 import java.util.ArrayList;
@@ -19,23 +19,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.data.domain.Page;
 
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
     
 	@Autowired
-    private AdminService adminService;
+    private IAdminService adminService;
 	
 	@Autowired
-	private MessagesService messagesService;
+	private IMessagesService messagesService;
 	 
 
 	@GetMapping("view-active-users")
 	public ModelAndView viewUsers()
 	{ 		
 		List<String> activeUsers = adminService.getActiveUsersFromSessionRegistry();
-		activeUsers.forEach(System.out::println);
 	    return new ModelAndView("admin/active-users","activeUsers", activeUsers);  
 	}
 	
@@ -43,7 +43,7 @@ public class AdminController {
 	@GetMapping("view-users")
 	public ModelAndView viewUsers(@RequestParam(name = "page", defaultValue = "1") String page)
 	{ 		
-		List<UserAccount> usersList = adminService.getUsersList(Integer.parseInt(page));
+		Page<UserAccount> usersList = adminService.getUsersList(Integer.parseInt(page));
 	    return new ModelAndView("admin/view-users","listUser",usersList).addObject("endpage",adminService.countUsers()/10+1);  
 	}
 	

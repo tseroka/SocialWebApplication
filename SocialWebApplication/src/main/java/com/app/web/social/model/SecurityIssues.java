@@ -30,10 +30,13 @@ public class SecurityIssues implements Serializable
 
 	private static final long serialVersionUID = -1647904435384587934L;
 
+	@Id
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private long id; 
+	
 	@Column(name="username", nullable=false, unique=true, length=25)
 	private String username;
 	
-	@Id
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private UserAccount userAccount;
@@ -85,10 +88,11 @@ public class SecurityIssues implements Serializable
 		
 	}
 	
-	public SecurityIssues(String username, UserAccount userAccount,String activationCode, String unlockCode, String resetPasswordCode,
+	public SecurityIssues(long id, String username, UserAccount userAccount,String activationCode, String unlockCode, String resetPasswordCode,
 			Timestamp codeExpirationDate, String lastIPAddress, HashSet<String> allIPAddresses, Timestamp lastLoginDate, 
 			byte numberOfLoginFails, String lockReason, Timestamp unlockDate) 
 	{
+		this.id = id;
 		this.username = username;
 		this.userAccount = userAccount;
 		this.activationCode = activationCode;

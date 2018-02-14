@@ -30,7 +30,7 @@
 <th>Delete account</th>
 </tr>  
 
-   <c:forEach var="User" items="${listUser}">   
+   <c:forEach var="User" items="${listUser.content}">   
 
     
    <tr>  

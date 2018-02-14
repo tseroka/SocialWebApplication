@@ -68,12 +68,12 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     	{
     	securityService.increaseFailedLoginAttemptsNumberAndLockIfEqualsFive(username);
     	}
-    	catch(IndexOutOfBoundsException ex) {}
+    	catch(IndexOutOfBoundsException | NullPointerException ex) {}
     }
     
     else { message.append(exception.getMessage()); }
     
-    response.sendRedirect("/SocialWebApplication/login?error="+message.toString());
+    response.sendRedirect("/login?error="+message.toString());
      
   }
 

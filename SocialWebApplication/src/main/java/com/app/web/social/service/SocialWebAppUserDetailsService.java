@@ -11,19 +11,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.app.web.social.model.UserAccount;
-import com.app.web.social.dao.UserDAO;
-
 
 @Service
 public class SocialWebAppUserDetailsService implements UserDetailsService {
 
 	
 	@Autowired
-	private UserDAO userDAO;
+	private IUserService userService;
 	
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
 	{
-		UserAccount userAccount = userDAO.getUserAccount(username);
+		UserAccount userAccount = userService.getUserAccount(username);
 		if(userAccount == null) throw new UsernameNotFoundException("");
 		GrantedAuthority authority = new SimpleGrantedAuthority(userAccount.getRole());
       

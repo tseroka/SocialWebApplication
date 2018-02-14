@@ -10,19 +10,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.app.web.social.service.SecurityService;
-import com.app.web.social.service.UserService;
+import com.app.web.social.service.ISecurityService;
+import com.app.web.social.service.IUserService;
 
 @Controller
 public class LoginController {
     
 	@Autowired
-	private SecurityService securityService;
+	private ISecurityService securityService;
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	
-	@GetMapping("/login")                                                //username
+	@GetMapping("/login")                                                                                   //username
 	public ModelAndView login(@RequestParam(name="error", required = false) String error, @RequestParam(name="kjhubvJHbt", required=false) String username, HttpServletRequest request, HttpServletResponse response, HttpSession session )
 	{   
         

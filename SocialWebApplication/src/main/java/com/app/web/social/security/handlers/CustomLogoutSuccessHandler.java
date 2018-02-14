@@ -30,11 +30,11 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler im
 	      if( ( System.currentTimeMillis()-session.getLastAccessedTime() ) >= (1000L*60L*1L) )
 	      {
 	    	  System.out.println("TIMEOUT");
-	         response.sendRedirect("/SocialWebApplication/login?error=expired");
+	         response.sendRedirect("/login?error=expired");
 	      } 
 	      else {
 	    	  System.out.println("no timeout");
-	    	  response.sendRedirect("/SocialWebApplication/login");	
+	    	  response.sendRedirect("/login");	
 	      }
 	      
 	      super.onLogoutSuccess(request, response, authentication);

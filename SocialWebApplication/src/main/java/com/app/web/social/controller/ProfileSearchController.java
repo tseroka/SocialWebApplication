@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.web.social.model.temp.SearchProfile;
-import com.app.web.social.service.ProfileService;
+import com.app.web.social.service.IProfileService;
 import com.app.web.social.utilities.CookiesService;
 
 @Controller
@@ -26,10 +26,9 @@ import com.app.web.social.utilities.CookiesService;
 public class ProfileSearchController {
 	
 	   @Autowired
-	   private ProfileService profileService;
-	
-	
-	
+	   private IProfileService profileService;
+
+	   
 	    @GetMapping
 	    public ModelAndView search()
 	    {
@@ -52,11 +51,11 @@ public class ProfileSearchController {
 	    		@RequestParam(name = "city", defaultValue = "") String city,
 	    		@RequestParam(name = "interests", defaultValue = "") String interestsInput, HttpServletResponse response) throws IOException
 	    {   
-	    	List<String> interests = new ArrayList<String>( Arrays.asList(interestsInput.split(",") ) );
+	    	List<String> interests = new ArrayList<String>();
+	    	interests = interestsInput.equals("") ? null :  Arrays.asList(interestsInput.split(",") ) ;
 	    	
 	    	List<String> findedProfiles = profileService.searchProfiles(sex, city, interests);
 	    	
-	    	 
 	    	if(!city.equals("")) CookiesService.addCookie(response, "searchedCity", city, 3600);
 	    	CookiesService.addCookie(response, "searchedInterests", interestsInput, 3600);
 	    

@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<table>
+<table class="table">
 
 <tr>
 <th>Recipients</th><th>Subject</th>
@@ -32,7 +32,13 @@
 </td>  
 <td>${message.messageSubject}</td>  
 <td>${message.sentDate} </td>
-<td><a href='/profile/messages/remove/${message.messageId}'>Remove</a></td>  
+<td>
+<c:url var="removeURL" value='/profile/messages/remove/${message.messageId}'/>
+     <form action="${removeURL}" id="remove" method="post" class="confirm">
+       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+     </form>
+     <a href="#" onclick='$("#remove").submit();'>Remove</a>
+</td>  
 </tr>
 
 </table>

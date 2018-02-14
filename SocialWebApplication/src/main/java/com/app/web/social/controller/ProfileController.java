@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.web.social.model.Profile;
-import com.app.web.social.service.ProfileService;
-import com.app.web.social.service.FriendsService;
+import com.app.web.social.service.IProfileService;
+import com.app.web.social.service.IFriendsService;
 import com.app.web.social.utilities.CookiesService;
 
 @Controller
@@ -27,10 +27,10 @@ public class ProfileController {
 	 
 	
 	@Autowired 
-	private ProfileService profileService;
+	private IProfileService profileService;
 	
 	@Autowired 
-	private FriendsService friendsService;
+	private IFriendsService friendsService;
 	
 	/**  --------------------------------VIEW------------------------------------------------------ */
 	 
@@ -38,17 +38,17 @@ public class ProfileController {
          public ModelAndView viewProfile(@PathVariable String nickname, HttpServletResponse response,
          @CookieValue(value = "visitedProfiles", defaultValue = "") String cookieValue) throws IOException
 	     { 
-		   Profile profile = profileService.getProfileByNickname(nickname);
-		   if( profile!=null ) 
-		   {
-		   ModelAndView model = new ModelAndView("profile/view-profile","profile",profile);
-		   model.addObject("isFriend",friendsService.isFriend(nickname));
-		   model.addObject("isInvited",friendsService.isInvited(nickname));
-		
-		   CookiesService.addCookie(response, "visitedProfiles", cookieValue+","+nickname, 3600);
-		   
-		   return model;
-		   }
+	    	 if(friendsService.isProfileExist(nickname))
+		     {
+			   Profile profile = profileService.getProfileByNickname(nickname);
+			   ModelAndView model = new ModelAndView("profile/view-profile","profile",profile);
+			   model.addObject("isFriend",friendsService.isFriend(nickname));
+			   model.addObject("isInvited",friendsService.isInvited(nickname));
+			   
+			   CookiesService.addCookie(response, "visitedProfiles", cookieValue+","+nickname, 3600);
+			   
+			   return model;
+			 }
 		   
 		   return new ModelAndView("redirect:/404");
          }  
@@ -85,10 +85,5 @@ public class ProfileController {
 	    	profileService.editProfile(profile);  
 	        return new ModelAndView("redirect:/home");  
 	    }  
-        
-	
-	    
-
-	  
 
 }

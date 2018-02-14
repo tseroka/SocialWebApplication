@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
+import org.springframework.data.domain.Page;
 import org.springframework.util.FileCopyUtils;
 
 import com.app.web.social.model.PrivateMessage;
 import com.app.web.social.model.Attachment;
-import com.app.web.social.service.ProfileService;
-import com.app.web.social.service.MessagesService;
+import com.app.web.social.service.IProfileService;
+import com.app.web.social.service.IMessagesService;
 
 
 @RequestMapping(value="/profile/messages/")
@@ -35,10 +35,10 @@ public class MessagesController {
 
 	
 	  @Autowired
-	  private MessagesService messagesService;
+	  private IMessagesService messagesService;
 	  
 	  @Autowired
-	  private ProfileService profileService;
+	  private IProfileService profileService;
 	  
 	 
 	   @GetMapping("send/recipient={recipient}")
@@ -70,9 +70,6 @@ public class MessagesController {
 			    if(message.getMessageSubject().equals("")) message.setMessageSubject("No subject");
 			   
 			    List<CommonsMultipartFile> fileUpload = message.getFileUpload();
-			    
-			    System.out.println("Are attachments null: "+(fileUpload==null));
-			    System.out.println("Are attachments empty: "+(fileUpload.isEmpty()));
 			    
 	 		    if((fileUpload.get(0).getSize()>0))
 		        {
@@ -128,7 +125,7 @@ public class MessagesController {
 		   }		   
 	   }
 	    
-	   @GetMapping("remove/{id}")
+	   @PostMapping("remove/{id}")
 	   public ModelAndView removeMessage(@PathVariable Long id)
 	   {
 		   return new ModelAndView("redirect:"+messagesService.removeMessage(id));
@@ -137,7 +134,7 @@ public class MessagesController {
 	    @GetMapping("inbox")
 	    public ModelAndView getInbox(@RequestParam(name = "page", defaultValue = "1") String page)
 	    {
-	    	List<PrivateMessage> inbox = messagesService.getInbox(Integer.parseInt(page));
+	    	Page<PrivateMessage> inbox = messagesService.getInbox(Integer.parseInt(page));
 	    	return new ModelAndView("messages/inbox","inboxMessages",inbox).addObject("endpage",messagesService.countInboxMessages()/10+1);
 	    }
 	   
@@ -146,14 +143,14 @@ public class MessagesController {
 	    @GetMapping("outbox")
 	    public ModelAndView getOutbox(@RequestParam(name = "page", defaultValue = "1") String page)
 	    {
-	    	List<PrivateMessage> outbox = messagesService.getOutbox(Integer.parseInt(page));
+	    	Page<PrivateMessage> outbox = messagesService.getOutbox(Integer.parseInt(page));
 	    	return new ModelAndView("messages/outbox","outboxMessages",outbox).addObject("endpage",messagesService.countOutboxMessages()/10+1);
 	    }
 	    
 	    @GetMapping("globalMessages")
-	    public ModelAndView getGlobalMessages()
+	    public ModelAndView getGlobalMessages(@RequestParam(name = "page", defaultValue = "1") String page)
 	    {
-	    	List<PrivateMessage> globalMessages = messagesService.getGlobalMessages();
+	    	Page<PrivateMessage> globalMessages = messagesService.getGlobalMessages(Integer.parseInt(page));
 	    	return new ModelAndView("messages/globalMessages","globalMessages",globalMessages);
 	    }
 	    
@@ -164,7 +161,6 @@ public class MessagesController {
 	    @GetMapping("inbox/{id}")
 	    public ModelAndView getInMessage(@PathVariable Long id )
 	    {
-	    	
 	    	String nickname = profileService.getAuthenticatedUserNickname();
 	    	PrivateMessage message = messagesService.getMessage(id);
 	    	if(  message.getMessageRecipients().contains(nickname) || message.getMessageRecipients().contains("ALL") ) 
@@ -173,7 +169,6 @@ public class MessagesController {
 	    	}
 	    	
 	    	else { message=null; }
-	    	
 	    	return new ModelAndView("redirect:/403");
 	    }
 	    
