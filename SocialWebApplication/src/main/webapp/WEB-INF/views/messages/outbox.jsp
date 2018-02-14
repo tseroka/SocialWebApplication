@@ -30,26 +30,31 @@
 
 <c:forEach var="message" items="${outboxMessages.content}">  
 <tr>
+
 <td>
 <c:forEach var="recipient" items="${message.messageRecipients}"> 
 <a href='/profile/view/${recipient}' target="_blank"> ${recipient}</a> 
 </c:forEach>
 </td>  
+
 <td> <a href='outbox/${message.messageId}'> ${message.messageSubject} </a></td>  
+
 <td>${message.sentDate} </td>
+
 <td>
 <c:url var="removeURL" value='/profile/messages/remove/${message.messageId}'/>
      <form action="${removeURL}" id="remove" method="post" class="confirm">
        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
      </form>
-     <a href="#" onclick='$("#remove").submit();'>Remove</a>
+     <a class="tableLink" href="#" onclick='$("#remove").submit();'>Remove</a>
 </td>  
+
 </tr>
 </c:forEach>
 </table>
 
 <c:forEach begin="1" end="${endpage}" var="page">
-         <a href="/profile/messages/outbox?page=${page}">${page}</a>
+         <a class="tableLink" href="/profile/messages/outbox?page=${page}">${page}</a>
 </c:forEach>
 
 </c:if>

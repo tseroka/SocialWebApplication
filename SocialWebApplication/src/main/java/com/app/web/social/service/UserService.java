@@ -56,7 +56,7 @@ public class UserService implements IUserService {
 		userRepository.saveAndFlush(userAccount);
 		securityService.saveSecurityIssuesAccount(new SecurityIssues(userAccount.getId(),userAccount.getUsername(), userAccount, securityService.generateActivationAndUnlockCode(), null, null, new Timestamp(System.currentTimeMillis()+300000L), ip , ipSet,new Timestamp(System.currentTimeMillis()),(byte) 0, null, null));
 			
-		securityService.sendEmailWithActivationCode(userAccount.getEmail(), userAccount.getUsername());
+		securityService.sendEmailWithActivationCode(userAccount.getEmail());
 	}
 
 	

@@ -13,7 +13,7 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
-import com.app.web.social.service.SecurityService;
+import com.app.web.social.service.ISecurityService;
 
 @Service
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler
@@ -22,7 +22,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	@Autowired
-	private SecurityService securityService;
+	private ISecurityService securityService;
 	  
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 		     throws IOException, ServletException

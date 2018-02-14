@@ -90,11 +90,12 @@ a.page
 }
 
 p
-{
+{   margin: auto;
 	color:#64826c;
 }
 
 p.ok{
+	margin: auto;
 	color:#00ff00;
 }
 

@@ -17,6 +17,8 @@ public static final String MAX_ATTEMPTS_REASON = "attempts";
 	
 	
 	public SecurityIssues getSecurityIssuesAccountByUsername(String username);
+			
+//	public SecurityIssues getSecurityIssuesById(long id);
 	
 	public SecurityIssues getAuthenticatedSecurityIssues();
 	
@@ -60,9 +62,9 @@ public static final String MAX_ATTEMPTS_REASON = "attempts";
 	
 	 
 	
-	public void sendEmailWithActivationCode(String email, String username);
+	public void sendEmailWithActivationCode(String email);
 	
-	public void sendAgainEmailWithActivationCode(String email, String username);
+	public void sendAgainEmailWithActivationCode(String email);
 	
 	public boolean acceptActivationCodeAndEnableAccount(String code);
 
@@ -70,13 +72,14 @@ public static final String MAX_ATTEMPTS_REASON = "attempts";
 	
 	public void increaseFailedLoginAttemptsNumberAndLockIfEqualsFive(String username);
 	
-	public void sendEmailWithUnlockCodeAfterSecurityLockup(String email, String username);
+	public void sendEmailWithUnlockCodeAfterSecurityLockup(String email);
 	
 	public boolean resetFailedLoginAttemptsAndUnlockAccount(String code);
 	
 	
 	
-	public void sendEmailWithPasswordResetCode(String email, String username);
+	public void sendEmailWithPasswordResetCode(String email);
 	
 	public boolean resetPassword(String password, String code);
 }
+

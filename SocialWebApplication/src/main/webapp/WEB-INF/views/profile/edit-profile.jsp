@@ -18,26 +18,34 @@
 
 <body>
 
+    <header>
+	
+		<h2 class="logo">Social Website</h2>
+
+	</header>
+
+
 <div id="container">
 
 <form:form modelAttribute="profile" method="POST" action="/profile/edit/save">    
 
  
-   <p>Sex</p>
-   <form:select path="sex" name="sex" id="sex" cssClass="inputData">
+       <form:select path="sex" name="sex" id="sex" cssClass="inputData" title="Sex">
        <option value="">Unspecified</option>
 	   <option value="M">Male</option>
        <option value="F">Female</option>
-	   </form:select> <br>
+	   </form:select> 
 	
-        <p>Interests(separate with commas)</p>
-        <form:input path="interests" /> <br>
         
-        City: <form:input path="city"/> <br>
+        <form:input path="interests" 
+        placeholder="Interests(separate with comas)" onfocus="this.placeholder=''"  onblur="this.placeholder='Interests(separate with comas)'"/> 
+           
+         <form:input path="city"
+         placeholder="City" onfocus="this.placeholder=''"  onblur="this.placeholder='City'"/> 
         
-        Allow others to search : <form:checkbox path="allowSearching"/> <br>
+        <form:checkbox path="allowSearching" title="Allow others to search"/> 
         
-        Allow messages from strangers : <form:checkbox path="allowEveryoneToSendMessage"/> <br>
+        <form:checkbox path="allowEveryoneToSendMessage" title="Allow messages from strangers"/> 
         
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         

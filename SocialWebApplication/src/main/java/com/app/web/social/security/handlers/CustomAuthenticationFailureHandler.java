@@ -15,8 +15,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.app.web.social.service.SecurityService;
-import com.app.web.social.service.AdminService;
+import com.app.web.social.service.ISecurityService;
+import com.app.web.social.service.IAdminService;
 import com.app.web.social.model.SecurityIssues;
 
 @Service
@@ -24,10 +24,10 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 {
 
   @Autowired
-  private SecurityService securityService;
+  private ISecurityService securityService;
   
   @Autowired
-  private AdminService adminService;
+  private IAdminService adminService;
 
   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
      throws IOException, ServletException 
@@ -68,7 +68,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     	{
     	securityService.increaseFailedLoginAttemptsNumberAndLockIfEqualsFive(username);
     	}
-    	catch(IndexOutOfBoundsException | NullPointerException ex) {}
+    	catch(NullPointerException ex) {}
     }
     
     else { message.append(exception.getMessage()); }

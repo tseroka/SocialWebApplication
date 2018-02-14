@@ -109,25 +109,19 @@ public class RegistrationController implements InputCorrectness {
    @GetMapping("/sendActivationCodeAgain")
    public ModelAndView getSendActivationAgainForm()
    {
-	   return new ModelAndView("account/activate-send-again","send-activation-code-again", new SecurityIssuesFormHandler ());
+	   return new ModelAndView("account/activate-send-again","send-activation-code-again", new SecurityIssuesFormHandler() );
    }
    
    @PostMapping("/sendActivationCodeAgainProcessing")
    public ModelAndView sendAgain(@ModelAttribute("send-activation-code-again") SecurityIssuesFormHandler sendAgain, RedirectAttributes attributes )
    {
-	   String email = sendAgain.getEmail(); String username = sendAgain.getUsername();
+	   String email = sendAgain.getEmail();
 	   
-	   if(Pattern.matches(EMAIL_VALIDATION_REGEX, email) && Pattern.matches(USERNAME_VALIDATION_REGEX, username) )
-	   {
-	      try 
-	      {  
-		   securityService.sendAgainEmailWithActivationCode(email, username);
+	   if(Pattern.matches(EMAIL_VALIDATION_REGEX, email))
+	   {    
+		   securityService.sendAgainEmailWithActivationCode(email);
 		   attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to activate account will be send on this email address");
 		   return new ModelAndView("redirect:/exceptions/Activate account");
-	      }
-	      catch(IndexOutOfBoundsException ex) //TO CHANGE
-	      {
-	      }
 	   }
 	   
 	   return new ModelAndView("redirect:sendActivationCodeAgain");

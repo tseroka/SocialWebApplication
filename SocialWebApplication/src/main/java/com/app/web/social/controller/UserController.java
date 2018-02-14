@@ -54,44 +54,51 @@ public class UserController implements InputCorrectness
 	 public ModelAndView editSave(@ModelAttribute("editAccount") EditAccount editAccount, RedirectAttributes attributes)
 	 {   
 		    ModelAndView model = new ModelAndView("account/edit-account");
-	        if(!editAccount.getUsername().equals("") || !editAccount.getEmail().equals("") || !editAccount.getCountry().equals("") )
+	        if(!editAccount.getUsername().equals("") || !editAccount.getEmail().equals("") || !editAccount.getCountry().equals("Unspecified") )
 	        {
 	          UserAccount userAccount = userService.getAuthenticatedUserAccount();
 	          
 	          SecurityIssues issue = securityService.getAuthenticatedSecurityIssues();
 	          
-	          String username = editAccount.getUsername().equals("") ? userAccount.getUsername() : editAccount.getUsername();
-	          String email = editAccount.getEmail().equals("") ? userAccount.getEmail() : editAccount.getEmail();
-	          String country = editAccount.getCountry().equals("") ? userAccount.getCountry() : editAccount.getCountry();       
+	          String username = editAccount.getUsername();
+	          String email = editAccount.getEmail();
+	          String country = editAccount.getCountry();       
 	          
 	  		    if
 	  		    (   
-	  		       userService.checkPassword(editAccount.getCurrentPassword(), userAccount.getPassword())&&
-	  		       editAccount.validateChanges() &&
-	  		       !username.equals(email.split("@")[0]) &&
-	  		       (uniquenessService.isUsernameNotBusy(username) || username.equals(userAccount.getUsername()))  &&
-	  		       (uniquenessService.isEmailNotBusy(email) || email.equals(userAccount.getEmail() ) )  		    		    		    		  		 
-	  	         )
+	  		       userService.checkPassword(editAccount.getCurrentPassword(), userAccount.getPassword())  		    		    		  		 
+	  	        )
 	  		     {
-	  			 	  			 
-	  			   userAccount.setUsername(username);
-	  			   userAccount.setEmail(email);
-	  			   userAccount.setCountry(country);
-	  			   issue.setUsername(username);
+	  			     if(!username.equals("") && Pattern.matches(USERNAME_VALIDATION_REGEX, username) && uniquenessService.isUsernameNotBusy(username)) 
+	  			     {
+	  				   userAccount.setUsername(username);
+	  				   issue.setUsername(username);
+	  			     }
+	  			   
+	  			     if(!email.equals("") && Pattern.matches(EMAIL_VALIDATION_REGEX, email) && uniquenessService.isEmailNotBusy(email)) 
+	  			     {
+	  				   userAccount.setEmail(email);
+	  			     }	  		
+	  			     
+	  			     if(!country.equals("Unspecified"))
+	  			     {
+	  			       userAccount.setCountry(country);
+	  			     }
+	  		    
 		    	   userService.editUser(userAccount, issue); 
                    attributes.addFlashAttribute("message","Account has been successfuly edited");
 		           return new ModelAndView("redirect:/user/view"); 
-	  		     } 
+	  		    }
 	  		 
 	  		  else 
 	  		  { 
 	  			if( !userService.checkPassword(editAccount.getCurrentPassword(), userAccount.getPassword()) ) model.addObject("invalidPasswordMessage","Please type Your correct current password.");  
 	  			
-	  			if( username.equals(email.split("@")[0]) ) model.addObject("sameInputsMessage","Username and email must be different");
+	  			if( username.equals(email.split("@")[0]) && !username.equals("") && !email.equals("") ) model.addObject("sameInputsMessage","Username and email must be different");
 	  			
-	  		    if(!uniquenessService.isUsernameNotBusy(username) && !username.equals(userAccount.getUsername()) ) model.addObject("usernameExistsMessage","Username already exists!");
+	  		    if(!uniquenessService.isUsernameNotBusy(username) && !username.equals("") ) model.addObject("usernameExistsMessage","Username already exists!");
 	  		    
-	  		    if(!uniquenessService.isEmailNotBusy(email) && !email.equals(userAccount.getEmail()) ) model.addObject("emailExistsMessage","Email already exists!");
+	  		    if(!uniquenessService.isEmailNotBusy(email) && !email.equals("") ) model.addObject("emailExistsMessage","Email already exists!");
 	  		    
 	  		  }	
 	  			

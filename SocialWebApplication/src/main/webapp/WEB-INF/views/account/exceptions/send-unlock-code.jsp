@@ -29,10 +29,7 @@
     <form:form name='sendUnlockCodeForm' modelAttribute="sendUnlockCode" action="/exceptions/sendUnlockCodeProcessing" method="POST">
 
 	<form:input type="text" path="email" name="Email" cssClass="inputData" 
-	placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"/>
-		
-	<form:input type="text" path="username" name="Username" cssClass="inputData" 
-	placeholder="Username" onfocus="this.placeholder=''" onblur="this.placeholder='Username'"/>		
+	placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"/>	
 	
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	

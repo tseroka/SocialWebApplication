@@ -39,7 +39,7 @@
      <form action="${removeURL}" id="remove" method="post" class="confirm">
        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
      </form>
-     <a href="#" onclick='$("#remove").submit();'>Remove</a>
+     <a class="tableLink" href="#" onclick='$("#remove").submit();'>Remove</a>
 </td>  
 </tr>
 </c:forEach>

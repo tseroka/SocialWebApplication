@@ -42,10 +42,11 @@ public class SecurityService implements ISecurityService
 		return securityIssuesRepository.findByUsername(username);
 	}
 	
-	//public SecurityIssues getSecurityIssuesById(long id)
-	//{
-	//	return securityIssuesRepository.findById(id).get();
-	//}
+	public SecurityIssues getSecurityIssuesAccountByEmail(String email)
+	{
+		return getSecurityIssuesAccountByUsername(userService.getUserByEmail(email).getUsername());	
+	}
+	
 	
 	public SecurityIssues getAuthenticatedSecurityIssues()
 	{
@@ -80,42 +81,41 @@ public class SecurityService implements ISecurityService
 	{
 		return getSecurityIssuesAccountByUsername(username).getUnlockDate();
 	}
-		
-    private boolean isEmailAndUsernameMatching(String email, String username)
-    {
-    	return userService.getUserByEmail(email).getUsername().equals(username);
-    }
 
 	
-	
-	
-	
-	
-	public void sendEmailWithActivationCode(String email, String username)
+	public void sendEmailWithActivationCode(String email)
 	{
-		String code = getSecurityIssuesAccountByUsername(username).getActivationCode();
-		String emailTextContent = "Welcome, "+username+". Activate Your account by typing this code into activation window:  "+code;
+		if(userRepository.existsByEmail(email))
+		{
+		SecurityIssues issue = getSecurityIssuesAccountByEmail(email);
+		String code = issue.getActivationCode();
+		String emailTextContent = "Welcome, "+issue.getUsername()+". Activate Your account by typing this code into activation window:  "+code;
 		
 		EmailMessage message = new EmailMessage(email, "Account activation", emailTextContent);
 		
 		emailService.sendEmail(message);
+		}
 	}
 	
-	private void resetActivationCode(String username)
+	private boolean resetActivationCode(String email)
 	{
-		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
+		if(userRepository.existsByEmail(email))
+		{
+		SecurityIssues issue = getSecurityIssuesAccountByEmail(email);
 		issue.setActivationCode(generateActivationAndUnlockCode());
 		issue.setTimeToExpire();
 		securityIssuesRepository.save(issue);
+		return true;
+		}
+		else return false;
 	}
 	
-	public void sendAgainEmailWithActivationCode(String email, String username)
+	public void sendAgainEmailWithActivationCode(String email)
 	{
-		if(isEmailAndUsernameMatching(email,username))
-		{
-	      resetActivationCode(username);
-	      sendEmailWithActivationCode(email, username);
-		}
+	      if(resetActivationCode(email))
+	      {
+	         sendEmailWithActivationCode(email);
+	      }
 	}
 	
 	public boolean acceptActivationCodeAndEnableAccount(String code)
@@ -166,30 +166,38 @@ public class SecurityService implements ISecurityService
 		 
 	}
 	
-	private void resetUnlockCode(String username)
+	private boolean resetUnlockCode(String email)
 	{
-		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
-		
-		if(MAX_ATTEMPTS_REASON.equals(issue.getLockReason()))
+		if(userRepository.existsByEmail(email))
 		{
-		   issue.setUnlockCode(generateActivationAndUnlockCode());
-		   issue.setTimeToExpire();
+		  SecurityIssues issue = getSecurityIssuesAccountByEmail(email);
+		
+		  if(MAX_ATTEMPTS_REASON.equals(issue.getLockReason()))
+		  {
+		    issue.setUnlockCode(generateActivationAndUnlockCode());
+		    issue.setTimeToExpire();
+		  }
+	        securityIssuesRepository.save(issue);
+	        return true;
 		}
-	  securityIssuesRepository.save(issue);
+		else return false;
 	}
 	
-    public void sendEmailWithUnlockCodeAfterSecurityLockup(String email, String username) 
+    public void sendEmailWithUnlockCodeAfterSecurityLockup(String email) 
     {
-    	resetUnlockCode(username);
-		String unlockCode = getSecurityIssuesAccountByUsername(username).getUnlockCode();
-		if(unlockCode!=null && isEmailAndUsernameMatching(email,username) )
-		{
-			String emailTextContent = username+", Your account has been locked due to maximum login attempts. "
+    	if(resetUnlockCode(email))
+    	{
+    	 SecurityIssues issue = getSecurityIssuesAccountByEmail(email);
+		 String unlockCode = issue.getUnlockCode();
+		 if(unlockCode!=null)
+		 {
+			String emailTextContent = issue.getUsername()+", Your account has been locked due to maximum login attempts. "
 			+ "Type this code to proper field to unlock Your account:  "+unlockCode;
 		
 			EmailMessage message = new EmailMessage(email, "Unlock account", emailTextContent);	
 			emailService.sendEmail(message);
-		}	
+		 }	
+    	}
     }
 	
 	public boolean resetFailedLoginAttemptsAndUnlockAccount(String code)
@@ -226,25 +234,31 @@ public class SecurityService implements ISecurityService
 	
 	 
 	
-	public void sendEmailWithPasswordResetCode(String email, String username)
+	public void sendEmailWithPasswordResetCode(String email)
 	{
-		resetPasswordResetCode(username);
-		if(isEmailAndUsernameMatching(email,username))
-			{
-				String emailTextContent = username+ ", type this code to proper field to reset Your password:  "+getSecurityIssuesAccountByUsername(username).getResetPasswordCode();	
+		if(resetPasswordResetCode(email))
+	    {
+			    SecurityIssues issue = getSecurityIssuesAccountByEmail(email);
+			    
+				String emailTextContent = issue.getUsername()+ ", type this code to proper field to reset Your password:  "+issue.getResetPasswordCode();	
 				
 				EmailMessage message = new EmailMessage(email, "Password reset", emailTextContent);
 				
 				emailService.sendEmail(message);
-			}
+		}
 	}
 	
-	private void resetPasswordResetCode(String username)
+	private boolean resetPasswordResetCode(String email)
 	{
-		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
+		if(userRepository.existsByEmail(email))
+		{
+		SecurityIssues issue = getSecurityIssuesAccountByEmail(email);
 		issue.setResetPasswordCode(generateResetPasswordCode());
 		issue.setTimeToExpire();
 		securityIssuesRepository.save(issue);
+		return true;
+		}
+		else return false;
 	}
 	
 	public boolean resetPassword(String password, String code)
@@ -269,5 +283,6 @@ public class SecurityService implements ISecurityService
 			
 	    return isCodeValid;
 	}
+
 	
 }

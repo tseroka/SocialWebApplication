@@ -33,20 +33,15 @@ public class SecurityController implements InputCorrectness
 	 @PostMapping("sendResetPasswordCodeProcessing")
 	 public ModelAndView sendPasswordResetCodeProcessiong(@ModelAttribute("sendResetPasswordCode") SecurityIssuesFormHandler  sendResetPasswordCode, RedirectAttributes attributes )
 	   {
-			String email = sendResetPasswordCode.getEmail(); String username = sendResetPasswordCode.getUsername();
+			String email = sendResetPasswordCode.getEmail(); 
 			
-			if(Pattern.matches(EMAIL_VALIDATION_REGEX, email) && Pattern.matches(USERNAME_VALIDATION_REGEX, username) )
+			if(Pattern.matches(EMAIL_VALIDATION_REGEX, email))
 			{
-			  try 
-			  {  
-		         securityService.sendEmailWithPasswordResetCode(email, username);
+		         securityService.sendEmailWithPasswordResetCode(email);
 		         attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to reset password will be send on this email address");
 		         return new ModelAndView("redirect:resetPassword/set");
-			  }
-			  catch(IndexOutOfBoundsException ex) //TO CHANGE
-			  {
-			  }
-		   }	   
+			  
+		    }	   
 		   return new ModelAndView("redirect:Reset password");
 	   }
 	 
@@ -88,20 +83,13 @@ public class SecurityController implements InputCorrectness
     @PostMapping("sendUnlockCodeProcessing")
 	public ModelAndView sendUnlockCodeProcessiong(@ModelAttribute("sendUnlockCode") SecurityIssuesFormHandler  sendUnlockCode, RedirectAttributes attributes )
 	{
-		String email = sendUnlockCode.getEmail(); String username = sendUnlockCode.getUsername();
-		
-		if(Pattern.matches(EMAIL_VALIDATION_REGEX, email) && Pattern.matches(USERNAME_VALIDATION_REGEX, username) )
+		String email = sendUnlockCode.getEmail(); 
+		if(Pattern.matches(EMAIL_VALIDATION_REGEX, email)) 
 		{
-		   try
-		   {
-		   securityService.sendEmailWithUnlockCodeAfterSecurityLockup(email, username);
+		   securityService.sendEmailWithUnlockCodeAfterSecurityLockup(email);
 		   
 		   attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to unlock account will be send on this email address");
-		   return new ModelAndView("redirect:unlock") ;	 
-		   }
-		   catch(IndexOutOfBoundsException ex) //TO CHANGE
-		   {
-		   }
+		   return new ModelAndView("redirect:unlock");	 
 		}
 		
 		  return new ModelAndView("redirect:Unlock account");
