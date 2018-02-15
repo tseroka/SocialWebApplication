@@ -21,12 +21,12 @@
 	
     <form:form name='lockForm' modelAttribute="lockAccount" action="/admin/lockProcessing" method="POST">
 
-	Account id: <form:input type="text" path="id" name="id" class="inputData" 
-	placeholder="Account Id" onfocus="this.placeholder=''" onblur="this.placeholder='Account Id'"/>
+	<form:input type="text" path="id" name="id" class="inputData" 
+	placeholder="Account Id" onfocus="this.placeholder=''" onblur="this.placeholder='Account Id'" readonly="true"/>
 	
-	<br>
-	
-	Lock time: <form:select path="lockTime" name="time" id="lockTime" cssClass="inputData">
+
+	<p>Lock time</p>
+	 <form:select path="lockTime" name="time" id="lockTime" cssClass="inputData">
 	   <option value="0">Permanent</option>
        <option value="1">1 day</option>
        <option value="7">7 days</option>
@@ -35,8 +35,8 @@
        <option value="365">1 year</option>
 	</form:select>
 	
-	<br>
-	Lock reason: <form:select path="lockReason" name="reason" id="lockReason" class="inputData">
+	<p>Lock reason</p>
+	<form:select path="lockReason" name="reason" id="lockReason" class="inputData">
 	   <option value="badLanguage">Bad language</option>
 	</form:select>
 	

@@ -24,11 +24,9 @@ public class FriendsController
 	
 	@GetMapping("viewFriends")
 	public ModelAndView viewFriends(@CookieValue(value = "visitedProfiles", defaultValue = "") String cookieValue) throws IOException
-	{
-		
+	{		
 		List<String> friendsList = friendsService.getFriendsList();
 		ModelAndView model = new ModelAndView("friends/view-friends","friendsList",friendsList);
-		System.out.println(cookieValue);
 		boolean suggest = false;
 		if(!cookieValue.equals(",") && !cookieValue.equals(""))
 		{

@@ -53,7 +53,7 @@ public class UserService implements IUserService {
 		userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
 		userAccount.setCreationDate(new Timestamp(System.currentTimeMillis()));
 		
-		userRepository.saveAndFlush(userAccount);
+		userRepository.save(userAccount);
 		securityService.saveSecurityIssuesAccount(new SecurityIssues(userAccount.getId(),userAccount.getUsername(), userAccount, securityService.generateActivationAndUnlockCode(), null, null, new Timestamp(System.currentTimeMillis()+300000L), ip , ipSet,new Timestamp(System.currentTimeMillis()),(byte) 0, null, null));
 			
 		securityService.sendEmailWithActivationCode(userAccount.getEmail());

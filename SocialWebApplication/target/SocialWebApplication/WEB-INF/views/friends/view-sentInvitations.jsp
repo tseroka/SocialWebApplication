@@ -20,7 +20,7 @@
 
 <c:if test="${not empty sentInvitationsList}">
 <h1>Sent invitations</h1>  
-<table> 
+<table class="table"> 
 
 <tr>
 <th>Nickname</th>

@@ -51,33 +51,32 @@ $(function () {
 	
 <div id="register-box">
       
-      
-<table><tr><td style="font-style: italic; color: red;">${sameInputsMessage}</td></tr></table>
+<p class="error">${sameInputsMessage}</p>
 <form:form id="registerForm" modelAttribute="user" action="registerProcess" method="post"> 
 
 
-<table><tr><td style="font-style: italic; color: red;">${usernameExistsMessage}</td></tr></table>		
+<p class="error">${usernameExistsMessage}</p>	
 <form:input path="username" name="username" id="username" cssClass="inputData" 
-placeholder="Username" onfocus="this.placeholder=''"  onblur="this.placeholder='Username'"
+placeholder="Username(8-25 alphanumeric characters long)" onfocus="this.placeholder=''"  onblur="this.placeholder='Username(8-25 alphanumeric characters long)'"
 pattern="^[a-zA-Z0-9]{8,25}$" title="Username must be 8-25 alphanumeric characters long" required="true" />
 
 						
 <form:password path="password" name="password" id="password"  cssClass="inputData" 
 placeholder="Password" onfocus="this.placeholder=''" onblur="this.placeholder='Password'"
-pattern="((?=.*[a-z])(?=.*d)(?=.*[@#$%])(?=.*[A-Z]).{8,40})" title="Passowrd must be 8-40 characters long, and contain at least one lowercase, uppercase letter, digit and special character" required="true" />
+pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,40}$" title="Password must be 8-40 characters long, and contain at least one lowercase, uppercase letter and digit" required="true" />
 
 <form:password path="repeatPassword" name="Repeat password" id="repeatPassword"  cssClass="inputData" 
 placeholder="Repeat password" onfocus="this.placeholder=''" onblur="this.placeholder='Repeat password'" required="true"/>
 
-<table><tr><td style="font-style: italic; color: red;">${emailExistsMessage}</td></tr></table>
+<p class="error">${emailExistsMessage}</p>
 <form:input path="email" name="email" id="email" cssClass="inputData" 
 placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"
  pattern="^[\\w!#$%&’*+/=\\-?^_`{|}~]+(\\.[\\w!#$%&’*+/=\\-?^_`{|}~]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$" title="Invalid email format" required="true" />
 		
 		
-<table><tr><td style="font-style: italic; color: red;">${nicknameExistsMessage}</td></tr></table>
+<p class="error">${nicknameExistsMessage}</p>
 <form:input path="nickname" name="nickname" id="nickname" cssClass="inputData" 
-placeholder="Nickname" onfocus="this.placeholder=''" onblur="this.placeholder='Nickname'" 
+placeholder="Nickname(4-25 letters long)" onfocus="this.placeholder=''" onblur="this.placeholder='Nickname(4-25 letters long)'" 
 pattern="^[a-zA-Z]{4,25}$" title="Nickname must be 4-25 characters long and contain only letters" required="true"  />
 
 

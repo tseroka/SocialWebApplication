@@ -23,18 +23,24 @@
 <h1> Inbox</h1>  
 
 
-<c:if test="${not empty inboxMessages}">
+<c:if test="${not empty inboxMessages.content}">
 <table class="table">  
 <tr>
 <th>Sender</th> <th>Subject</th> <th>Sent date</th> <th>Remove message</th>
 </tr>  
 
-<c:forEach var="message" items="${inboxMessages}">  
+<c:forEach var="message" items="${inboxMessages.content}">  
 <tr>
 <td><a href='/profile/view/${message.messageSender}' target="_blank"> ${message.messageSender}</a> </td>  
 <td><a href='inbox/${message.messageId}'> ${message.messageSubject} </a> </td>
 <td>${message.sentDate} </td>
-<td><a href='/profile/messages/remove/${message.messageId}'>Remove</a></td>  
+<td>
+<c:url var="removeURL" value='/profile/messages/remove/${message.messageId}'/>
+     <form action="${removeURL}" id="remove" method="post" class="confirm">
+       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+     </form>
+     <a class="tableLink" href="#" onclick='$("#remove").submit();'>Remove</a>
+</td>  
 </tr>
 </c:forEach>
 </table>
@@ -44,7 +50,7 @@
 </c:forEach>
 </c:if>
 
-<c:if test="${empty inboxMessages}">
+<c:if test="${empty inboxMessages.content}">
 <h1>No messages</h1>
 </c:if>
 

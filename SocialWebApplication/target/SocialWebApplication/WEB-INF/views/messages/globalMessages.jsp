@@ -21,13 +21,13 @@
 <h1>Admin messages</h1>  
 
 <c:if test="${not empty globalMessages}">
-<table>  
+<table class="table">  
 <tr>
 <th>Sender</th> <th>Subject</th> <th>Date</th>
 
 </tr>  
 
-<c:forEach var="message" items="${globalMessages}">  
+<c:forEach var="message" items="${globalMessages.content}">  
 <tr>
 <td> ${message.messageSender}</td>  
 <td><a href='inbox/${message.messageId}'> ${message.messageSubject} </a> </td>

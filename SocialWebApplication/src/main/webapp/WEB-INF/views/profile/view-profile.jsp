@@ -47,7 +47,7 @@
      
      <c:if test = "${!isFriend}">
         <c:if test = "${!isInvited}">
-            <a href='/profile/friends/invite=${profile.nickname}'>Invite to friends</a>
+            <a id="invite" href='/profile/friends/invite=${profile.nickname}'>Invite to friends</a>
         </c:if>
      </c:if>
  

@@ -55,7 +55,7 @@ public class SecurityService implements ISecurityService
 	
 	public void saveSecurityIssuesAccount(SecurityIssues issue)
 	{
-		securityIssuesRepository.saveAndFlush(issue);
+		securityIssuesRepository.save(issue);
 	}
 	
 	public void loginSuccess(String username) throws UnknownHostException
@@ -104,7 +104,7 @@ public class SecurityService implements ISecurityService
 		SecurityIssues issue = getSecurityIssuesAccountByEmail(email);
 		issue.setActivationCode(generateActivationAndUnlockCode());
 		issue.setTimeToExpire();
-		securityIssuesRepository.save(issue);
+		securityIssuesRepository.saveAndFlush(issue);
 		return true;
 		}
 		else return false;
@@ -177,7 +177,7 @@ public class SecurityService implements ISecurityService
 		    issue.setUnlockCode(generateActivationAndUnlockCode());
 		    issue.setTimeToExpire();
 		  }
-	        securityIssuesRepository.save(issue);
+	        securityIssuesRepository.saveAndFlush(issue);
 	        return true;
 		}
 		else return false;
@@ -231,7 +231,18 @@ public class SecurityService implements ISecurityService
 	
 	
 	
-	
+	public void accountSelfUnlockAfterLockTimeout(SecurityIssues issue)
+	{
+		issue.setUnlockDate(null);
+		issue.setLockReason(null);
+		issue.setNumberOfLoginFails((byte)0);
+		
+		UserAccount userAccount = userRepository.findByUsername(issue.getUsername());
+
+		securityIssuesRepository.save(issue);
+		userAccount.setNotLocked(true);
+		userRepository.save(userAccount);
+	}
 	 
 	
 	public void sendEmailWithPasswordResetCode(String email)
@@ -255,7 +266,7 @@ public class SecurityService implements ISecurityService
 		SecurityIssues issue = getSecurityIssuesAccountByEmail(email);
 		issue.setResetPasswordCode(generateResetPasswordCode());
 		issue.setTimeToExpire();
-		securityIssuesRepository.save(issue);
+		securityIssuesRepository.saveAndFlush(issue);
 		return true;
 		}
 		else return false;
@@ -273,8 +284,8 @@ public class SecurityService implements ISecurityService
 				
 				UserAccount userAccount = userService.getUserAccount((issue.getUsername()));
 				userAccount.setPassword(encoder.encode(password));
-				securityIssuesRepository.save(issue);
-				userRepository.save(userAccount);
+				securityIssuesRepository.saveAndFlush(issue);
+				userRepository.saveAndFlush(userAccount);
 				}
 				else 
 				{

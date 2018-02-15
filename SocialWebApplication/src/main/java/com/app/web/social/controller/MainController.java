@@ -62,10 +62,8 @@ public class MainController {
 	      SecurityContextLogoutHandler logout = new SecurityContextLogoutHandler();
 	      logout.setInvalidateHttpSession(false);
 	      logout.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-	    
-	      return "redirect:/login";
 	    }
-	    return "redirect:/";
+	    return "redirect:/login";
 	}
 	
 }

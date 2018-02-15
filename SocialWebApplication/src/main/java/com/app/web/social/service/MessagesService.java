@@ -61,6 +61,7 @@ public class MessagesService implements IMessagesService, InputCorrectness {
 		return messagesRepository.countOutboxMessages(profileService.getAuthenticatedUserNickname());
 	}
 	
+	@Transactional(readOnly=true)
 	public Page<PrivateMessage> getGlobalMessages(int pageNumber)
 	{
 		List<String> recipient = new ArrayList<>(); recipient.add("ALL");
@@ -129,13 +130,15 @@ public class MessagesService implements IMessagesService, InputCorrectness {
 	
 	public void removeAllMessages(String nickname)
 	{
-		List<String> nicknameAsList = new ArrayList<String>(); nicknameAsList.add(nickname);
+        List<String> nicknameAsList = new ArrayList<String>(); nicknameAsList.add(nickname);
 		
 		List<PrivateMessage> allMessages = messagesRepository.getAllMessages(nicknameAsList, nickname);
-		
-		for(PrivateMessage message : allMessages)
+		if(!allMessages.isEmpty())
 		{
-			removeMessageWhenDeletingAccount(message, nickname);
+		  for(PrivateMessage message : allMessages)
+		  {
+			 removeMessageWhenDeletingAccount(message, nickname);
+		  }
 		}
 	}
 	
@@ -149,6 +152,7 @@ public class MessagesService implements IMessagesService, InputCorrectness {
 		      sender = sender+REMOVAL_SIGN;
 		      message.setMessageSender(sender);
 		      message.setAnyoneRemoved(true);
+		      messagesRepository.save(message);
 	    }
 		
 		if(recipients.contains(nickname))
@@ -157,16 +161,12 @@ public class MessagesService implements IMessagesService, InputCorrectness {
 			recipients.add(nickname+REMOVAL_SIGN);
 			message.setMessageRecipients(recipients); 		
 			message.setAnyoneRemoved(true);
+			messagesRepository.save(message);
 	    }		
 		
 		if( checkIsRemoved(message.getMessageSender()) && checkAreRecipientsRemoved(message.getMessageRecipients()) )
 			messagesRepository.delete(message);
 		
-		else 
-		{   
-			message.setAnyoneRemoved(true);
-			messagesRepository.save(message);
-		}		
 	}
 	
 	public void sendMessage(PrivateMessage message)

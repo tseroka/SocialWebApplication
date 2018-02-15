@@ -27,7 +27,6 @@ h1
 	font-weight: 700;
 	color: lightgray;
 	text-align: center;
-	text-transform: uppercase;
 	letter-spacing: 5px;
 	margin-top: 50px;
 	margin-bottom: 40px;
@@ -39,7 +38,6 @@ h2
 	font-weight: 700;
 	color: lightgray;
 	text-align: center;
-	text-transform: uppercase;
 	letter-spacing: 10px;
 	margin-top: 50px;
 	margin-bottom: 40px;
@@ -50,7 +48,6 @@ h3
 	font-weight: 700;
 	color: lightgray;
 	text-align: center;
-	text-transform: uppercase;
 	letter-spacing: 3px;
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -93,11 +90,12 @@ a.page
 }
 
 p
-{
+{   margin: auto;
 	color:#64826c;
 }
 
 p.ok{
+	margin: auto;
 	color:#00ff00;
 }
 

@@ -59,10 +59,10 @@
    
    <li>
      <c:url var="logoutURL" value='/logout'/>
-     <form action="${logoutURL}" id="logout" method="post" class="confirm">
+     <form action="${logoutURL}" id="logout" method="post">
        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
      </form>
-     <a class = "tableLink" href="#" onclick='$("#logout").submit();'> <span>Remove</span> </a>
+     <a href="#" onclick='$("#logout").submit();'> <span>Logout</span> </a>
    
    </li>
    

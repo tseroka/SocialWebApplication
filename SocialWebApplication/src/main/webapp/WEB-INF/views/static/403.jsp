@@ -8,6 +8,13 @@
 
 </head>
 <body>
+
+    <header>
+	
+		<h2 class="logo">Social Website</h2>
+
+	</header>
+	
 	<h1>403 error <br> You don't have permission to access this site!</h1>
 </body>
 </html>

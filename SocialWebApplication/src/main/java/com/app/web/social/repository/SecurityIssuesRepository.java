@@ -11,13 +11,16 @@ public interface SecurityIssuesRepository extends JpaRepository<SecurityIssues, 
 
 	SecurityIssues findByUsername(String username);
 	
+	
 	SecurityIssues findByActivationCode(String code);
 	
 	boolean existsByActivationCode(String code);
 	
+	
 	SecurityIssues findByUnlockCode(String code);
 	
 	boolean existsByUnlockCode(String code);
+	
 	
 	SecurityIssues findByResetPasswordCode(String code);
 	

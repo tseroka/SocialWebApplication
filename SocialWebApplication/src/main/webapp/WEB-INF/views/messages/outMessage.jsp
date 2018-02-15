@@ -36,6 +36,7 @@
 <c:url var="removeURL" value='/profile/messages/remove/${message.messageId}'/>
      <form action="${removeURL}" id="remove" method="post" class="confirm">
        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+       <input class="tableButton" type="submit" value="Remove" />
      </form>
      <a class = "tableLink" href="#" onclick='$("#remove").submit();'>Remove</a>
 </td>  
@@ -47,6 +48,25 @@
  ${message.messageText}
 </div>
 
+<c:if test="${message.anyAttachment}">
+<table class="table">
+<tr>
+<th>Attachment name</th>
+<th>Download</th>
+</tr>  
+<c:forEach var="attachment" items="${message.attachments}">  
+<tr>
+<td>${attachment.fileName}</td>
+<td> <a href='/profile/messages/download?msg=${message.messageId}&att=${attachment.attachmentId}' >Download</a> </td>
+</tr>
+</c:forEach>
+</table>
+</c:if>
+<script>  
+    $(document).on('submit','form.confirm', function(){
+    	return confirm('Are you sure?'); 
+    	});
+    </script>
 </body>
 
 </html>

@@ -32,7 +32,7 @@
 				
 	<form:password path="newPassword" name="newPassword" id="newPassword"  cssClass="inputData" 
     placeholder="New Password" onfocus="this.placeholder=''" onblur="this.placeholder='New Password'"
-    pattern="((?=.*[a-z])(?=.*d)(?=.*[@#$%])(?=.*[A-Z]).{8,40})" title="Passowrd must be 8-40 characters long, and contain at least one lowercase, uppercase letter, digit and special character" required="true"/>
+    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,40}$" title="Password must be 8-40 characters long, and contain at least one lowercase, uppercase letter and digit" required="true"/>
 
     <form:password path="newPasswordRepeat" name="newPasswordRepeat" id="newPasswordRepeat"  cssClass="inputData" 
     placeholder="Confirm" onfocus="this.placeholder=''" onblur="this.placeholder='Confirm Password'"/>

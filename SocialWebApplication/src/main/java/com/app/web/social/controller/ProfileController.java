@@ -83,7 +83,7 @@ public class ProfileController {
 	    {  
 	    	profile.setNickname(profileService.getAuthenticatedUserNickname());
 	    	profileService.editProfile(profile);  
-	        return new ModelAndView("redirect:/home");  
+	        return new ModelAndView("redirect:/profile/yourProfile");  
 	    }  
 
 }

@@ -104,5 +104,9 @@ p.error
 	margin: auto;
 	color: #ff0000;
 }
+#invite{
+	font-size:35px;
+	margin-bottom:15px;
+}
 
 .show {display:block;}

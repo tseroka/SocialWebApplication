@@ -20,6 +20,8 @@
 
       <div id="container">                                   
 
+<p class="error">${sendingNotAllowed}</p>
+
 <form:form modelAttribute = "message" method="POST" action="/profile/messages/sendProcessing?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data">
          
 

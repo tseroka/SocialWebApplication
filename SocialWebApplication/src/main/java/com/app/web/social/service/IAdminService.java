@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import com.app.web.social.model.SecurityIssues;
 import com.app.web.social.model.UserAccount;
 import com.app.web.social.model.temp.LockAccount;
 
@@ -16,8 +15,6 @@ public interface IAdminService {
 	public Long countUsers();
 	
 	public List<UserAccount> getUsersList();
-		
-	public void accountSelfUnlockAfterLockTimeout(SecurityIssues issue);
 	
 	public void lockUser(LockAccount lockAccount);
 	

@@ -5,18 +5,23 @@
 <head>
 <meta charset="utf-8">
 
-<style><%@include file="/css/form_style.css"%></style> 
+<title>Edit account</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+<style><%@include file="/css/form_style.css"%></style> 
 <style><%@include file="/css/navigation_bar.css"%></style>
 <style><%@include file="/css/index_style.css"%></style>
 
 <jsp:include page="/WEB-INF/views/static/navbar.jsp" />
 
-<title>Edit account</title>
 </head>
 <body>
+   <header>
+	
+		<h2 class="logo">Social Website</h2>
+
+	</header>
 <div id="container">
 
 <p class="error">${sameInputsMessage}</p>
@@ -25,16 +30,14 @@
 
 <form:form modelAttribute="editAccount" method="POST" action="/user/edit/save">    
 
-<table><tr><td style="font-style: italic; color: red;">${usernameExistsMessage}</td></tr></table>
+<p class="error">${usernameExistsMessage}</p>
 <form:input path="username" name="username" id="username" cssClass="inputData" 
-placeholder="Username" onfocus="this.placeholder=''"  onblur="this.placeholder='Username'"
-pattern="^[a-zA-Z0-9]{8,25}$" title="Username must be 8-25 alphanumeric characters long" required="true"/>
+placeholder="Username" onfocus="this.placeholder=''"  onblur="this.placeholder='Username'"/>
 
 						
-<table><tr><td style="font-style: italic; color: red;">${emailExistsMessage}</td></tr></table>
+<p class="error">${emailExistsMessage}</p>
 <form:input path="email" name="email" id="email" cssClass="inputData" 
-placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"
-pattern="^[\\w!#$%&’*+/=\\-?^_`{|}~]+(\\.[\\w!#$%&’*+/=\\-?^_`{|}~]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$" title="Invalid email format" required="true" />
+placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"/>
 				
 <form:select path="country" name="country" id="country" cssClass="inputData">
     <option value="Unspecified">Country</option>
@@ -289,7 +292,7 @@ pattern="^[\\w!#$%&’*+/=\\-?^_`{|}~]+(\\.[\\w!#$%&’*+/=\\-?^_`{|}~]+)*@[\\w-
 	<option value="ZWE">Zimbabwe</option> 
 	</form:select>
 	
-<table><tr><td style="font-style: italic; color: red;">${invalidPasswordMessage}</td></tr></table>	
+<p class="error">${invalidPasswordMessage}</p>
 <form:password path="currentPassword" name="Current password" id="currentPassword"  cssClass="inputData" 
 placeholder="Current password" onfocus="this.placeholder=''" onblur="this.placeholder='Current password'"/>
 

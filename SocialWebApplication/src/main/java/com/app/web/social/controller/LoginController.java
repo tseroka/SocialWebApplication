@@ -1,10 +1,5 @@
 package com.app.web.social.controller;
 
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +18,7 @@ public class LoginController {
 	private IUserService userService;
 	
 	@GetMapping("/login")                                                                                   //username
-	public ModelAndView login(@RequestParam(name="error", required = false) String error, @RequestParam(name="kjhubvJHbt", required=false) String username, HttpServletRequest request, HttpServletResponse response, HttpSession session )
+	public ModelAndView login(@RequestParam(name="error", required = false) String error, @RequestParam(name="kjhubvJHbt", required=false) String username)
 	{   
         
 

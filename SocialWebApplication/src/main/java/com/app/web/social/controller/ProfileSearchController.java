@@ -57,7 +57,8 @@ public class ProfileSearchController {
 	    	List<String> findedProfiles = profileService.searchProfiles(sex, city, interests);
 	    	
 	    	if(!city.equals("")) CookiesService.addCookie(response, "searchedCity", city, 3600);
-	    	CookiesService.addCookie(response, "searchedInterests", interestsInput, 3600);
+	    	
+	    	if(!interestsInput.equals("")) CookiesService.addCookie(response, "searchedInterests", interestsInput, 3600);
 	    
 	    	if(findedProfiles.isEmpty()) 
 	    	{

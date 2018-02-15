@@ -17,22 +17,31 @@
 </head>
 
 <body>
+
+
+    <header>
+	
+		<h2 class="logo">Social Website</h2>
+
+	</header>
+	
     <div id="container">
 
 <form:form method="POST" action="/search/goSearch">    
 
   
-         
-        
-       Sex: <form:select path="searchSex" name="sex" id="sex" cssClass="inputData">
+    <p>Sex</p>
+       <form:select path="searchSex" name="sex" id="sex" cssClass="inputData">
        <option value="">Unspecified</option>
 	   <option value="M">Male</option>
        <option value="F">Female</option>
 	</form:select>
          
-        Interests(separate with commas): <form:input path="searchInterests" /> 
+        <form:input path="searchInterests"
+        placeholder="Interests(separate with comas)" onfocus="this.placeholder=''"  onblur="this.placeholder='Interests(separate with comas)'" /> 
         
-        City: <form:input path="searchCity"/>
+        <form:input path="searchCity"
+         placeholder="City" onfocus="this.placeholder=''"  onblur="this.placeholder='City'"/>
          
           <input type="submit" value="Search" />
            

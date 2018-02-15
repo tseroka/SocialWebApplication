@@ -2,8 +2,6 @@ package com.app.web.social.model.temp;
 
 public class SecurityIssuesFormHandler 
 {
-
-	private String username;
 	
 	private String email;
 	
@@ -18,21 +16,12 @@ public class SecurityIssuesFormHandler
 		
 	}
 
-	public SecurityIssuesFormHandler(String username, String email, String code) 
+	public SecurityIssuesFormHandler(String email, String code) 
 	{
-		this.username = username;
 		this.email = email;
 		this.code = code;
 	}
 
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 	
 	public String getEmail() {
 		return email;

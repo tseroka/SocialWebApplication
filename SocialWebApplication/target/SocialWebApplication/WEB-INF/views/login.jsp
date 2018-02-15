@@ -37,11 +37,11 @@
 
 	<input type='text' name='username' class="inputData" 
 	placeholder="Username" onfocus="this.placeholder=''" onblur="this.placeholder='Username'"
-	pattern="^[a-zA-Z0-9]{8,25}$" title="Username must be 8-25 alphanumeric characters long" required>
+	pattern="^[a-zA-Z0-9]{8,25}$" title="Invalid username or password" required>
 			
 	<input type='password' name='password' class="inputData" 
 	placeholder="Password" onfocus="this.placeholder=''" onblur="this.placeholder='Password'"
-	pattern="((?=.*[a-z])(?=.*d)(?=.*[@#$%])(?=.*[A-Z]).{8,40})" title="Passowrd must be 8-40 characters long, and contain at least one lowercase, uppercase letter, digit and special character" required />
+	pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,40}$" title="Invalid username or password" required />
 			
 	<input name="submit" type="submit" value="Login" class="inputSubmit" />
 			

@@ -10,6 +10,12 @@
 
 <body>
 
+    <header>
+	
+		<h2 class="logo">Social Website</h2>
+
+	</header>
+	
 <h1> This is about page </h1>
 
 </body>

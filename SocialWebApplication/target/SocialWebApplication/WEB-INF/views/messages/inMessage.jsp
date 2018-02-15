@@ -27,7 +27,13 @@
 <td><a href='/profile/view/${message.messageSender}' target="_blank"> ${message.messageSender} </a> </td>  
 <td>${message.messageSubject}</td>   
 <td>${message.sentDate} </td>
-<td><a href='/profile/messages/remove/${message.messageId}'>Remove</a></td>  
+<td>
+<c:url var="removeURL" value='/profile/messages/remove/${message.messageId}'/>
+     <form action="${removeURL}" id="remove" method="post" class="confirm">
+       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+     </form>
+     <a class="tableLink" href="#" onclick='$("#remove").submit();'>Remove</a>
+</td>  
 </tr>
 </table>
 
@@ -36,7 +42,7 @@
 </div>
 
 <c:if test="${message.anyAttachment}">
-<table>
+<table class="table">
 <tr>
 <th>Attachment name</th>
 <th>Download</th>

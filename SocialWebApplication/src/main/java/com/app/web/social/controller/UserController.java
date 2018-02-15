@@ -64,15 +64,13 @@ public class UserController implements InputCorrectness
 	          String email = editAccount.getEmail();
 	          String country = editAccount.getCountry();       
 	          
-	  		    if
-	  		    (   
-	  		       userService.checkPassword(editAccount.getCurrentPassword(), userAccount.getPassword())  		    		    		  		 
-	  	        )
+	  		    if(userService.checkPassword(editAccount.getCurrentPassword(), userAccount.getPassword()) )
 	  		     {
 	  			     if(!username.equals("") && Pattern.matches(USERNAME_VALIDATION_REGEX, username) && uniquenessService.isUsernameNotBusy(username)) 
 	  			     {
 	  				   userAccount.setUsername(username);
 	  				   issue.setUsername(username);
+	  				   
 	  			     }
 	  			   
 	  			     if(!email.equals("") && Pattern.matches(EMAIL_VALIDATION_REGEX, email) && uniquenessService.isEmailNotBusy(email)) 
@@ -85,7 +83,8 @@ public class UserController implements InputCorrectness
 	  			       userAccount.setCountry(country);
 	  			     }
 	  		    
-		    	   userService.editUser(userAccount, issue); 
+		    	   userService.editUser(userAccount); 
+		    	   securityService.saveSecurityIssuesAccount(issue);
                    attributes.addFlashAttribute("message","Account has been successfuly edited");
 		           return new ModelAndView("redirect:/user/view"); 
 	  		    }
@@ -94,11 +93,11 @@ public class UserController implements InputCorrectness
 	  		  { 
 	  			if( !userService.checkPassword(editAccount.getCurrentPassword(), userAccount.getPassword()) ) model.addObject("invalidPasswordMessage","Please type Your correct current password.");  
 	  			
-	  			if( username.equals(email.split("@")[0]) && !username.equals("") && !email.equals("") ) model.addObject("sameInputsMessage","Username and email must be different");
+	  			if( !email.equals("") && username.equals(email.split("@")[0]) ) model.addObject("sameInputsMessage","Username and email must be different");
 	  			
-	  		    if(!uniquenessService.isUsernameNotBusy(username) && !username.equals("") ) model.addObject("usernameExistsMessage","Username already exists!");
+	  		    if(!username.equals("") && !uniquenessService.isUsernameNotBusy(username) ) model.addObject("usernameExistsMessage","Username already exists!");
 	  		    
-	  		    if(!uniquenessService.isEmailNotBusy(email) && !email.equals("") ) model.addObject("emailExistsMessage","Email already exists!");
+	  		    if(!email.equals("") && !uniquenessService.isEmailNotBusy(email) ) model.addObject("emailExistsMessage","Email already exists!");
 	  		    
 	  		  }	
 	  			
@@ -138,7 +137,7 @@ public class UserController implements InputCorrectness
 			   attributes.addFlashAttribute("message","Password successfuly changed.");
 		       return new ModelAndView("redirect:/user/view");
 		   }
-		   else model.addObject("invalidPasswordMessage","Current password is not correct"); //because for honest user javascript allerts is enough
+		   else model.addObject("invalidPasswordMessage","Current password is not correct");
 		   
 	     return model;
 	 }

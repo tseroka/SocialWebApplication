@@ -64,17 +64,7 @@ public class AdminService implements IAdminService
 		return userRepository.findAll();
 	}
 	
-	public void accountSelfUnlockAfterLockTimeout(SecurityIssues issue)
-	{
-		issue.setUnlockDate(null);
-		issue.setLockReason(null);
-		issue.setNumberOfLoginFails((byte)0);
-		
-		UserAccount userAccount = userRepository.findByUsername(issue.getUsername());
-		userAccount.setNotLocked(true);
-		securityIssuesRepository.save(issue);
-		userRepository.save(userAccount);
-	}
+	
 	
 	public void lockUser(LockAccount lockAccount)
 	{
@@ -85,16 +75,18 @@ public class AdminService implements IAdminService
 		  userAccount.setNotLocked(false);
 		
 		  SecurityIssues issue = securityIssuesRepository.findByUsername(userAccount.getUsername());
-		  issue.setLockReason(lockAccount.getLockReason());
-		
+		  
 		  if(lockAccount.getLockTime()==0L) 
 		  {
 			issue.setUnlockDate(null);
+			lockAccount.setLockReason(lockAccount.getLockReason()+"-perm");
 		  }
 		  else 
 		  {
 		    issue.setUnlockDate( new Timestamp( System.currentTimeMillis() + 86400000L*lockAccount.getLockTime() ) );
+		    lockAccount.setLockReason(lockAccount.getLockReason()+"-time");
 		  }
+		issue.setLockReason(lockAccount.getLockReason());
 		securityIssuesRepository.save(issue);
 		userRepository.save(userAccount);
 		}

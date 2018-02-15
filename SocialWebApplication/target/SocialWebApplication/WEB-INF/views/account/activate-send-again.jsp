@@ -14,6 +14,12 @@
 
 </head>
 
+    <header>
+	
+		<h2 class="logo">Social Website</h2>
+
+	</header>
+	
 	<div id="activate-box">
 
 	<p class="error">${message}</p>
@@ -21,11 +27,7 @@
     <form:form name='activationForm' modelAttribute="send-activation-code-again" action="/sendActivationCodeAgainProcessing" method="POST">
 
 	<form:input type="text" path="email" name="Email" cssClass="inputData" 
-	placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"/>
-		
-		
-	<form:input type="text" path="username" name="Username" cssClass="inputData" 
-	placeholder="Username" onfocus="this.placeholder=''" onblur="this.placeholder='Username'"/>		
+	placeholder="Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'"/>		
 	
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	

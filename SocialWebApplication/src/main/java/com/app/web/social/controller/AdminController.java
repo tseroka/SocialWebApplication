@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Page;
 
@@ -57,23 +56,21 @@ public class AdminController {
     }  
 	 
 	 
-	@RequestMapping(value = "lockProcessing", method = RequestMethod.POST)
+	@PostMapping("lockProcessing")
 	public String lockUser(@ModelAttribute("lockAccount") LockAccount lockAccount)
 	{
-		if(lockAccount.getLockTime()!=0) lockAccount.setLockReason(lockAccount.getLockReason()+"-time");
-		else lockAccount.setLockReason(lockAccount.getLockReason()+"-perm");
 		adminService.lockUser(lockAccount);
 		return "redirect:/admin/view-users";
 	}
 	   
 
-	@RequestMapping(value = "unlockUser/{id}", method = RequestMethod.POST)  
+	@PostMapping("unlockUser/{id}")  
     public String unlockUserAccount(@PathVariable long id){   
 		adminService.unlockUser(id);
         return "redirect:/admin/view-users";  
     }  
 
-	@RequestMapping(value = "deleteUser/{id}", method = RequestMethod.POST)  
+	@PostMapping("deleteUser/{id}")  
     public String deleteUserAccount(@PathVariable long id){   
 		adminService.deleteUser(id);
         return "redirect:/admin/view-users";  

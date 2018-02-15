@@ -46,25 +46,25 @@
    <td>
    
     <c:if test = "${User.notLocked}">
-        <a class="tableLink" href='lockUser/${User.id}'>Lock Account</a>
+        <a class="tableLink" href='lockUser/${User.id}'>Lock</a>
     </c:if>
     
    <c:if test = "${!User.notLocked}">   
-     
        <c:url var="unlockURL" value='unlockUser/${User.id}'/>
-       <form action="${unlockURL}" id="unlock" method="post" class="confirm">
+       <form action="${unlockURL}" method="post" class="confirm">
+       <input class="tableButton" type="submit" value="Unlock account" />
        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
        </form>
-       <a class="tableLink" href="#" onclick='$("#unlock").submit();'>Remove</a>
    </c:if>
     
    </td> 
    
-   <td> <c:url var="deleteURL" value='deleteUser/${User.id}'/>
-   <form action="${deleteURL}" id="delete" method="post" class="confirm">
+   <td>
+   <c:url var="deleteURL" value='deleteUser/${User.id}'/>
+   <form action="${deleteURL}" method="post" class="confirm">
+   <input class="tableButton" type="submit" value="Delete account" />
    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-   </form>
-   <a class="tableLink" href="#" onclick='$("#delete").submit();'>Remove</a> 
+   </form> 
    </td>
    </tr>  
    </c:forEach>  

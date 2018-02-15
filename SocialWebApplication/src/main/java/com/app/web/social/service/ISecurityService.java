@@ -17,8 +17,6 @@ public static final String MAX_ATTEMPTS_REASON = "attempts";
 	
 	
 	public SecurityIssues getSecurityIssuesAccountByUsername(String username);
-			
-//	public SecurityIssues getSecurityIssuesById(long id);
 	
 	public SecurityIssues getAuthenticatedSecurityIssues();
 	
@@ -76,6 +74,7 @@ public static final String MAX_ATTEMPTS_REASON = "attempts";
 	
 	public boolean resetFailedLoginAttemptsAndUnlockAccount(String code);
 	
+	public void accountSelfUnlockAfterLockTimeout(SecurityIssues issue);
 	
 	
 	public void sendEmailWithPasswordResetCode(String email);

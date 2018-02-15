@@ -30,7 +30,7 @@
 <th>Delete account</th>
 </tr>  
 
-   <c:forEach var="User" items="${listUser}">   
+   <c:forEach var="User" items="${listUser.content}">   
 
     
    <tr>  
@@ -52,20 +52,20 @@
    <c:if test = "${!User.notLocked}">   
      
        <c:url var="unlockURL" value='unlockUser/${User.id}'/>
-       <form action="${unlockURL}" method="post" class="confirm">
-       <input class="tableButton" type="submit" value="Unlock account" />
+       <form action="${unlockURL}" id="unlock" method="post" class="confirm">
        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
        </form>
-   
+       <a class="tableLink" href="#" onclick='$("#unlock").submit();'>Remove</a>
    </c:if>
     
    </td> 
    
    <td> <c:url var="deleteURL" value='deleteUser/${User.id}'/>
-   <form action="${deleteURL}" method="post" class="confirm">
-   <input class="tableButton" type="submit" value="Delete account" />
+   <form action="${deleteURL}" id="delete" method="post" class="confirm">
    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-   </form> </td>
+   </form>
+   <a class="tableLink" href="#" onclick='$("#delete").submit();'>Remove</a> 
+   </td>
    </tr>  
    </c:forEach>  
    

@@ -40,10 +40,11 @@
 You have no friends, try out <div class="link"> <a href="/search">Search profiles</a> </div> feature to find someone You would like to know.
 </c:if>
 
+<c:if test="${not empty suggestedFriends}">
 
 <c:if test="${suggest}">
 <h1>Suggested friends</h1>  
-<table> 
+<table class="table"> 
 
 <tr>
 <th>Nickname</th>
@@ -56,6 +57,7 @@ You have no friends, try out <div class="link"> <a href="/search">Search profile
 </c:forEach>
 
 </table>
+</c:if>
 </c:if>
 </body> 
 

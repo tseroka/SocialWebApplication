@@ -14,7 +14,7 @@ import com.app.web.social.model.PrivateMessage;
 @Repository
 public interface MessagesRepository extends JpaRepository<PrivateMessage, Long>  {
 	
-	@Query("FROM PrivateMessage Pm where ( (Pm.messageSender=:nickname) OR (:nicknameAsList in Pm.messageRecipients) ) ORDER BY Pm.sentDate desc")
+	@Query("FROM PrivateMessage Pm where ( (Pm.messageSender=:nickname) OR (:nicknameAsList in Pm.messageRecipients) )")
 	List<PrivateMessage> getAllMessages(@Param("nicknameAsList") List<String> nicknameAsList, @Param("nickname") String nickname);
 	
 	@Query("FROM PrivateMessage Pm where :nicknameAsList in Pm.messageRecipients ")

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.app.web.social.service.ISecurityService;
-import com.app.web.social.service.IAdminService;
 import com.app.web.social.model.SecurityIssues;
 
 @Service
@@ -26,8 +25,6 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
   @Autowired
   private ISecurityService securityService;
   
-  @Autowired
-  private IAdminService adminService;
 
   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
      throws IOException, ServletException 
@@ -45,19 +42,22 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     else if(exception instanceof LockedException) 
     {
     	SecurityIssues issue = securityService.getSecurityIssuesAccountByUsername(username);
-   
+    	   
         if(issue.getUnlockDate()!=null && issue.isLockTimeElapsed() ) 
         {
-        	adminService.accountSelfUnlockAfterLockTimeout(issue);
+        	securityService.accountSelfUnlockAfterLockTimeout(issue);
         	message.append("locked-end");
-        }
-        if(issue.getNumberOfLoginFails()==5)
+        } 
+        else 
         {
-        message.append("locked-"+issue.getLockReason());
-        }
-        else
-        {
+         if(issue.getNumberOfLoginFails()==5)
+         {
+         message.append("locked-"+issue.getLockReason());
+         }
+         else
+         {
         	message.append("locked-"+issue.getLockReason()+"&kjhubvJHbt="+username);
+         }
         }
     }
     

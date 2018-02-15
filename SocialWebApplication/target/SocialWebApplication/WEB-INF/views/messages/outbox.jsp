@@ -21,34 +21,60 @@
 
 <h1>Outbox</h1>  
 
-<c:if test="${not empty outboxMessages}">
+<c:if test="${not empty outboxMessages.content}">
 <table class="table">  
 <tr>
 <th>Recipients</th><th>Subject</th> <th>Sent date</th> <th>Remove message</th>
 </tr>  
 
 
-<c:forEach var="message" items="${outboxMessages}">  
+<c:forEach var="message" items="${outboxMessages.content}">  
 <tr>
+
 <td>
 <c:forEach var="recipient" items="${message.messageRecipients}"> 
 <a href='/profile/view/${recipient}' target="_blank"> ${recipient}</a> 
 </c:forEach>
 </td>  
+
 <td> <a href='outbox/${message.messageId}'> ${message.messageSubject} </a></td>  
+
 <td>${message.sentDate} </td>
-<td><a href='/profile/messages/remove/${message.messageId}'>Remove</a></td>  
+
+<td>
+<c:url var="removeURL" value='/profile/messages/remove/${message.messageId}'/>
+     <form action="${removeURL}" id="remove" method="post" class="confirm">
+       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+     </form>
+     <a class="tableLink" href="#" onclick='$("#remove").submit();'>Remove</a>
+</td>  
+
 </tr>
 </c:forEach>
+</table>
 
 <c:forEach begin="1" end="${endpage}" var="page">
-         <a href="/profile/messages/outbox?page=${page}">${page}</a>
+         <a class="tableLink" href="/profile/messages/outbox?page=${page}">${page}</a>
 </c:forEach>
 
-</table>
 </c:if>
-<c:if test="${empty outboxMessages}">
+<c:if test="${empty outboxMessages.content}">
 <h1>No messages</h1>
+</c:if>
+
+<c:if test="${message.anyAttachment}">
+<table class="table">
+<tr>
+<th>Attachment name</th>
+<th>Download</th>
+</tr>  
+<c:forEach var="attachment" items="${message.attachments}">  
+<tr>
+<td>${attachment.fileName}</td>
+<td> <a href='/profile/messages/download?msg=${message.messageId}&att=${attachment.attachmentId}' >Download</a> </td>
+</tr>
+</c:forEach>
+</table>
 </c:if>
 
 </div>

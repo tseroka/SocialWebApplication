@@ -38,8 +38,7 @@ public class FriendsService implements IFriendsService
 	}	
 	
 	public void addToFriendsList(String getterNickname)
-	{
-		
+	{		
         String senderName = profileService.getAuthenticatedUserNickname();
 		
 		Friends getter = getFriendsProfileByNickname(getterNickname);
@@ -139,7 +138,14 @@ public class FriendsService implements IFriendsService
 		 for(String profile : randomProfiles)
 		 {
 			 List<String> friends = getFriendsProfileByNickname(profile).getFriends();
-			 if(!friends.isEmpty() && !isFriend(profile)) suggestions.add(friends.get(rand.nextInt(friends.size())));
+			 if(!friends.isEmpty() && !isFriend(profile)) 
+				 {
+				   String suggestion = friends.get(rand.nextInt(friends.size()));
+				   if(!isFriend(suggestion))
+				   {
+					  suggestions.add(suggestion);
+				   }
+				 }
 		 }
 		 
 		 return suggestions;
