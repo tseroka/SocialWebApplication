@@ -62,7 +62,6 @@ public class UserService implements IUserService {
 	
 	public void editUser(UserAccount userAccount, SecurityIssues issue)
 	{
-		userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));	
 		securityService.saveSecurityIssuesAccount(issue);
 		userRepository.save(userAccount);
 	}

@@ -5,6 +5,8 @@ div {
     background-color: #f2f2f2;
     padding: 20px;
     width:35%;
+    length:auto;
+    height:auto;
 }
 
 input, select {

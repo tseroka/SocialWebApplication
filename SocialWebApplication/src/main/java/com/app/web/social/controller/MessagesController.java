@@ -4,11 +4,8 @@ package com.app.web.social.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
-
-import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.data.domain.Page;
 import org.springframework.util.FileCopyUtils;
 
@@ -65,43 +61,17 @@ public class MessagesController {
 			     messagesService.isMessageSendingAllowed(message.getMessageRecipients())
 		     ) 
 		     {  
-		    	message.setMessageSender( profileService.getAuthenticatedUserNickname() );
-		    	
-			    if(message.getMessageSubject().equals("")) message.setMessageSubject("No subject");
-			   
-			    List<CommonsMultipartFile> fileUpload = message.getFileUpload();
-			    
-	 		    if((fileUpload.get(0).getSize()>0))
-		        {
-	 		        if(message.validateFiles(fileUpload))
-	 		        {
-	  		          Set<Attachment> attachments = new HashSet<>();
-	  		          message.setIsAnyAttachment(true);
-	  		    
-	  		         for(CommonsMultipartFile file : fileUpload) 
-	  		         {
-			            Attachment attachment = new Attachment();	    
-                        attachment.setFileName(file.getOriginalFilename());          
-                        attachment.setFileType(file.getContentType());
-                        attachment.setFileContent(file.getBytes());
-                        attachment.setFileSize(file.getSize());
-                        attachment.setMessage(message);
-                        attachments.add(attachment);
-	  		         }
-	  		      
-                      message.setAttachments(attachments);
-			        }
-	 		        else
-	 		        {
-	 		        	return new ModelAndView("messages/sendMessage","sendingNotAllowed", "You can upload up to 5 files with 20MB total size, .exe extension is not allowed.");
-	 		        }
-		        }
-	 		    
-			    messagesService.sendMessage(message); 
-
-	            return new ModelAndView("redirect:outbox");
-		    }
-		   return new ModelAndView("messages/sendMessage","sendingNotAllowed", "Sending not allowed (recipient doesn't exist or doesn't permit to send message).");
+			     if(!messagesService.prepareAttachmentsAndValidateIfNotEmpty(message))
+			     {
+			    	 return new ModelAndView("messages/sendMessage","sendingNotAllowed", "You can upload up to 5 files with 20MB total size, .exe extension is not allowed.");
+			     }
+			     else 
+			     {
+			        messagesService.sendMessage(message); 
+	                return new ModelAndView("redirect:outbox");
+			     }
+		     }
+		  return new ModelAndView("messages/sendMessage","sendingNotAllowed", "Sending not allowed (recipient doesn't exist or doesn't permit to send message).");
 		 
 	   }  
 	    
@@ -135,7 +105,7 @@ public class MessagesController {
 	    public ModelAndView getInbox(@RequestParam(name = "page", defaultValue = "1") String page)
 	    {
 	    	Page<PrivateMessage> inbox = messagesService.getInbox(Integer.parseInt(page));
-	    	return new ModelAndView("messages/inbox","inboxMessages",inbox).addObject("endpage",messagesService.countInboxMessages()/10+1);
+	    	return new    ModelAndView("messages/inbox","inboxMessages",inbox).addObject("endpage",messagesService.countInboxMessages()/10+1);
 	    }
 	   
 	  

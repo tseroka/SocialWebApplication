@@ -1,5 +1,9 @@
 package com.app.web.social.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,8 +21,10 @@ public class LoginController {
 	@Autowired
 	private IUserService userService;
 	
-	@GetMapping("/login")                                                                                   //username
-	public ModelAndView login(@RequestParam(name="error", required = false) String error, @RequestParam(name="kjhubvJHbt", required=false) String username)
+	@GetMapping("/login")                                                                                   
+	public ModelAndView login(@RequestParam(name="error", required = false) String error, 
+			@RequestParam(name="kjhubvJHbt", required=false) String username, @RequestParam(name="mddzkfzf", required = false) String message,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session )
 	{   
         
 
@@ -79,7 +85,12 @@ public class LoginController {
 		}
 		
 		if ("expired".equals(error)) { model.addObject("message", "Session expired");}
-		  
+		
+		
+		if("max-sessions".equals(error)) model.addObject("message","Maximum sessions exceeded");
+		
+		if("changed".equals(message)) model.addObject("ok","Username changed. Please log in again.");
+		
 		model.addObject("loginActionRedirect", isException);
 		
 		return model;

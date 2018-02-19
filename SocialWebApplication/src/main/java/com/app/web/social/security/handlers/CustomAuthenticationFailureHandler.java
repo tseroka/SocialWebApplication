@@ -12,6 +12,7 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -69,6 +70,11 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     	securityService.increaseFailedLoginAttemptsNumberAndLockIfEqualsFive(username);
     	}
     	catch(NullPointerException ex) {}
+    }
+    
+    else if(exception instanceof SessionAuthenticationException)
+    {
+    	message.append("max-sessions");
     }
     
     else { message.append(exception.getMessage()); }

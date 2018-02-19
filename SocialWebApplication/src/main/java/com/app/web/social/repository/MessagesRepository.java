@@ -17,10 +17,10 @@ public interface MessagesRepository extends JpaRepository<PrivateMessage, Long> 
 	@Query("FROM PrivateMessage Pm where ( (Pm.messageSender=:nickname) OR (:nicknameAsList in Pm.messageRecipients) )")
 	List<PrivateMessage> getAllMessages(@Param("nicknameAsList") List<String> nicknameAsList, @Param("nickname") String nickname);
 	
-	@Query("FROM PrivateMessage Pm where :nicknameAsList in Pm.messageRecipients ")
+	@Query("FROM PrivateMessage Pm where :nicknameAsList in Pm.messageRecipients ORDER BY Pm.sentDate desc ")
 	Page<PrivateMessage> getInbox(@Param("nicknameAsList") List<String> nicknameAsList,@Param("page") Pageable pageable);
 	
-	@Query("SELECT count(Pm.messageSender) FROM PrivateMessage Pm WHERE :recipient in Pm.messageRecipients ORDER BY Pm.sentDate desc")
+	@Query("SELECT count(Pm.messageSender) FROM PrivateMessage Pm WHERE :recipient in Pm.messageRecipients")
 	Long countInboxMessages(@Param("recipient") List<String> recipient);
 	
 	@Query("FROM PrivateMessage Pm where Pm.messageSender=:nickname ORDER BY Pm.sentDate desc")

@@ -17,6 +17,8 @@
 </head>
 
 <body>
+
+	
 <h1>Manage users</h1>  
 
 <table class="table">  

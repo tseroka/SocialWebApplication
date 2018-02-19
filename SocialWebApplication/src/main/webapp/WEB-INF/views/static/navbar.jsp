@@ -1,4 +1,7 @@
 
+
+
+  
     <div id='cssmenu'>
 
 
@@ -57,18 +60,17 @@
       </ul>
    </li>
    
-   <li>
-     <c:url var="logoutURL" value='/logout'/>
-     <form action="${logoutURL}" id="logout" method="post">
-       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-     </form>
-     <a href="#" onclick='$("#logout").submit();'> <span>Logout</span> </a>
-   
-   </li>
+   <li><a href='<c:url value="/logout" />' ><span>Logout</span></a></li>
    
    <li><a href='/about'><span>About</span></a></li>
                 
    </ul>
 
    </div>
+   
+    <header>
+	
+		<h2 class="logo">Social Website</h2>
+
+	</header>
    

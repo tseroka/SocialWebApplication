@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		  successHandler(customSuccessHandler).failureHandler(customFailureHandler)
 		  .usernameParameter("username").passwordParameter("password")
 		.and()
-		  .logout().logoutUrl("/logout").logoutSuccessUrl("/login").deleteCookies("JSESSIONID").invalidateHttpSession(false)
+		  .logout().logoutUrl("/logout").logoutSuccessUrl("/login").deleteCookies("JSESSIONID").invalidateHttpSession(true)
 		.and()
 		  .exceptionHandling().accessDeniedPage("/403")
 		.and()

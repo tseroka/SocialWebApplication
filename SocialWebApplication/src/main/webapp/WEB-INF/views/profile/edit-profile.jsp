@@ -18,12 +18,6 @@
 
 <body>
 
-    <header>
-	
-		<h2 class="logo">Social Website</h2>
-
-	</header>
-
 
 <div id="container">
 

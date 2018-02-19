@@ -52,25 +52,25 @@ public class UserController implements InputCorrectness
 	    
 	 @PostMapping("edit/save")  
 	 public ModelAndView editSave(@ModelAttribute("editAccount") EditAccount editAccount, RedirectAttributes attributes)
-	 {   
+	 {    
+		    String username = editAccount.getUsername();
+            String email = editAccount.getEmail();
+            String country = editAccount.getCountry();  
+         
 		    ModelAndView model = new ModelAndView("account/edit-account");
-	        if(!editAccount.getUsername().equals("") || !editAccount.getEmail().equals("") || !editAccount.getCountry().equals("Unspecified") )
+	        if(!username.equals("") || !email.equals("") || !country.equals("Unspecified") )
 	        {
 	          UserAccount userAccount = userService.getAuthenticatedUserAccount();
 	          
 	          SecurityIssues issue = securityService.getAuthenticatedSecurityIssues();
-	          
-	          String username = editAccount.getUsername();
-	          String email = editAccount.getEmail();
-	          String country = editAccount.getCountry();       
-	          
+	                    
 	  		    if(userService.checkPassword(editAccount.getCurrentPassword(), userAccount.getPassword()) )
 	  		     {
 	  			     if(!username.equals("") && Pattern.matches(USERNAME_VALIDATION_REGEX, username) && uniquenessService.isUsernameNotBusy(username)) 
 	  			     {
 	  				   userAccount.setUsername(username);
 	  				   issue.setUsername(username);
-	  				   
+	  				   securityService.saveSecurityIssuesAccount(issue);
 	  			     }
 	  			   
 	  			     if(!email.equals("") && Pattern.matches(EMAIL_VALIDATION_REGEX, email) && uniquenessService.isEmailNotBusy(email)) 
@@ -82,9 +82,14 @@ public class UserController implements InputCorrectness
 	  			     {
 	  			       userAccount.setCountry(country);
 	  			     }
-	  		    
 		    	   userService.editUser(userAccount); 
-		    	   securityService.saveSecurityIssuesAccount(issue);
+		    	   
+		    	   if(username.equals(userAccount.getUsername()))
+		    	   {
+		    		 attributes.addFlashAttribute("mddzkfzf","changed");
+		    		 return new ModelAndView("redirect:/logout");
+		    	   }
+		    	   
                    attributes.addFlashAttribute("message","Account has been successfuly edited");
 		           return new ModelAndView("redirect:/user/view"); 
 	  		    }

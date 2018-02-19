@@ -38,7 +38,6 @@
        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
        <input class="tableButton" type="submit" value="Remove" />
      </form>
-     <a class = "tableLink" href="#" onclick='$("#remove").submit();'>Remove</a>
 </td>  
 </tr>
 

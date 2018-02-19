@@ -1,12 +1,16 @@
 package com.app.web.social.service;
 
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.Set;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.regex.Pattern;
+import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -91,8 +95,8 @@ public class MessagesService implements IMessagesService, InputCorrectness {
 	public boolean isDownloadingAllowed(Attachment attachment, Long messageId)
 	{
 		String nickname = profileService.getAuthenticatedUserNickname();
-		PrivateMessage message = getMessage(messageId);
-		return ((message.getMessageSender().equals(nickname) || message.getMessageRecipients().contains(nickname)) && message.getAttachments().iterator().next().getAttachmentId().equals(attachment.getAttachmentId()));
+		PrivateMessage message = messagesRepository.findById( attachment.getMessage().getMessageId() ).get();
+		return (message.getMessageId()==messageId && (message.getMessageSender().equals(nickname) || message.getMessageRecipients().contains(nickname)));
 	}
 	
 	public String removeMessage(Long messageId)
@@ -169,13 +173,49 @@ public class MessagesService implements IMessagesService, InputCorrectness {
 		
 	}
 	
+	public boolean prepareAttachmentsAndValidateIfNotEmpty(PrivateMessage message)
+	{
+		List<CommonsMultipartFile> fileUpload = message.getFileUpload();
+        if((fileUpload.get(0).getSize()>0))
+        {
+		        if(message.validateFiles(fileUpload))
+		        {
+		          Set<Attachment> attachments = new HashSet<>();
+		          message.setIsAnyAttachment(true);
+		    
+		         for(CommonsMultipartFile file : fileUpload) 
+		         {
+	            Attachment attachment = new Attachment();	    
+                attachment.setFileName(file.getOriginalFilename());          
+                attachment.setFileType(file.getContentType());
+                attachment.setFileContent(file.getBytes());
+                attachment.setFileSize(file.getSize());
+                attachment.setMessage(message);
+                attachments.add(attachment);
+		         }
+                message.setAttachments(attachments);
+	          }
+		      else return false;
+		}
+        return true;
+	}
+	
 	public void sendMessage(PrivateMessage message)
 	{
+		message.setMessageSender( profileService.getAuthenticatedUserNickname() );
+		if(message.getMessageSubject().equals("")) message.setMessageSubject("No subject");
+		message.setSentDate(new Timestamp(System.currentTimeMillis()));
+		
 		messagesRepository.save(message);
 	}
 
 	public boolean isMessageSendingAllowed(List<String> recipients) 
 	{
+		if(recipients.size()==1 && recipients.get(0).equals(profileService.getAuthenticatedUserNickname())) 
+	    {
+	      return true;
+		}
+		
 		for(String recipient : recipients)
 		{
 		  if( 

@@ -31,6 +31,8 @@ public interface IMessagesService {
 	
 	public void removeAllMessages(String nickname);
 	
+	public boolean prepareAttachmentsAndValidateIfNotEmpty(PrivateMessage message);
+	
 	public void sendMessage(PrivateMessage message);
 
 	public boolean isMessageSendingAllowed(List<String> recipients);
