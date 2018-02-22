@@ -42,7 +42,7 @@ public static final String MAX_ATTEMPTS_REASON = "attempts";
 		StringBuilder builder = new StringBuilder();
 		Random rand = new Random();
 		
-		for(int i=0; i<length; i++)
+		for(int i=0; i<length; ++i)
 		{
 			builder.append(ALL_CHARACTERS[rand.nextInt(ALL_CHARACTERS.length)]);
 		}

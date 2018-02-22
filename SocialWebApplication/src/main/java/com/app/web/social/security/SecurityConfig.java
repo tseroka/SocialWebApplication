@@ -65,8 +65,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
 	  http.authorizeRequests()
 	  .antMatchers("/","/login","/registration").permitAll()
-      .antMatchers("/home","/profile/**","/search/**","/user/**").hasAnyAuthority("ROLE ADMIN", "ROLE USER")
-	  .antMatchers("/admin/**").hasAuthority("ROLE ADMIN")
+      .antMatchers("/home","/profile/**","/search/**","/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+	  .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+	  .and()
+	     .requiresChannel().anyRequest().requiresSecure()
 	  .and()
 		  .formLogin().loginPage("/login").loginProcessingUrl("/loginProcess").
 		  successHandler(customSuccessHandler).failureHandler(customFailureHandler)
@@ -76,11 +78,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		.and()
 		  .exceptionHandling().accessDeniedPage("/403")
 		.and()
-		  .csrf();
+		  .csrf()
+		.and()
+		  .sessionManagement().sessionFixation().migrateSession().maximumSessions(1).sessionRegistry(sessionRegistry())
+		  .maxSessionsPreventsLogin(true).expiredUrl("/login?error=expired")
+		   .and()
+		     .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).invalidSessionUrl("/login?error=expired");;
 	   
-	  http.sessionManagement().sessionFixation().migrateSession().maximumSessions(1).sessionRegistry(sessionRegistry())
-	  .maxSessionsPreventsLogin(true).expiredUrl("/login?error=expired")
-	  .and().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).invalidSessionUrl("/login?error=expired");
+
 		 
 	}
 	

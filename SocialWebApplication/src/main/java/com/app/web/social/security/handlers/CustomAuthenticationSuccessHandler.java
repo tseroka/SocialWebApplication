@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +17,6 @@ import com.app.web.social.service.ISecurityService;
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler
 {
 	
-	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-
 	@Autowired
 	private ISecurityService securityService;
 	  
@@ -32,7 +28,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         
         response.setStatus(HttpServletResponse.SC_OK);
  
-        redirectStrategy.sendRedirect(request, response, "/home");
+        response.sendRedirect("/home");
     }
 
 }

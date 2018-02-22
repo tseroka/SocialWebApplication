@@ -19,7 +19,7 @@ CREATE TABLE users
   email varchar(40) NOT NULL UNIQUE,
   nickname varchar(25) NOT NULL UNIQUE,
   country varchar(3) NULL,
-  role varchar(25) NOT NULL DEFAULT 'ROLE USER' ,
+  role varchar(25) NOT NULL DEFAULT 'ROLE_USER' ,
   enabled tinyint(1) NOT NULL DEFAULT 0,
   notLocked tinyint(1) NOT NULL DEFAULT 1,
   creationDate timestamp NOT NULL,

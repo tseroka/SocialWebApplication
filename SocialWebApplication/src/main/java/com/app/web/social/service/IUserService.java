@@ -2,7 +2,6 @@ package com.app.web.social.service;
 
 import java.net.UnknownHostException;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.app.web.social.model.SecurityIssues;
@@ -45,8 +44,7 @@ public interface IUserService {
 	
 	public default String getAuthenticatedUserUsername()
 	{
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return auth.getName();
+		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 
 }

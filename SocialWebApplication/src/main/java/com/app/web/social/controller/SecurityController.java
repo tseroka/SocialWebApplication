@@ -32,7 +32,7 @@ public class SecurityController implements InputCorrectness
 	
 	 @PostMapping("sendResetPasswordCodeProcessing")
 	 public ModelAndView sendPasswordResetCodeProcessiong(@ModelAttribute("sendResetPasswordCode") SecurityIssuesFormHandler  sendResetPasswordCode, RedirectAttributes attributes )
-	   {
+	 {
 			String email = sendResetPasswordCode.getEmail(); 
 			
 			if(Pattern.matches(EMAIL_VALIDATION_REGEX, email))
@@ -43,7 +43,7 @@ public class SecurityController implements InputCorrectness
 			  
 		    }	   
 		   return new ModelAndView("redirect:Reset password");
-	   }
+	 }
 	 
 	 
 	

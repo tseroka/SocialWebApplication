@@ -59,7 +59,7 @@ public class UserAccount implements Serializable, InputCorrectness {
 	private Timestamp creationDate;
 	
 	@Column(name="role", nullable=false, unique=false, length=25)
-	private String role="ROLE USER";
+	private String role="ROLE_USER";
 	
 	@Column(name="enabled", nullable=false, unique=false, length=1)
 	private boolean enabled=false;

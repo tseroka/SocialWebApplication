@@ -20,8 +20,7 @@ public class EmailService
     private JavaMailSender mailSender;
  
     public void sendEmail(EmailMessage message) {
- 
- 
+
         MimeMessagePreparator preparator = getMessagePreparator(message);
  
         try {
