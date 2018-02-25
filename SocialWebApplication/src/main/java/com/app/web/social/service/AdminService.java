@@ -70,7 +70,7 @@ public class AdminService implements IAdminService
 	{
         UserAccount userAccount = userRepository.findById(lockAccount.getId()).get();
 		
-		if(userAccount.getRole().equals("ROLE USER"))
+		if(isManagable(userAccount))
 		{
 		  userAccount.setNotLocked(false);
 		
@@ -96,7 +96,7 @@ public class AdminService implements IAdminService
 	{
 		   UserAccount userAccount = userRepository.findById(id).get();
 		   
-		   if(userAccount.getRole().equals("ROLE USER"))
+		   if(isManagable(userAccount))
 		   {
 		   userAccount.setNotLocked(true);
 		   
@@ -112,7 +112,7 @@ public class AdminService implements IAdminService
 	public void deleteUser(long id) 
 	{	
 		UserAccount userAccount = userRepository.findById(id).get();
-		if(userAccount.getRole().equals("ROLE USER"))
+		if(isManagable(userAccount))
 		{ 
 		  String nickname = userAccount.getNickname();
 		

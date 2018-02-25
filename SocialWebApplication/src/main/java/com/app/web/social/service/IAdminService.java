@@ -21,4 +21,10 @@ public interface IAdminService {
 	public void unlockUser(long id);
 	
 	public void deleteUser(long id); 
+	
+	public default boolean isManagable(UserAccount userAccount)
+	{
+		return userAccount.getRole().equals("ROLE_USER");
+	}
+	
 }
