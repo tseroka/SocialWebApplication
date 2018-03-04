@@ -1,4 +1,7 @@
 
+
+
+  
     <div id='cssmenu'>
 
 
@@ -9,7 +12,7 @@
 	
 	<li><a href='/home'><span>Home</span></a></li>
 	
-	<sec:authorize access="hasAuthority('ROLE ADMIN')">
+	<sec:authorize access="hasAuthority('ROLE_ADMIN')">
 
 	<li class='active has-sub'><a href='#'><span>Admin</span></a> 
        <ul>
@@ -57,18 +60,17 @@
       </ul>
    </li>
    
-   <li>
-     <c:url var="logoutURL" value='/logout'/>
-     <form action="${logoutURL}" id="logout" method="post" class="confirm">
-       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-     </form>
-     <a class = "tableLink" href="#" onclick='$("#logout").submit();'> <span>Remove</span> </a>
-   
-   </li>
+   <li><a href='<c:url value="/logout" />' ><span>Logout</span></a></li>
    
    <li><a href='/about'><span>About</span></a></li>
                 
    </ul>
 
    </div>
+   
+    <header>
+	
+		<h2 class="logo">Social Website</h2>
+
+	</header>
    

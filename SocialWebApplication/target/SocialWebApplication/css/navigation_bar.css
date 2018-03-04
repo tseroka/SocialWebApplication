@@ -41,7 +41,7 @@
   background: linear-gradient(to bottom, #51bbd2 0%, #2d97af 100%);
 }
 #cssmenu > ul {
-  background: url('images/bg.png');
+  background: url('/css/img/bg.png');
   box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.05);
 }
 #cssmenu.align-right > ul > li {
@@ -259,7 +259,7 @@
     padding: 18px 25px 18px 25px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    background: url('images/bg.png');
+    background: url('/css/img/bg.png');
     cursor: pointer;
   }
   #cssmenu ul ul,

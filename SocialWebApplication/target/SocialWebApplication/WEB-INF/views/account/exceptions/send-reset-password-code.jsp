@@ -15,11 +15,15 @@
 
 </head>
 
+    <header>
+	
+		<h2 class="logo">Social Website</h2>
+
+	</header>
+	
 	<div id="activate-box">
 
 	<p class="error">${message}</p>	
-	
-	Send reset password code
 	
     <form:form name='sendResetPasswordCodeForm' modelAttribute="sendResetPasswordCode" action="/exceptions/sendResetPasswordCodeProcessing" method="POST">
 

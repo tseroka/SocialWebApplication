@@ -19,6 +19,7 @@
 
 <body>
 
+	
 <h1>Send global message</h1>
       <div id="container">
  

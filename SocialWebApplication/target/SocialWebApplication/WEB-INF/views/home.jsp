@@ -27,13 +27,6 @@
 	<jsp:include page="/WEB-INF/views/static/navbar.jsp" />
 	
     </c:if>   
-      
-		
-	<header>
-	
-		<h1 class="logo">Social Website</h1>
-
-	</header>
     
    Users online: ${usersOnline}
 

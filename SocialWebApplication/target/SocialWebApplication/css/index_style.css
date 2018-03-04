@@ -89,6 +89,10 @@ a.page
 	color:#5e374e;
 }
 
+a.big{
+	font-size:35px;
+}
+
 p
 {   margin: auto;
 	color:#64826c;
@@ -103,6 +107,15 @@ p.error
 {
 	margin: auto;
 	color: #ff0000;
+}
+
+p.description{
+	font-size:25px;
+	color: #72476f;
+}
+#invite{
+	font-size:35px;
+	margin-bottom:15px;
 }
 
 .show {display:block;}

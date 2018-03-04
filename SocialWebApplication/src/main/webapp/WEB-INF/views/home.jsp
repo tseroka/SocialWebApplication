@@ -30,7 +30,7 @@
     
    Users online: ${usersOnline}
 
-	 
+	 <p>&copy; Tymon Seroka </p>
 
 
 

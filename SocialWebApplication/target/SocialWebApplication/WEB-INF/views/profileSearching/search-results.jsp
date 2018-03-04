@@ -18,7 +18,7 @@
 
 <body>
 <h1>Search Results</h1>  
-<table>  
+<table class="table">  
 <tr>
 
 <th>Nickname</th>

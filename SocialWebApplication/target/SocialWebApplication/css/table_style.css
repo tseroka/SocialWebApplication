@@ -40,7 +40,7 @@
 	background-color:#b66df2;
 }
 
-.tableLink
+a.tableLink
 {
 	display: inline-block;
     width: 100%;       
@@ -54,6 +54,10 @@
     cursor: pointer;
 }
 
-.tableLink:visited{
-	color:white;
+a.tableLink:hover{
+	background-color:#b66df2;
+}
+
+a.tableLink:visited{
+	color:#964caf;
 }

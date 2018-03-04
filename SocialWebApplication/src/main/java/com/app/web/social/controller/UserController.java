@@ -98,8 +98,6 @@ public class UserController implements InputCorrectness
 	  		  { 
 	  			if( !userService.checkPassword(editAccount.getCurrentPassword(), userAccount.getPassword()) ) model.addObject("invalidPasswordMessage","Please type Your correct current password.");  
 	  			
-	  			if( !email.equals("") && username.equals(email.split("@")[0]) ) model.addObject("sameInputsMessage","Username and email must be different");
-	  			
 	  		    if(!username.equals("") && !uniquenessService.isUsernameNotBusy(username) ) model.addObject("usernameExistsMessage","Username already exists!");
 	  		    
 	  		    if(!email.equals("") && !uniquenessService.isEmailNotBusy(email) ) model.addObject("emailExistsMessage","Email already exists!");

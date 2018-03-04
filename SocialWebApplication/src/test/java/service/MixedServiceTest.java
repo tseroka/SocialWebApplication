@@ -22,7 +22,6 @@ import com.app.web.social.service.IUserService;
 @Transactional
 public class MixedServiceTest {
 	
-	
 	@Autowired
 	private IUserService userService;
 

@@ -56,7 +56,7 @@ public class RegistrationController implements InputCorrectness {
 		 (   
 		     !userAccount.getUsername().equals("anonymousUser") &&
 		     userAccount.getPassword().equals(userAccount.getRepeatPassword()) &&
-		     uniquenessService.isPasswordUsernameEmailNicknameAreNotTheSame(userAccount) &&
+		     //uniquenessService.isPasswordUsernameEmailNicknameAreNotTheSame(userAccount) &&
 		     uniquenessService.isUsernameNotBusy(userAccount.getUsername()) &&
 		     uniquenessService.isEmailNotBusy(userAccount.getEmail()) &&
 		     uniquenessService.isNicknameNotBusy(userAccount.getNickname())
@@ -71,7 +71,7 @@ public class RegistrationController implements InputCorrectness {
 		 else 
 		 {
 					    
-			if(!uniquenessService.isPasswordUsernameEmailNicknameAreNotTheSame(userAccount)) model.addObject("sameInputsMessage","Username, password, email and nickname must be different!");
+			//if(!uniquenessService.isPasswordUsernameEmailNicknameAreNotTheSame(userAccount)) model.addObject("sameInputsMessage","Username, password, email and nickname must be different!");
 			
 		    if(!uniquenessService.isUsernameNotBusy(userAccount.getUsername())) model.addObject("usernameExistsMessage","Username already exists!");
 		    

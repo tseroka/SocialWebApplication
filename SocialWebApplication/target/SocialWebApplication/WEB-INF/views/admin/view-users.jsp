@@ -17,6 +17,8 @@
 </head>
 
 <body>
+
+	
 <h1>Manage users</h1>  
 
 <table class="table">  
@@ -26,7 +28,7 @@
 <th>Country</th>
 <th>Creation date</th>
 <th>Enabled</th>
-<th>Not locked</th><th>Lock account</th> 
+<th>Locking account</th> 
 <th>Delete account</th>
 </tr>  
 
@@ -41,30 +43,33 @@
    <td>${User.country}</td> 
    <td>${User.creationDate}</td> 
    <td>${User.enabled}</td> 
-   <td>${User.notLocked}</td> 
    
    <td>
-   
-    <c:if test = "${User.notLocked}">
-        <a class="tableLink" href='lockUser/${User.id}'>Lock Account</a>
-    </c:if>
     
-   <c:if test = "${!User.notLocked}">   
-     
-       <c:url var="unlockURL" value='unlockUser/${User.id}'/>
-       <form action="${unlockURL}" id="unlock" method="post" class="confirm">
+   <c:if test = "${User.notLocked}">   
+       <c:url var="lockURL" value='lockUser/${User.id}'/>
+       <form action="${lockURL}" method="get">
+       <input class="tableButton" type="submit" value="Lock account" />
        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
        </form>
-       <a class="tableLink" href="#" onclick='$("#unlock").submit();'>Remove</a>
+   </c:if>
+    
+   <c:if test = "${!User.notLocked}">   
+       <c:url var="unlockURL" value='unlockUser/${User.id}'/>
+       <form action="${unlockURL}" method="post" class="confirm">
+       <input class="tableButton" type="submit" value="Unlock account" />
+       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+       </form>
    </c:if>
     
    </td> 
    
-   <td> <c:url var="deleteURL" value='deleteUser/${User.id}'/>
-   <form action="${deleteURL}" id="delete" method="post" class="confirm">
+   <td>
+   <c:url var="deleteURL" value='deleteUser/${User.id}'/>
+   <form action="${deleteURL}" method="post" class="confirm">
+   <input class="tableButton" type="submit" value="Delete account" />
    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-   </form>
-   <a class="tableLink" href="#" onclick='$("#delete").submit();'>Remove</a> 
+   </form> 
    </td>
    </tr>  
    </c:forEach>  

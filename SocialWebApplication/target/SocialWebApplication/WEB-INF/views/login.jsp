@@ -25,11 +25,11 @@
 	
 	<div id="login-box">
 
-	<table><tr><td style="font-style: bold; color: green;">${registered}</td></tr></table>
+	<p class="ok">${registered}</p>
 		
 	<p class="error">${message}</p>
 	
-	<table><tr><td style="font-style: bold; color: green;">${ok}</td></tr></table>	
+	<p class="ok">${ok}</p>
 	
 	
 	
@@ -54,10 +54,11 @@
       <a href='/exceptions/${linkToAction}' >${linkToAction}</a>
       </c:if>
       
-      <p>Don't have account? <a href='/register'>Create account</a> </p>
+      <p>Don't have the account? <a href='/register'>Create an account</a> </p>
       
 	</div>
 
+<a class="big" href="/about">About</a>
 </body>
 
 </html>

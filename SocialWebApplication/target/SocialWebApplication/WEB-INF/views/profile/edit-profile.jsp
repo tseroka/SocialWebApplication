@@ -18,18 +18,12 @@
 
 <body>
 
-    <header>
-	
-		<h2 class="logo">Social Website</h2>
-
-	</header>
-
 
 <div id="container">
 
 <form:form modelAttribute="profile" method="POST" action="/profile/edit/save">    
 
- 
+       <p>Sex</p>
        <form:select path="sex" name="sex" id="sex" cssClass="inputData" title="Sex">
        <option value="">Unspecified</option>
 	   <option value="M">Male</option>
@@ -43,13 +37,15 @@
          <form:input path="city"
          placeholder="City" onfocus="this.placeholder=''"  onblur="this.placeholder='City'"/> 
         
-        <form:checkbox path="allowSearching" title="Allow others to search"/> 
+         <p>Allow others to search</p>
+        <form:checkbox path="allowSearching" label="Allow others to search" /> 
         
-        <form:checkbox path="allowEveryoneToSendMessage" title="Allow messages from strangers"/> 
+        <p>Allow messages from strangers</p>
+        <form:checkbox path="allowEveryoneToSendMessage" /> 
         
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         
-   <form:button name="save">Save</form:button>   
+        <form:button name="save">Save</form:button>   
            
        </form:form>    
 

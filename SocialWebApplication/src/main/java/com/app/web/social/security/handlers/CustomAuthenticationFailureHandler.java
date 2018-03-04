@@ -65,11 +65,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     else if(exception instanceof BadCredentialsException) 
     { 
     	message.append("credentials"); 
-    	try 
-    	{
     	securityService.increaseFailedLoginAttemptsNumberAndLockIfEqualsFive(username);
-    	}
-    	catch(NullPointerException ex) {}
     }
     
     else if(exception instanceof SessionAuthenticationException)

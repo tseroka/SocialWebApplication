@@ -55,8 +55,8 @@ public class ControllersTest {
 	    @Test
 	    public void testLogin() throws Exception {
 	    	MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/loginProcess")
-	    			.param("username", "testingUser")
-	                .param("password", "dadaeDRT123#$")
+	    			.param("username", "username")
+	                .param("password", "password")
 	                .with(csrf());
 	        this.mockMvc.perform(builder).andExpect(status().isFound());
 	    }
@@ -76,7 +76,5 @@ public class ControllersTest {
 	    	mockMvc.perform(builder).andExpect(view().name("403"))
 	    			.andExpect(status().isFound()); 
 	    }
-	    
-	 
-	    
+	  
 }

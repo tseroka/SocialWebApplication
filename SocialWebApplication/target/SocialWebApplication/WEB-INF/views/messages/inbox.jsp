@@ -38,8 +38,8 @@
 <c:url var="removeURL" value='/profile/messages/remove/${message.messageId}'/>
      <form action="${removeURL}" id="remove" method="post" class="confirm">
        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+       <input class="tableButton" type="submit" value="Remove" />
      </form>
-     <a class="tableLink" href="#" onclick='$("#remove").submit();'>Remove</a>
 </td>  
 </tr>
 </c:forEach>
@@ -55,6 +55,11 @@
 </c:if>
 
 </div>
+<script>  
+    $(document).on('submit','form.confirm', function(){
+    	return confirm('Are you sure?'); 
+    	});
+    </script>
 </body>
 
 </html>

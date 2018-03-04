@@ -9,7 +9,7 @@ public class Encode
 	public static void main(String[] args) 
 	{
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			System.out.println(encoder.encode("dadaeDRT123#$"));
+			System.out.println(encoder.encode("Pgzgz411"));
 	}
 	
 }

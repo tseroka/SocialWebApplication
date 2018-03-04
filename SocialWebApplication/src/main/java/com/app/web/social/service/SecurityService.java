@@ -153,16 +153,19 @@ public class SecurityService implements ISecurityService
 	{
 		 SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
 		
-		 issue.setNumberOfLoginFails((byte)(issue.getNumberOfLoginFails()+1));
+		 if(issue!=null)
+		 {
+		   issue.setNumberOfLoginFails((byte)(issue.getNumberOfLoginFails()+1));
 		 
-		 if(issue.getNumberOfLoginFails()==5) 
-	     {
+		   if(issue.getNumberOfLoginFails()==5) 
+	       {
 			 UserAccount userAccount = userService.getUserAccount(username);
 			 userAccount.setNotLocked(false); 
 			 issue.setLockReason(MAX_ATTEMPTS_REASON);
 			 userRepository.save(userAccount);
+		   }
+		   securityIssuesRepository.save(issue);
 		 }
-		 securityIssuesRepository.save(issue);
 		 
 	}
 	
