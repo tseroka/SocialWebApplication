@@ -6,7 +6,7 @@ import com.app.web.social.service.IMessagesService;
 import com.app.web.social.service.IAdminService;
 import com.app.web.social.model.temp.LockAccount;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +85,7 @@ public class AdminController {
 	@PostMapping("sendProcessing")
 	public String sendProcessing(@ModelAttribute("message") PrivateMessage message)
 	{
-		List<String> all = new ArrayList<String>(); all.add("ALL");
+		List<String> all = Arrays.asList("ALL");
 		message.setMessageSender("ADMIN");
 		message.setMessageRecipients(all);
 		messagesService.sendMessage(message);

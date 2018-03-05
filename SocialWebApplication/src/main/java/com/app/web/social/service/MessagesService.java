@@ -1,8 +1,8 @@
 package com.app.web.social.service;
 
 import java.util.List;
+import java.util.Arrays;
 import java.util.Set;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.regex.Pattern;
 import java.sql.Timestamp;
@@ -42,14 +42,14 @@ public class MessagesService implements IMessagesService, InputCorrectness {
 	public Page<PrivateMessage> getInbox(int pageNumber)
 	{
 		final PageRequest pageRequest =  PageRequest.of(pageNumber-1, 10);
-		List<String> recipient = new ArrayList<>(); recipient.add(profileService.getAuthenticatedUserNickname());
+		List<String> recipient = Arrays.asList(profileService.getAuthenticatedUserNickname());
 		return removeSignOfRemovalFromSenderAndReturnMessagesList(messagesRepository.getInbox(recipient, pageRequest));
 	}
 	
 	
 	public Long countInboxMessages()
 	{
-		List<String> recipient = new ArrayList<>(); recipient.add(profileService.getAuthenticatedUserNickname());
+		List<String> recipient = Arrays.asList(profileService.getAuthenticatedUserNickname());
 		return messagesRepository.countInboxMessages(recipient);
 	}
 	
@@ -68,7 +68,7 @@ public class MessagesService implements IMessagesService, InputCorrectness {
 	@Transactional(readOnly=true)
 	public Page<PrivateMessage> getGlobalMessages(int pageNumber)
 	{
-		List<String> recipient = new ArrayList<>(); recipient.add("ALL");
+		List<String> recipient = Arrays.asList("ALL");
 		final PageRequest pageRequest =  PageRequest.of(pageNumber-1, 10);
 		return messagesRepository.getInbox(recipient, pageRequest);
 	}
@@ -134,7 +134,7 @@ public class MessagesService implements IMessagesService, InputCorrectness {
 	
 	public void removeAllMessages(String nickname)
 	{
-        List<String> nicknameAsList = new ArrayList<String>(); nicknameAsList.add(nickname);
+        List<String> nicknameAsList = Arrays.asList(nickname);
 		
 		List<PrivateMessage> allMessages = messagesRepository.getAllMessages(nicknameAsList, nickname);
 		if(!allMessages.isEmpty())

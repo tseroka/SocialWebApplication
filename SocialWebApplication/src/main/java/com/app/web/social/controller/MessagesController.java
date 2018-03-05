@@ -2,7 +2,7 @@ package com.app.web.social.controller;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -43,8 +43,7 @@ public class MessagesController {
 		   PrivateMessage message = new PrivateMessage();
 		   if(!recipient.equals(""))
 		   {
-		   List<String> recipients = new ArrayList<String>();
-		   recipients.add(recipient);		   
+		   List<String> recipients = Arrays.asList(recipient);		   
 		   message.setMessageRecipients(recipients);
 		   }	
 	       return new ModelAndView("messages/sendMessage","message", message);
@@ -105,7 +104,7 @@ public class MessagesController {
 	    public ModelAndView getInbox(@RequestParam(name = "page", defaultValue = "1") String page)
 	    {
 	    	Page<PrivateMessage> inbox = messagesService.getInbox(Integer.parseInt(page));
-	    	return new    ModelAndView("messages/inbox","inboxMessages",inbox).addObject("endpage",messagesService.countInboxMessages()/10+1);
+	    	return new ModelAndView("messages/inbox","inboxMessages",inbox).addObject("endpage",messagesService.countInboxMessages()/10+1);
 	    }
 	   
 	  
