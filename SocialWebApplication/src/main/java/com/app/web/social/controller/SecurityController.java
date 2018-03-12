@@ -38,7 +38,7 @@ public class SecurityController implements InputCorrectness
 			if(Pattern.matches(EMAIL_VALIDATION_REGEX, email))
 			{
 		         securityService.sendEmailWithPasswordResetCode(email);
-		         attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to reset password will be send on this email address");
+		         attributes.addFlashAttribute("message","If submited email exists, 5 minutes valid code to reset password will be send on this email address");
 		         return new ModelAndView("redirect:resetPassword/set");
 			  
 		    }	   
@@ -88,7 +88,7 @@ public class SecurityController implements InputCorrectness
 		{
 		   securityService.sendEmailWithUnlockCodeAfterSecurityLockup(email);
 		   
-		   attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to unlock account will be send on this email address");
+		   attributes.addFlashAttribute("message","If submited email exists, 5 minutes valid code to unlock account will be send on this email address");
 		   return new ModelAndView("redirect:unlock");	 
 		}
 		

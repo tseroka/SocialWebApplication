@@ -120,7 +120,7 @@ public class RegistrationController implements InputCorrectness {
 	   if(Pattern.matches(EMAIL_VALIDATION_REGEX, email))
 	   {    
 		   securityService.sendAgainEmailWithActivationCode(email);
-		   attributes.addFlashAttribute("message","If email and username are valid, 5 minutes valid code to activate account will be send on this email address");
+		   attributes.addFlashAttribute("message","If submited email exists, 5 minutes valid code to activate account will be send on this email address");
 		   return new ModelAndView("redirect:/exceptions/Activate account");
 	   }
 	   
