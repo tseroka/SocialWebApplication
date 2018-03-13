@@ -13,20 +13,13 @@
 		<spring.version>5.0.1.RELEASE</spring.version>
 	    <hibernate.version>5.2.12.Final</hibernate.version>
 		<junit.version>4.12</junit.version>
+		<mockito.version>2.15.0</mockito.version>
 		<servlet.version>4.0.0</servlet.version>
 		<mysql.connector.version>8.0.8-dmr</mysql.connector.version>
 		<spring.data.version>2.0.3.RELEASE</spring.data.version>
 	</properties>
 
 <dependencies>
-
-<dependency>
-    <groupId>junit</groupId>
-    <artifactId>junit</artifactId>
-	<version>${junit.version}</version>
-    <scope>test</scope>
-</dependency>
-
 
 <dependency>
     <groupId>org.springframework</groupId>
@@ -60,13 +53,6 @@
 
 <dependency>
 	<groupId>org.springframework</groupId>
-	<artifactId>spring-test</artifactId>
-	<version>${spring.version}</version>
-	<scope>test</scope>
-</dependency>
-
-<dependency>
-	<groupId>org.springframework</groupId>
 	<artifactId>spring-webmvc</artifactId>
 	<version>${spring.version}</version>
 </dependency>
@@ -95,12 +81,48 @@
     <version>${spring.version}</version>
 </dependency>
 
+
+
+
+
+
+
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+	<version>${junit.version}</version>
+    <scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>${mockito.version}</version>
+    <scope>test</scope>
+</dependency>
+
 <dependency>
     <groupId>org.springframework.security</groupId>
     <artifactId>spring-security-test</artifactId>
     <version>${spring.version}</version>
     <scope>test</scope>
 </dependency>
+
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <version>1.4.196</version>
+    <scope>test</scope>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-test</artifactId>
+	<version>${spring.version}</version>
+	<scope>test</scope>
+</dependency>
+
+
 
 
 <dependency>

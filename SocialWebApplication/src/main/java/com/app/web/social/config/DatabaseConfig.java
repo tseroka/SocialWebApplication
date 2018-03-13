@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration 
 @EnableTransactionManagement
 @EnableJpaRepositories("com.app.web.social.repository")
-@PropertySource("classpath:database.properties")
+@PropertySource("classpath:in_memory_database.properties")//("classpath:database.properties")
 public class DatabaseConfig {
 	
 	@Autowired
@@ -57,14 +57,15 @@ public class DatabaseConfig {
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName(environment.getProperty("database.driverClassName"));
 		dataSource.setUrl(environment.getProperty("database.url"));
-		dataSource.setUsername(environment.getProperty("database.username"));
-		dataSource.setPassword(environment.getProperty("database.password"));
+		//dataSource.setUsername(environment.getProperty("database.username"));
+		//dataSource.setPassword(environment.getProperty("database.password"));
 		return dataSource;
 	}
 
 	private Properties jpaProperties() {
 		Properties properties = new Properties();
 		properties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
+		properties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
 		properties.put("hibernate.id.new_generator_mappings", environment.getProperty("hibernate.id.new_generator_mappings"));
 		properties.put("spring.jpa.properties.hibernate.enable_lazy_load_no_trans", environment.getProperty("spring.jpa.properties.hibernate.enable_lazy_load_no_trans"));
 		return properties;
