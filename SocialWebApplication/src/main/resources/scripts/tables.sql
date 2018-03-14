@@ -74,9 +74,6 @@ CREATE TABLE securityIssues
  unlockCode varchar(20) UNIQUE NULL DEFAULT NULL,
  resetPasswordCode varchar(30) UNIQUE NULL DEFAULT NULL,
  codeExpirationDate timestamp NULL DEFAULT NULL,
- lastIPAddress varchar(200) NOT NULL,
- allIPAddresses varchar(2000) NOT NULL,
- lastLoginDate timestamp NOT NULL,
  numberOfLoginFails tinyint(1) DEFAULT 0 CHECK(numberOfLoginFails BETWEEN 0 AND 5),
  lockReason varchar(300) NULL DEFAULT NULL,
  unlockDate timestamp NULL DEFAULT NULL,
@@ -84,3 +81,9 @@ CREATE TABLE securityIssues
  FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+CREATE TABLE shortLinks
+(
+  id bigint(12) NOT NULL auto_increment PRIMARY KEY,
+  url varchar(300) NOT NULL,
+  shortened_url varchar(5) NOT NULL UNIQUE
+);

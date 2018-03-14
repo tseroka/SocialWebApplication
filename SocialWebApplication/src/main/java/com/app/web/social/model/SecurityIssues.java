@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Transient;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -15,13 +14,10 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
 
-import com.app.web.social.model.converter.StringSetConverter;
-
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
 
 @Entity
 @Table(name="securityIssues",  uniqueConstraints={ @UniqueConstraint( columnNames={"user_id", "username","activationCode", "unlockCode", "resetPasswordCode"  } ) }     )
@@ -59,17 +55,7 @@ public class SecurityIssues implements Serializable
 	
 	@Transient
 	private final long expirationTime = 300000L;
-	
-	@Column(name="lastIPAddress", nullable=false, unique=false, length=16 )
-	private String lastIPAddress;
-	
-	@Column(name="allIPAddresses", nullable=false, unique=false)
-	@Convert(converter = StringSetConverter.class)
-	private HashSet<String> allIPAddresses;
-	
-	@Column(name="lastLoginDate", nullable=false, unique=false)
-	private Timestamp lastLoginDate;
-	
+		
 	@Column(name="numberOfLoginFails", nullable=false, unique=false, length=1)
 	@Min(0)
 	@Max(5)
@@ -89,8 +75,7 @@ public class SecurityIssues implements Serializable
 	}
 	
 	public SecurityIssues(long id, String username, UserAccount userAccount,String activationCode, String unlockCode, String resetPasswordCode,
-			Timestamp codeExpirationDate, String lastIPAddress, HashSet<String> allIPAddresses, Timestamp lastLoginDate, 
-			byte numberOfLoginFails, String lockReason, Timestamp unlockDate) 
+			Timestamp codeExpirationDate, byte numberOfLoginFails, String lockReason, Timestamp unlockDate) 
 	{
 		this.id = id;
 		this.username = username;
@@ -99,9 +84,6 @@ public class SecurityIssues implements Serializable
 		this.unlockCode = unlockCode;
 		this.resetPasswordCode = resetPasswordCode;
 		this.codeExpirationDate = codeExpirationDate;
-		this.lastIPAddress = lastIPAddress;
-		this.allIPAddresses = allIPAddresses;
-		this.lastLoginDate = lastLoginDate;
 		this.numberOfLoginFails = numberOfLoginFails;
 		this.lockReason = lockReason;
 		this.unlockDate = unlockDate;
@@ -160,39 +142,6 @@ public class SecurityIssues implements Serializable
 		return this.expirationTime;
 	}
 
-	public String getLastIPAddress() {
-		return lastIPAddress;
-	}
-
-	public void setLastIPAddress(String lastIPAddress) {
-		this.lastIPAddress = lastIPAddress;
-	}
-
-	
-	
-	public HashSet<String> getAllIPAddresses() {
-		return allIPAddresses;
-	}
-
-	public void setAllIPAddresses(HashSet<String> allIPAddresses) {
-		this.allIPAddresses = allIPAddresses;
-	}
-
-	public void addIPAddress(String ip)
-	{
-	   this.allIPAddresses.add(ip);	
-	}
-	
-	
-	
-	public Timestamp getLastLoginDate() {
-		return lastLoginDate;
-	}
-
-	public void setLastLoginDate(Timestamp lastLoginDate) {
-		this.lastLoginDate = lastLoginDate;
-	}
-	
 	public byte getNumberOfLoginFails() {
 		return numberOfLoginFails;
 	}
@@ -232,16 +181,15 @@ public class SecurityIssues implements Serializable
     	this.setCodeExpirationDate(new Timestamp(expirationTime+System.currentTimeMillis()));
     }
 
+    
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((activationCode == null) ? 0 : activationCode.hashCode());
-		result = prime * result + ((allIPAddresses == null) ? 0 : allIPAddresses.hashCode());
 		result = prime * result + ((codeExpirationDate == null) ? 0 : codeExpirationDate.hashCode());
 		result = prime * result + (int) (expirationTime ^ (expirationTime >>> 32));
-		result = prime * result + ((lastIPAddress == null) ? 0 : lastIPAddress.hashCode());
-		result = prime * result + ((lastLoginDate == null) ? 0 : lastLoginDate.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((lockReason == null) ? 0 : lockReason.hashCode());
 		result = prime * result + numberOfLoginFails;
 		result = prime * result + ((resetPasswordCode == null) ? 0 : resetPasswordCode.hashCode());
@@ -266,11 +214,6 @@ public class SecurityIssues implements Serializable
 				return false;
 		} else if (!activationCode.equals(other.activationCode))
 			return false;
-		if (allIPAddresses == null) {
-			if (other.allIPAddresses != null)
-				return false;
-		} else if (!allIPAddresses.equals(other.allIPAddresses))
-			return false;
 		if (codeExpirationDate == null) {
 			if (other.codeExpirationDate != null)
 				return false;
@@ -278,15 +221,7 @@ public class SecurityIssues implements Serializable
 			return false;
 		if (expirationTime != other.expirationTime)
 			return false;
-		if (lastIPAddress == null) {
-			if (other.lastIPAddress != null)
-				return false;
-		} else if (!lastIPAddress.equals(other.lastIPAddress))
-			return false;
-		if (lastLoginDate == null) {
-			if (other.lastLoginDate != null)
-				return false;
-		} else if (!lastLoginDate.equals(other.lastLoginDate))
+		if (id != other.id)
 			return false;
 		if (lockReason == null) {
 			if (other.lockReason != null)
@@ -322,6 +257,8 @@ public class SecurityIssues implements Serializable
 			return false;
 		return true;
 	}
+
+	
     
     
 }

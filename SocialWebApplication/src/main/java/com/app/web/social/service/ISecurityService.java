@@ -1,6 +1,5 @@
 package com.app.web.social.service;
 
-import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.util.Random;
 
@@ -22,7 +21,7 @@ public static final String MAX_ATTEMPTS_REASON = "attempts";
 	
 	public void saveSecurityIssuesAccount(SecurityIssues issue);
 	
-	public void loginSuccess(String username) throws UnknownHostException;
+	public void loginSuccess(String username);
 	
 	
 //-------------------------- R A N D O M    S E C U R I T Y    C O D E S ------------------------------------	

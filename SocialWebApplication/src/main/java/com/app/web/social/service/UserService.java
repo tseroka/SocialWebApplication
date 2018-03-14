@@ -1,10 +1,7 @@
 package com.app.web.social.service;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +35,11 @@ public class UserService implements IUserService {
 	private PasswordEncoder passwordEncoder;
 	
 	
-	public void registerUser(UserAccount userAccount) throws UnknownHostException 
+	public void registerUser(UserAccount userAccount) 
 	{
 
 		List<String> empty = new ArrayList<String>();
-		
-		String ip = InetAddress.getLocalHost().toString();
-		HashSet<String> ipSet = new HashSet<String>(); ipSet.add(ip);
-				
+						
 		profileRepository.save( new Profile(userAccount.getNickname(), "", empty, "", false, false));
 		
 		friendsRepository.save( new Friends(userAccount.getNickname(), empty, empty , empty));
@@ -54,7 +48,7 @@ public class UserService implements IUserService {
 		userAccount.setCreationDate(new Timestamp(System.currentTimeMillis()));
 		
 		userRepository.save(userAccount);
-		securityService.saveSecurityIssuesAccount(new SecurityIssues(userAccount.getId(),userAccount.getUsername(), userAccount, securityService.generateActivationAndUnlockCode(), null, null, new Timestamp(System.currentTimeMillis()+300000L), ip , ipSet,new Timestamp(System.currentTimeMillis()),(byte) 0, null, null));
+		securityService.saveSecurityIssuesAccount(new SecurityIssues(userAccount.getId(),userAccount.getUsername(), userAccount, securityService.generateActivationAndUnlockCode(), null, null, new Timestamp(System.currentTimeMillis()+300000L),(byte) 0, null, null));
 			
 		securityService.sendEmailWithActivationCode(userAccount.getEmail());
 	}

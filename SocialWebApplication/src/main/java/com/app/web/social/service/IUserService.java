@@ -1,7 +1,5 @@
 package com.app.web.social.service;
 
-import java.net.UnknownHostException;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.app.web.social.model.SecurityIssues;
@@ -9,7 +7,7 @@ import com.app.web.social.model.UserAccount;
 
 public interface IUserService {
 
-	public void registerUser(UserAccount userAccount) throws UnknownHostException;
+	public void registerUser(UserAccount userAccount);
 
 	public void editUser(UserAccount userAccount, SecurityIssues issue);
 	

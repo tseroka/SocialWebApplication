@@ -59,6 +59,8 @@
 	</div>
 
 <a class="big" href="/about">About</a>
+<br>
+<a class="big" href="/short">Url shortening</a>
 </body>
 
 </html>

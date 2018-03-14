@@ -1,8 +1,5 @@
 package com.app.web.social.service;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,17 +55,10 @@ public class SecurityService implements ISecurityService
 		securityIssuesRepository.save(issue);
 	}
 	
-	public void loginSuccess(String username) throws UnknownHostException
+	public void loginSuccess(String username)
 	{
 		SecurityIssues issue = getSecurityIssuesAccountByUsername(username);
-		issue.setNumberOfLoginFails((byte)0);		
-		issue.setLastLoginDate(new Timestamp(System.currentTimeMillis()));
-		
-		String ip = InetAddress.getLocalHost().toString();
-		
-		issue.setLastIPAddress(ip);
-		issue.addIPAddress(ip);
-		
+		issue.setNumberOfLoginFails((byte)0);			
 		securityIssuesRepository.save(issue);
 	}
 	

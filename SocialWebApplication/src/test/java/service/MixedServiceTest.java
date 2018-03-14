@@ -43,21 +43,25 @@ public class MixedServiceTest {
 	@Autowired
 	private ProfileRepository profileRepository;
 
-	@Before
+
+	
+    @Before
 	public void mockDatabaseRecords() {
-		userRepository.save(new UserAccount(1L, "usernameExample", "usernameExample1", "example@mail.pl",
+		userRepository.save(new UserAccount(1L, "usernameExample", "passwordExample1", "example@mail.pl",
 				"exampleNickname", "USA", new Timestamp(System.currentTimeMillis()), "ROLE_USER", true, true));
 		
 		profileRepository.save(new Profile("exampleNickname", "", Arrays.asList("Java,Spring"), "Warsaw", true, true));
 		profileRepository.save(new Profile("anotherNickname", "", Arrays.asList("Kotlin"), "London", true, true));
+		
 	}
 
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void nullCreationDateShouldCauseException() {
-		userRepository.save(new UserAccount(1L, "usernameExample13", "usernameExample1", "example21@mail.pl",
+		userRepository.save(new UserAccount(667L, "usernameExample13", "passwordExample1", "example21@mail.pl",
 				"exampledaNickname", "USA", null, "ROLE_USER", true, true));
 	}
+
 
 	@Test
 	public void getUserByUniquePropertyShouldReturnThisUniqueUser() {

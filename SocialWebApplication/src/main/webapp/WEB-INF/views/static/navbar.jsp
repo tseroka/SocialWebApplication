@@ -60,6 +60,8 @@
       </ul>
    </li>
    
+   <li><a href='/short'><span>Url shortening</span></a></li>
+   
    <li><a href='<c:url value="/logout" />' ><span>Logout</span></a></li>
    
    <li><a href='/about'><span>About</span></a></li>

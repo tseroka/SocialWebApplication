@@ -88,6 +88,15 @@ public class UserAccount implements Serializable, InputCorrectness {
     	this.enabled = enabled;
     }
 
+    public UserAccount (String username, String password, String email, String nickname, String country)
+    {
+    	this.username = username;
+    	this.password = password;
+    	this.email = email;
+    	this.nickname = nickname;
+    	this.country = country;
+    }
+    
 	public long getId() {
 		return id;
 	}

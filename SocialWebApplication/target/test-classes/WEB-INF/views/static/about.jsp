@@ -17,7 +17,6 @@
 	</header>
 	
 <h1>Created by Tymon Seroka </h1>
-<h1>tymonseroka@gmail.com</h1>
 <a class="big" href="https://github.com/tseroka/SocialWebApplication/tree/master/SocialWebApplication" target="_blank">GitHub repository</a>
 
 <h1>Description</h1>
