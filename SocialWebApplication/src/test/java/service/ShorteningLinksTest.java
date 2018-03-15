@@ -2,6 +2,9 @@ package service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,34 +27,24 @@ public class ShorteningLinksTest {
 	
 	@Autowired 
 	private IShorteningService shorteningService;
-	
-	@Test
-	public void anyFormOfSubmitedUrlShouldReturnValidUrl()
-	{
-		ShortenedLink shortened1 = new ShortenedLink("oracle.com");
-		shorteningService.shortenLink(shortened1);
-		String shortUrl1 = shortened1.getShortenedUrl();
+
+	 @Test
+	 public void anyFormOfSubmitedUrlShouldReturnValidUrl(){   
+		List<String> inputUrls = Arrays.asList("oracle.com","https://spring.io","www.google.com");
 		
-		ShortenedLink shortened2 = new ShortenedLink("https://spring.io");
-		shorteningService.shortenLink(shortened2);
-		String shortUrl2 = shortened2.getShortenedUrl();
+		List<String> expectedPreparedUrls = Arrays.asList("http://oracle.com","https://spring.io","http://www.google.com");
 		
-		
-		ShortenedLink shortened3 = new ShortenedLink("www.google.com");
-		shorteningService.shortenLink(shortened3);
-		String shortUrl3 = shortened3.getShortenedUrl();
-	
-		
-		assertEquals("Invalid shortening","http://oracle.com", shortened1.getUrl() );
-		assertEquals("Invalid shortening code generation","http://oracle.com" , shorteningService.getFullLink(shortUrl1) );
-		
-		assertEquals("Invalid shortening","https://spring.io", shortened2.getUrl() );
-		assertEquals("Invalid shortening code generation","https://spring.io" , shorteningService.getFullLink(shortUrl2) );
-		
-		assertEquals("Invalid shortening","http://www.google.com", shortened3.getUrl() );
-		assertEquals("Invalid shortening code generation","http://www.google.com" , shorteningService.getFullLink(shortUrl3) );
-	}
-	
-	
+		  for(String inputUrl : inputUrls){
+			  ShortenedLink shortened = new ShortenedLink(inputUrl);
+			  shorteningService.shortenLink(shortened);
+			  String shortUrl = shortened.getShortenedUrl();
+			
+			  String currentExpectedPreparedUrl = expectedPreparedUrls.get( inputUrls.indexOf(inputUrl) );
+			
+			  assertEquals("Invalid url preparation", currentExpectedPreparedUrl, shortened.getUrl() );
+			  assertEquals("Invalid shortening code generation", currentExpectedPreparedUrl, shorteningService.getFullLink(shortUrl) );	     
+		 }
+	 }
+
 	
 }

@@ -58,7 +58,7 @@ public class MixedServiceTest {
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void nullCreationDateShouldCauseException() {
-		userRepository.save(new UserAccount(667L, "usernameExample13", "passwordExample1", "example21@mail.pl",
+		userRepository.save(new UserAccount(315L, "usernameExample13", "passwordExample1", "example21@mail.pl",
 				"exampledaNickname", "USA", null, "ROLE_USER", true, true));
 	}
 
