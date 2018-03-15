@@ -7,7 +7,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import com.app.web.social.model.UserAccount;
 
-public class RegisterUserAccount {
+public class TestUserAccountActions {
 
 	public static MockHttpServletRequestBuilder registerTestUser(UserAccount userAccount) {	
 		return post("/registerProcess")
@@ -18,6 +18,13 @@ public class RegisterUserAccount {
     			.param("nickname", userAccount.getNickname())
     			.param("country", userAccount.getCountry())   			
     			.flashAttr("user", new UserAccount()).with(csrf());
+	}
+	
+	public static MockHttpServletRequestBuilder loginTestUser(String username, String password) {		
+		return post("/loginProcess")
+    	       .param("username", username)
+               .param("password", password)
+               .with(csrf());
 	}
 	
 }

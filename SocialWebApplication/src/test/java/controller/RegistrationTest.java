@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import static utilities.RegisterUserAccount.registerTestUser;
+import static utilities.TestUserAccountActions.registerTestUser;
 
 import org.junit.Before;
 import org.junit.Test;
